@@ -2,11 +2,20 @@ from datetime import datetime, timedelta
 import random
 import string
 import re
-from twilio.rest import Client
+try:
+    from twilio.rest import Client as TwilioClient
+except ImportError:
+    TwilioClient = None  # type: ignore[assignment,misc]
+
+try:
+    from sendgrid import SendGridAPIClient
+    from sendgrid.helpers.mail import Mail
+except ImportError:
+    SendGridAPIClient = None  # type: ignore[assignment,misc]
+    Mail = None  # type: ignore[assignment,misc]
+
 from app.config.settings import settings
-from app.utils.phone import format_phone_number  
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
+from app.utils.phone import format_phone_number
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -50,7 +59,7 @@ def send_otp(identifier: str) -> tuple[bool, str]:
         # Send via SMS
         try:
             formatted_number = format_phone_number(identifier)
-            client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+            client = TwilioClient(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
             client.messages.create(
                 body=f"Your OTP code is: {otp}. It will expire in {OTP_EXPIRY_MINUTES} minutes.",
                 from_=settings.TWILIO_PHONE_NUMBER,
@@ -83,7 +92,7 @@ def send_sms(to_number: str, body: str):
         print("Twilio not configured")
         return False
     try:
-        client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+        client = TwilioClient(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
         client.messages.create(body=body, from_=settings.TWILIO_PHONE_NUMBER, to=to_number)
         return True
     except Exception as e:

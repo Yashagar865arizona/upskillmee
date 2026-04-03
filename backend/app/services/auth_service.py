@@ -230,6 +230,13 @@ class AuthService:
         user.verification_token_expires = None
         self.db.commit()
 
+        # Complete any pending referral for this user
+        try:
+            from app.services.referral_service import ReferralService
+            ReferralService(self.db).complete_referral(str(user.id))
+        except Exception as exc:
+            logger.warning("referral completion failed for user %s: %s", user.id, exc)
+
         return {
             "success": True,
             "message": "Email verified successfully",
@@ -466,7 +473,7 @@ class AuthService:
                 return {"success": False, "message": "User not found"}
             
             # Create new access token
-            new_access_token = self.create_access_token(str(user.id))
+            new_access_token = self.create_access_token(user)
             
             return {
                 "success": True,

@@ -21,13 +21,6 @@ engine = create_engine(
     max_overflow=10  # Default max overflow
 )
 
-# Create all tables
-Base.metadata.create_all(bind=engine)
-
-# Test database connection
-try:
-    with engine.connect() as conn:
-        logger.info("Successfully connected to the database")
-except Exception as e:
-    logger.error(f"Database connection failed: {str(e)}")
-    raise
+# NOTE: Schema is managed by Alembic migrations (alembic upgrade head).
+# create_all is intentionally NOT called here so that importing this module
+# does not require a live database connection (needed for unit tests).

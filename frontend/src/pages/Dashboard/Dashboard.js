@@ -4,8 +4,10 @@ import { useLearningPlan } from '../../pages/Chat/context/LearningPlanContext';
 import styles from './Dashboard.module.css';
 import LearningProgress  from '../../components/LearningPlan/LearningProgress';
 import TasksList from '../../components/MainContent/TasksList';
+import SkillMap from '../../components/SkillMap/SkillMap';
 import { useTheme } from '../../context/ThemeContext';
 import FeedbackButton from '../../components/Feedback/FeedbackButton';
+import ReferralWidget from '../../components/Referral/ReferralWidget';
 
 const generateTasks = (project) => {
   return {
@@ -46,7 +48,9 @@ const Dashboard = () => {
             theme === "dark" ? styles.dark : styles.light
           }`}>
         <LearningProgress/>
+        <SkillMap/>
         <TasksList/>
+        <ReferralWidget/>
         <FeedbackButton position="bottom-right" variant="floating"/>
     </div>
   );

@@ -1,6 +1,6 @@
 import requests
 import json
-from backend.app.config import settings
+from app.config import settings
 
 def test_chat():
     # Verify API key is loaded

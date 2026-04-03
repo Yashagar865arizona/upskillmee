@@ -1,66 +1,45 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import FeedbackModal from './FeedbackModal';
 import styles from './FeedbackButton.module.css';
 import config from '../../config';
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 import { useAuth } from '../../context/AuthContext';
 
-const FeedbackButton = ({ position = 'bottom-right', variant = 'floating' }) => {
+const FeedbackButton = ({ position = 'bottom-right' }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const {token}=useAuth()
-  
-const submitFeedback = async (feedbackData, attachment) => {
-  const formData = new FormData();
-  formData.append("feedback_type", feedbackData.type);
-  formData.append("category", feedbackData.category);
-  formData.append("title", feedbackData.title);
-  formData.append("description", feedbackData.description);
-  if (feedbackData.rating) formData.append("rating", feedbackData.rating);
-  formData.append("page_url", feedbackData.page_url);
-  formData.append("user_agent", feedbackData.user_agent);
+  const { token } = useAuth();
 
-  if (attachment) {
-    formData.append("attachment", attachment);
-  }
+  const handleSubmit = async ({ category, body }) => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`${config.API_BASE_URL}/feedback/submit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ category, body }),
+      });
 
-  const response = await fetch(`${config.API_BASE_URL}/feedback/`, {
-    method: "POST",
-    headers: {
-      
-      Authorization: `Bearer ${token}`,
-    },
-    body: formData,
-  });
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.detail || 'Failed to submit feedback');
+      }
 
-  if (!response.ok) {
-    throw new Error("Failed to submit feedback");
-  }
-
-  return response.json();
-};
-
-
-const handleSubmitFeedback = async (feedbackData) => {
-  setIsSubmitting(true);
-  try {
-    await submitFeedback(feedbackData, feedbackData.attachment);
-    toast.success("Thank you for your feedback!");
-  } catch (error) {
-    console.error("Error submitting feedback:", error);
-
-    toast.error("Failed to submit feedback. Please try again.");
-    throw error;
-  } finally {
-    setIsSubmitting(false);
-  }
-};
-
+      toast.success('Thanks for your feedback!');
+    } catch (error) {
+      toast.error('Failed to submit feedback. Please try again.');
+      throw error;
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const buttonClasses = [
     styles.feedbackButton,
-    styles[variant],
-    styles[position]
+    styles.floating,
+    styles[position],
   ].join(' ');
 
   return (
@@ -70,29 +49,26 @@ const handleSubmitFeedback = async (feedbackData) => {
         onClick={() => setIsModalOpen(true)}
         disabled={isSubmitting}
         title="Share your feedback"
+        aria-label="Open feedback form"
       >
-        {variant === 'floating' ? (
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-          </svg>
-        ) : (
-          'Feedback'
-        )}
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
       </button>
 
       <FeedbackModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onSubmit={handleSubmitFeedback}
+        onSubmit={handleSubmit}
       />
     </>
   );

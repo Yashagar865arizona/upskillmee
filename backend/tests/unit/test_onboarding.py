@@ -1,6 +1,6 @@
 ##Test Onboarding
 import requests
-from backend.app.config import settings
+from app.config import settings
 
 def test_onboarding():
     base_url = "http://localhost:8000"

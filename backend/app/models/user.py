@@ -1,5 +1,5 @@
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, String, ForeignKey, JSON, DateTime, Integer, func, Boolean
+from sqlalchemy import Column, String, ForeignKey, JSON, DateTime, Integer, Float, func, Boolean
 from sqlalchemy.dialects.postgresql import ARRAY
 from .base_model import BaseModel
 from ..database.base import Base
@@ -21,6 +21,8 @@ class User(BaseModel, Base):
     is_admin = Column(Boolean, default=False)
     verification_token = Column(String, nullable=True)
     reset_password_token = Column(String, nullable=True)
+    reset_password_token_expires = Column(DateTime(timezone=True), nullable=True)
+    verification_token_expires = Column(DateTime(timezone=True), nullable=True)
     last_login = Column(DateTime(timezone=True), nullable=True)
     oauth_provider = Column(String, nullable=True)
     otp_code = Column(String, nullable=True)
@@ -35,6 +37,7 @@ class User(BaseModel, Base):
     city = Column(String, nullable=True)
     photo_url = Column(String, nullable=True)
     is_onboarding = Column(Boolean, default=False, nullable=False)
+    referral_code = Column(String, unique=True, nullable=True, index=True)
     # Relationships
     feedback = relationship("UserFeedback", back_populates="user", cascade="all, delete-orphan")
     conversations = relationship("Conversation", back_populates="user", cascade="all, delete-orphan")
@@ -44,6 +47,7 @@ class User(BaseModel, Base):
     user_projects = relationship("UserProject", back_populates="user", cascade="all, delete-orphan")
     # Added relationships for learning models
     chat_sessions = relationship("ChatSession", back_populates="user", cascade="all, delete-orphan")
+    chat_metric_sessions = relationship("Session", back_populates="user", cascade="all, delete-orphan")
     learning_progress_items = relationship("LearningProgress", back_populates="user", cascade="all, delete-orphan")
     learning_sessions = relationship("LearningSession", back_populates="user", cascade="all, delete-orphan")
     learning_plans = relationship("LearningPlan", back_populates="user", cascade="all, delete-orphan")
@@ -55,6 +59,7 @@ class User(BaseModel, Base):
     engagement_scores = relationship("EngagementScore", back_populates="user", cascade="all, delete-orphan")
     documents = relationship("Document", back_populates="user", cascade="all, delete-orphan")
     psychometric_test = relationship("Psychometric", back_populates="user", uselist=False, cascade="all, delete-orphan")
+    skills = relationship("UserSkill", back_populates="user", cascade="all, delete-orphan")
 
 class UserProfile(BaseModel, Base):
     __tablename__ = "user_profiles"
@@ -101,6 +106,58 @@ class UserProfile(BaseModel, Base):
 
     # Relationships
     user = relationship("User", back_populates="profile")
+    interest_profile = relationship("UserInterestProfile", back_populates="user_profile", uselist=False, cascade="all, delete-orphan")
+
+
+class UserInterestProfile(BaseModel, Base):
+    """
+    Structured interest profile for a user, updated after each conversation
+    turn and each project assessment.
+
+    domains        — {domain_name: weight (0.0–1.0)} e.g. {"game dev": 0.9, "ml": 0.4}
+    strengths      — list of strength strings
+    aversions      — list of disliked domains/topics
+    learning_style — "hands-on" | "conceptual" | "mixed"
+    confidence_level — 0.0–1.0 (how much signal we have overall)
+    signal_count   — total number of signals processed
+    """
+    __tablename__ = "user_interest_profiles"
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid4()))
+    user_profile_id = Column(String, ForeignKey("user_profiles.id"), unique=True, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+
+    domains = Column(JSON, default=dict)
+    strengths = Column(JSON, default=list)
+    aversions = Column(JSON, default=list)
+    learning_style = Column(String, nullable=True)
+    confidence_level = Column(Float, default=0.0)
+    signal_count = Column(Integer, default=0)
+
+    user_profile = relationship("UserProfile", back_populates="interest_profile")
+
+
+class UserSkill(BaseModel, Base):
+    """
+    Tracked skill for a user, updated after each project assessment.
+
+    Each row represents one skill (e.g. "Python", "React", "Data Cleaning").
+    Proficiency is recalculated on every assessment that touches the skill.
+    """
+    __tablename__ = "user_skills"
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid4()))
+    user_id = Column(String, ForeignKey("users.id"), nullable=False, index=True)
+    name = Column(String, nullable=False)          # e.g. "Python", "React"
+    domain = Column(String, nullable=True)          # cluster label e.g. "Web Dev"
+    proficiency = Column(Float, default=0.0)        # 0.0–1.0
+    assessment_count = Column(Integer, default=0)   # how many assessments contributed
+    total_score = Column(Integer, default=0)        # cumulative raw score from assessments
+    last_assessed_at = Column(DateTime(timezone=True), nullable=True)
+
+    user = relationship("User", back_populates="skills")
+
 
 class UserProject(BaseModel, Base):
     __tablename__ = "user_projects"

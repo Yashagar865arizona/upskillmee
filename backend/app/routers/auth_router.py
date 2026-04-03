@@ -49,6 +49,7 @@ class UserCreate(BaseModel):
     email: EmailStr
     phone_number: Optional[str] = Field(None, min_length=7, max_length=15)
     password: str = Field(..., min_length=6, max_length=128)
+    referral_code: Optional[str] = Field(None, max_length=20)
 
 
 class LoginRequest(BaseModel):
@@ -145,6 +146,12 @@ async def register_user(
         )
         db.delete(pending)
         db.commit()
+
+        # Track referral if a code was provided
+        if user.referral_code:
+            from ..services.referral_service import ReferralService
+            ReferralService(db).process_referral_signup(result["user_id"], user.referral_code)
+
         return {
             "status": "success",
             "message": "User registered successfully. Please check your email for verification.",

@@ -3,14 +3,56 @@ from sqlalchemy.orm import Session
 from typing import Optional
 from uuid import UUID
 from app.database import get_db
-from app.models.feedback import UserFeedback
+from app.models.feedback import UserFeedback, Feedback, FEEDBACK_CATEGORIES
 import uuid
 import shutil
 import os
 from app.routers.user_router import get_current_user_dependency
 from app.models import User
+from pydantic import BaseModel, field_validator
 
 router = APIRouter()
+
+
+class FeedbackCreate(BaseModel):
+    category: str
+    body: str
+
+    @field_validator("category")
+    @classmethod
+    def validate_category(cls, v: str) -> str:
+        if v not in FEEDBACK_CATEGORIES:
+            raise ValueError(f"category must be one of {FEEDBACK_CATEGORIES}")
+        return v
+
+    @field_validator("body")
+    @classmethod
+    def validate_body(cls, v: str) -> str:
+        v = v.strip()
+        if not v:
+            raise ValueError("body must not be empty")
+        if len(v) > 5000:
+            raise ValueError("body must be 5000 characters or fewer")
+        return v
+
+
+@router.post("/submit", response_model=dict)
+def submit_simple_feedback(
+    payload: FeedbackCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user_dependency),
+):
+    """Simple feedback widget endpoint: category + body."""
+    entry = Feedback(
+        id=uuid.uuid4(),
+        user_id=current_user.id,
+        category=payload.category,
+        body=payload.body,
+    )
+    db.add(entry)
+    db.commit()
+    db.refresh(entry)
+    return {"message": "Feedback submitted successfully", "id": str(entry.id)}
 
 UPLOAD_DIR = "uploads/feedback"
 

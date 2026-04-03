@@ -8,71 +8,39 @@ These tests wire up InterestExtractionService with a real SQLite in-memory DB
   reload into user_context → agent sees interests in recommendations
 """
 
-import os
 import pytest
 import asyncio
 from unittest.mock import AsyncMock, MagicMock
-from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.pool import StaticPool
 
-from app.database.base import Base
-# Import all models so SQLAlchemy mapper is fully configured
-import app.models  # noqa: F401
 from app.models.user import User, UserProfile
 from app.services.interest_extraction_service import InterestExtractionService
 
-# Use the same DB as the environment (must be a real PostgreSQL DB for ARRAY support)
-_DB_URL = os.environ.get(
-    "DATABASE_URL", "postgresql://testuser:testpass@localhost/testdb"
-)
-# Ensure sync driver (psycopg2)
-_SYNC_DB_URL = _DB_URL.replace("postgresql+asyncpg://", "postgresql://")
-
 
 # ---------------------------------------------------------------------------
-# Fixtures
+# Fixtures — reuse the shared test_db_engine from conftest.py
+# (it already patches ARRAY → JSON for SQLite compatibility)
 # ---------------------------------------------------------------------------
-
-
-@pytest.fixture(scope="module")
-def engine():
-    eng = create_engine(_SYNC_DB_URL, echo=False)
-    Base.metadata.create_all(bind=eng)
-    return eng
 
 
 @pytest.fixture
-def db(engine):
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    yield session
-    session.rollback()
-    session.close()
+def db(db_session):
+    """Alias the shared conftest db_session fixture."""
+    return db_session
 
 
 @pytest.fixture
 def user(db):
-    # Clean up any leftover rows from previous runs
-    db.query(UserProfile).filter(UserProfile.user_id == "integration-user-001").delete()
-    db.query(User).filter(User.id == "integration-user-001").delete()
-    db.commit()
-
     u = User()
     u.id = "integration-user-001"
     u.email = "integration@test.com"
     u.username = "integration_user"
     u.name = "Integration Tester"
     u.is_verified = True
+    u.password_hash = "$2b$12$test.hash.value"
     db.add(u)
     db.commit()
     db.refresh(u)
-    yield u
-
-    # Teardown
-    db.query(UserProfile).filter(UserProfile.user_id == u.id).delete()
-    db.query(User).filter(User.id == u.id).delete()
-    db.commit()
+    return u
 
 
 @pytest.fixture
@@ -99,11 +67,14 @@ class TestMessageToInterestFlow:
         Extracted interests must be written to UserProfile.extracted_interests.
         """
         service = InterestExtractionService(db=db)
-        # Mock LLM so we don't hit the network
-        service._llm_extract = AsyncMock(
-            return_value=[
-                {"name": "game development", "category": "technical", "confidence": 0.92},
-            ]
+        # Mock the structured LLM call so we don't hit the network
+        service._llm_extract_structured = AsyncMock(
+            return_value={
+                "domains": {"game development": 0.92},
+                "strengths": [],
+                "aversions": [],
+                "learning_style": None,
+            }
         )
 
         await service.extract_and_store(user.id, "I love building games!")
@@ -123,19 +94,24 @@ class TestMessageToInterestFlow:
         service = InterestExtractionService(db=db)
 
         # Message 1 → game development
-        service._llm_extract = AsyncMock(
-            return_value=[
-                {"name": "game development", "category": "technical", "confidence": 0.9}
-            ]
+        service._llm_extract_structured = AsyncMock(
+            return_value={
+                "domains": {"game development": 0.9},
+                "strengths": [],
+                "aversions": [],
+                "learning_style": None,
+            }
         )
         await service.extract_and_store(user.id, "I want to make games")
 
         # Message 2 → game development again + startup
-        service._llm_extract = AsyncMock(
-            return_value=[
-                {"name": "game development", "category": "technical", "confidence": 0.95},
-                {"name": "startup building", "category": "career", "confidence": 0.8},
-            ]
+        service._llm_extract_structured = AsyncMock(
+            return_value={
+                "domains": {"game development": 0.95, "startup building": 0.8},
+                "strengths": [],
+                "aversions": [],
+                "learning_style": None,
+            }
         )
         await service.extract_and_store(user.id, "I want to start a game studio")
 
@@ -209,7 +185,7 @@ class TestMessageToInterestFlow:
         db.commit()
 
         service = InterestExtractionService(db=db)
-        service._llm_extract = AsyncMock(side_effect=Exception("network error"))
+        service._llm_extract_structured = AsyncMock(side_effect=Exception("network error"))
 
         result = await service.extract_and_store(user.id, "tell me about web dev")
 
@@ -231,7 +207,7 @@ class TestMessageToInterestFlow:
         db.commit()
 
         service = InterestExtractionService(db=db)
-        service._llm_extract = AsyncMock(return_value=[])
+        service._llm_extract_structured = AsyncMock(return_value=None)
 
         result = await service.extract_and_store(user.id, "Hey, how are you doing today?")
 

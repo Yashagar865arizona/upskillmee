@@ -93,6 +93,25 @@ export const updateProjectProgress = async (projectId, progressData, userId, tok
   }
 };
 
+// Run project assessment
+export const assessProject = async (projectId, token) => {
+  const response = await axios.post(
+    `${API_BASE_URL}/projects/${projectId}/assess`,
+    {},
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  return response.data;
+};
+
+// Fetch existing project assessment
+export const getProjectAssessment = async (projectId, token) => {
+  const response = await axios.get(
+    `${API_BASE_URL}/projects/${projectId}/assessment`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  return response.data;
+};
+
 // Get learning plans for a user
 export const getUserLearningPlans = async (userId, token) => {
   try {

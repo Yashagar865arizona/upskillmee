@@ -14,6 +14,7 @@ import Delete from "../../../assets/delete.png";
 import duolingoIcons from "../../../assets/duolingo";
 import Avatar from "../../../assets/avatar.png";
 import { useTheme } from "../../../context/ThemeContext";
+import { useUser } from "../../../context/UserContext";
 
 const SessionIcon = () => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -138,8 +139,13 @@ const groupSessionsByDate = (sessions) => {
 export const ChatContainer = () => {
 const { darkMode} = useTheme();
   const { updateProjects, refreshPlans } = useLearningPlan();
-  
+  const { user: userContextUser } = useUser();
   const { user, token } = useAuth();
+
+  const mentorName =
+    userContextUser?.profile?.mentor_name ||
+    user?.profile?.mentor_name ||
+    "AI Mentor";
   const userId = user?.id || "anonymous";
   const STORAGE_KEY = `${BASE_STORAGE_KEY}_${userId}`;
   const USER_SESSIONS_KEY = `${SESSIONS_STORAGE_KEY}_${userId}`;
@@ -172,7 +178,7 @@ const { darkMode} = useTheme();
     return [
       {
         id: 1,
-        text: "Hey! I'm your upskillmee AI Mentor. How can I help you today? 😊",
+        text: `Hey! I'm ${mentorName}, your upskillmee AI Mentor. How can I help you today? 😊`,
         sender: "bot",
         avatar: Avatar,
       },   
@@ -202,7 +208,7 @@ const { darkMode} = useTheme();
     const newMessages = [
       {
         id: 1,
-        text: "Hey! I'm your upskillmee AI Mentor. How can I help you today? 😊",
+        text: `Hey! I'm ${mentorName}, your upskillmee AI Mentor. How can I help you today? 😊`,
         sender: "bot",
         avatar: getAvatarIcon({}, 0),
       },
@@ -223,7 +229,7 @@ const { darkMode} = useTheme();
       localStorage.setItem(USER_SESSIONS_KEY, JSON.stringify(updated));
       return updated;
     });
-  }, [USER_SESSIONS_KEY]);
+  }, [USER_SESSIONS_KEY, mentorName]);
 
   const switchToSession = useCallback(
     (sessionId) => {

@@ -731,15 +731,38 @@ class LearningRouter:
 
         
         project = task.project
+        project_just_completed = False
         if project:
             completed_tasks = sum(1 for t in project.tasks if t.completed)
             total_tasks = len(project.tasks)
-            project.progress_percentage = round((completed_tasks / total_tasks) * 100) if total_tasks > 0 else 0
+            new_progress = round((completed_tasks / total_tasks) * 100) if total_tasks > 0 else 0
+            prev_progress = project.progress_percentage or 0
+            project.progress_percentage = new_progress
+            if new_progress == 100 and prev_progress < 100:
+                project.status = "completed"
+                project_just_completed = True
             db.add(project)
 
         db.commit()
         db.refresh(submission)
         db.refresh(task)
+
+        # Auto-trigger discovery conversation when project reaches 100%
+        if project_just_completed and project:
+            try:
+                from ..services.assessment_service import trigger_discovery
+                trigger_discovery(
+                    db=db,
+                    project_id=project.id,
+                    user_id=current_user.id,
+                    reason="completed",
+                )
+                logger.info("Discovery triggered for completed project %s", project.id)
+            except ValueError:
+                # Discovery already exists — idempotent, safe to ignore
+                pass
+            except Exception as exc:
+                logger.error("Failed to auto-trigger discovery for project %s: %s", project.id, exc)
 
         return {
             "message": "Task submitted successfully",
@@ -747,6 +770,7 @@ class LearningRouter:
             "evaluation_report": submission.evaluation_report,
             "task_status": task.status,
             "project_progress": project.progress_percentage if project else None,
+            "discovery_triggered": project_just_completed,
         }
 
      except HTTPException:

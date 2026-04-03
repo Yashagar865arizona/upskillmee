@@ -12,8 +12,8 @@ import os
 # Add the parent directory to the path so we can import the app modules
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from backend.app.services.message_service import MessageService
-from backend.app.database import get_db
+from app.services.message_service import MessageService
+from app.database import get_db
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, 

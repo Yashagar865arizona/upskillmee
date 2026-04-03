@@ -8,7 +8,7 @@ import asyncio
 import logging
 import sys
 from app.services.embedding_service import EmbeddingService
-from backend.app.config import settings
+from app.config import settings
 import numpy as np
 
 # Configure logging

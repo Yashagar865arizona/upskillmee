@@ -1,75 +1,28 @@
 import React, { useState } from "react";
 import styles from "./FeedbackModal.module.css";
 
+const CATEGORIES = ["Bug", "Idea", "Confused", "Love it"];
+
 const FeedbackModal = ({ isOpen, onClose, onSubmit }) => {
-  const [feedbackData, setFeedbackData] = useState({
-    type: "general",
-    category: "",
-    title: "",
-    description: "",
-    rating: null,
-    page_url: window.location.href,
-  });
-
+  const [category, setCategory] = useState(CATEGORIES[0]);
+  const [body, setBody] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const feedbackTypes = [
-    { value: "bug_report", label: "Bug Report" },
-    { value: "feature_request", label: "Feature Request" },
-    { value: "general", label: "General Feedback" },
-    { value: "rating", label: "Rating" },
-  ];
-
-  const categories = [
-    { value: "ui", label: "User Interface" },
-    { value: "performance", label: "Performance" },
-    { value: "content", label: "Content" },
-    { value: "functionality", label: "Functionality" },
-    { value: "other", label: "Other" },
-  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!feedbackData.title.trim() || !feedbackData.description.trim()) {
-      alert("Please fill in all required fields");
-      return;
-    }
+    if (!body.trim()) return;
 
     setIsSubmitting(true);
-
     try {
-      await onSubmit({
-        ...feedbackData,
-        user_agent: navigator.userAgent,
-        metadata: {
-          screen_resolution: `${window.screen.width}x${window.screen.height}`,
-          viewport_size: `${window.innerWidth}x${window.innerHeight}`,
-          timestamp: new Date().toISOString(),
-        },
-      });
-
-      // Reset form
-      setFeedbackData({
-        type: "general",
-        category: "",
-        title: "",
-        description: "",
-        rating: null,
-        page_url: window.location.href,
-      });
-
+      await onSubmit({ category, body: body.trim() });
+      setCategory(CATEGORIES[0]);
+      setBody("");
       onClose();
     } catch (error) {
-      console.error("Error submitting feedback:", error);
-      alert("Failed to submit feedback. Please try again.");
+      // parent handles toast
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleRatingClick = (rating) => {
-    setFeedbackData((prev) => ({ ...prev, rating }));
   };
 
   if (!isOpen) return null;
@@ -79,115 +32,39 @@ const FeedbackModal = ({ isOpen, onClose, onSubmit }) => {
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modalHeader}>
           <h2>Share Your Feedback</h2>
-          <button className={styles.closeButton} onClick={onClose}>
+          <button className={styles.closeButton} onClick={onClose} aria-label="Close">
             ×
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className={styles.feedbackForm}>
           <div className={styles.formGroup}>
-            <label htmlFor="type">Feedback Type *</label>
+            <label htmlFor="feedback-category">Category</label>
             <select
-              id="type"
-              value={feedbackData.type}
-              onChange={(e) =>
-                setFeedbackData((prev) => ({ ...prev, type: e.target.value }))
-              }
+              id="feedback-category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
               className={styles.select}
             >
-              {feedbackTypes.map((type) => (
-                <option key={type.value} value={type.value}>
-                  {type.label}
+              {CATEGORIES.map((c) => (
+                <option key={c} value={c}>
+                  {c}
                 </option>
               ))}
             </select>
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="category">Category</label>
-            <select
-              id="category"
-              value={feedbackData.category}
-              onChange={(e) =>
-                setFeedbackData((prev) => ({
-                  ...prev,
-                  category: e.target.value,
-                }))
-              }
-              className={styles.select}
-            >
-              <option value="">Select a category</option>
-              {categories.map((category) => (
-                <option key={category.value} value={category.value}>
-                  {category.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {feedbackData.type === "rating" && (
-            <div className={styles.formGroup}>
-              <label>Rating *</label>
-              <div className={styles.ratingContainer}>
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <button
-                    key={star}
-                    type="button"
-                    className={`${styles.starButton} ${
-                      feedbackData.rating >= star ? styles.starActive : ""
-                    }`}
-                    onClick={() => handleRatingClick(star)}
-                  >
-                    ★
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className={styles.formGroup}>
-            <label htmlFor="title">Title *</label>
-            <input
-              type="text"
-              id="title"
-              value={feedbackData.title}
-              onChange={(e) =>
-                setFeedbackData((prev) => ({ ...prev, title: e.target.value }))
-              }
-              className={styles.input}
-              placeholder="Brief summary of your feedback"
-              required
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="description">Description *</label>
+            <label htmlFor="feedback-body">Your feedback *</label>
             <textarea
-              id="description"
-              value={feedbackData.description}
-              onChange={(e) =>
-                setFeedbackData((prev) => ({
-                  ...prev,
-                  description: e.target.value,
-                }))
-              }
+              id="feedback-body"
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
               className={styles.textarea}
-              placeholder="Please provide detailed feedback..."
+              placeholder="Tell us what's on your mind..."
               rows={5}
               required
-            />
-          </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="attachment">Attachment</label>
-            <input
-              type="file"
-              id="attachment"
-              onChange={(e) =>
-                setFeedbackData((prev) => ({
-                  ...prev,
-                  attachment: e.target.files[0],
-                }))
-              }
+              maxLength={5000}
             />
           </div>
 
@@ -203,7 +80,7 @@ const FeedbackModal = ({ isOpen, onClose, onSubmit }) => {
             <button
               type="submit"
               className={styles.submitButton}
-              disabled={isSubmitting}
+              disabled={isSubmitting || !body.trim()}
             >
               {isSubmitting ? "Submitting..." : "Submit Feedback"}
             </button>

@@ -7,6 +7,7 @@ import CompletionPopup from "../../pages/OnBoarding/CompletionPopup";
 
 const steps = [
   "Welcome",
+  "Meet Your Mentor",
   "Educational Background",
   "Strength Discovery",
   "Real-World Project Scenarios",
@@ -16,6 +17,8 @@ const steps = [
   "Complete",
 ];
 
+const MENTOR_SUGGESTIONS = ["Nova", "Alex", "Sage", "Spark", "Kai", "River"];
+
 export default function Onboarding() {
   const [step, setStep] = useState(1);
   const { submitOnboarding } = useUser();
@@ -24,6 +27,7 @@ export default function Onboarding() {
 const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
+    mentor_name: "",
     current_status: "",
     other_status: "",
     subjects: [],
@@ -55,6 +59,7 @@ const handleFinish = async () => {
    console.log("@@@@@@",authToken)
 
 const payload = {
+  mentor_name: formData.mentor_name || "Mentor",
   age: formData.age || null,
   location: formData.location || null,
   education_level: formData.current_status === "Other" ? formData.other_status : formData.current_status,
@@ -147,8 +152,69 @@ const payload = {
           </div>
 
           <form className={styles.onboardingForm} onSubmit={handleSubmit}>
-            {/* Step 2: Educational Background */}
+            {/* Step 2: Meet Your Mentor */}
             {step === 2 && (
+              <>
+                <p className={styles.question}>
+                  First, let's name your AI mentor.
+                </p>
+                <p className={styles.mentorSubtext}>
+                  This is the AI that will guide your learning journey. What would you like to call them?
+                </p>
+                <div className={styles.mentorInputWrapper}>
+                  <input
+                    type="text"
+                    placeholder="e.g. Nova, Alex, Sage, Spark..."
+                    maxLength={20}
+                    className={styles.inputField}
+                    value={formData.mentor_name}
+                    onChange={(e) =>
+                      setFormData({ ...formData, mentor_name: e.target.value })
+                    }
+                  />
+                  <span className={styles.charCount}>
+                    {formData.mentor_name.length}/20
+                  </span>
+                </div>
+
+                {formData.mentor_name.trim() && (
+                  <div className={styles.mentorPreview}>
+                    Meet <strong>{formData.mentor_name}</strong> — your personal AI mentor!
+                  </div>
+                )}
+
+                <p className={styles.question}>Or pick a name:</p>
+                <div className={styles.chipGrid}>
+                  {MENTOR_SUGGESTIONS.map((name) => (
+                    <button
+                      key={name}
+                      type="button"
+                      className={`${styles.chip} ${
+                        formData.mentor_name === name ? styles.selectedChip : ""
+                      }`}
+                      onClick={() =>
+                        setFormData({ ...formData, mentor_name: name })
+                      }
+                    >
+                      {name}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  className={styles.skipLink}
+                  onClick={() =>
+                    setFormData({ ...formData, mentor_name: "Mentor" })
+                  }
+                >
+                  Use a default name (Mentor)
+                </button>
+              </>
+            )}
+
+            {/* Step 3: Educational Background */}
+            {step === 3 && (
               <>
                 <p className={styles.question}>
                   Help us understand your educational journey:
@@ -300,8 +366,8 @@ const payload = {
               </>
             )}
 
-            {/* Step 3: Strength Discovery */}
-            {step === 3 && (
+            {/* Step 4: Strength Discovery */}
+            {step === 4 && (
               <>
                 <p className={styles.question}>
                   What are your natural strengths?
@@ -402,7 +468,8 @@ const payload = {
               </>
             )}
 
-            {step === 4 && (
+            {/* Step 5: Real-World Project Scenarios */}
+            {step === 5 && (
               <>
                 <p className={styles.question}>
                   Which mini-projects interest you most? (Select multiple)
@@ -512,7 +579,8 @@ const payload = {
               </>
             )}
 
-            {step === 5 && (
+            {/* Step 6: Learning Style Discovery */}
+            {step === 6 && (
               <>
                 <p className={styles.question}>
                   How do you learn best? (Select all that apply)
@@ -634,7 +702,8 @@ const payload = {
               </>
             )}
 
-            {step === 6 && (
+            {/* Step 7: Goals */}
+            {step === 7 && (
               <input
                 type="text"
                 placeholder="Your goals"
@@ -646,7 +715,8 @@ const payload = {
               />
             )}
 
-            {step === 7 && (
+            {/* Step 8: Preferences */}
+            {step === 8 && (
               <>
                 <p className={styles.question}>
                   How would you like to structure your learning?
@@ -720,8 +790,8 @@ const payload = {
               </>
             )}
 
-            {/* Step 8 Complete */}
-            {step === 8 && (
+            {/* Step 9: Complete */}
+            {step === 9 && (
               <div className={styles.completeContainer}>
                 <div className={styles.confetti}></div>
                 <div className={styles.completeCard}>
@@ -746,7 +816,7 @@ const payload = {
             )}
 
             {/* Navigation Buttons */}
-            {step !== 1 && step !== 8 && (
+            {step !== 1 && step !== 9 && (
               <div className={styles.buttonGroup}>
                 <button
                   type="button"

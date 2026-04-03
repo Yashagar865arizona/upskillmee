@@ -11,6 +11,22 @@ import uuid
 
 from ..database.base import Base
 
+
+FEEDBACK_CATEGORIES = ("Bug", "Idea", "Confused", "Love it")
+
+
+class Feedback(Base):
+    """Simple in-app feedback widget submissions."""
+    __tablename__ = "feedback"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    user_id = Column(String, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    category = Column(String(50), nullable=False)
+    body = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    user = relationship("User", foreign_keys=[user_id])
+
 class UserFeedback(BaseModel, Base):
     """User feedback submissions"""
     __tablename__ = "user_feedback"

@@ -11,6 +11,8 @@ import EvaluationReportModal from "./EvaluationReportModal";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import FeedbackModal from "../../components/Feedback/FeedbackModal";
 import FeedbackButton from "../../components/Feedback/FeedbackButton";
+import AssessmentCard from "../../components/Assessment/AssessmentCard";
+import { assessProject, getProjectAssessment } from "../../api/projectApi";
 
 const Projects = () => {
   const { allProjects, refreshPlans, updateAllProjects } = useLearningPlan();
@@ -22,6 +24,8 @@ const Projects = () => {
   const [finalFile, setFinalFile] = useState(null);
   const [reportModal, setReportModal] = useState(null);
   const [expandedIndex, setExpandedIndex] = useState(null);
+  const [assessmentModal, setAssessmentModal] = useState(null);
+  const [assessLoading, setAssessLoading] = useState(false);
 
   const toggleExpand = (index) => {
     setExpandedIndex((prev) => (prev === index ? null : index));
@@ -133,6 +137,31 @@ const Projects = () => {
     } catch (error) {
       console.error("Task submission failed:", error);
       alert("Error submitting task.");
+    }
+  };
+
+  const handleAssessProject = async () => {
+    if (!selectedProject?.projectId) return;
+    setAssessLoading(true);
+    try {
+      const result = await assessProject(selectedProject.projectId, token);
+      setAssessmentModal(result);
+    } catch (err) {
+      console.error("Assessment failed:", err);
+      alert("Assessment failed. Please try again.");
+    } finally {
+      setAssessLoading(false);
+    }
+  };
+
+  const handleViewAssessment = async () => {
+    if (!selectedProject?.projectId) return;
+    try {
+      const result = await getProjectAssessment(selectedProject.projectId, token);
+      setAssessmentModal(result);
+    } catch (err) {
+      console.error("No assessment found:", err);
+      alert("No assessment found yet. Submit the project for assessment first.");
     }
   };
 
@@ -373,6 +402,26 @@ const Projects = () => {
                 No tasks found for this project.
               </p>
             )}
+
+            <div className={styles.assessmentActions}>
+              <motion.button
+                className={styles.assessButton}
+                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.03 }}
+                onClick={handleAssessProject}
+                disabled={assessLoading}
+              >
+                {assessLoading ? "Assessing..." : "🎯 Assess Project"}
+              </motion.button>
+              <motion.button
+                className={styles.viewAssessButton}
+                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.03 }}
+                onClick={handleViewAssessment}
+              >
+                📊 View Assessment
+              </motion.button>
+            </div>
           </motion.div>
         </div>
       )}
@@ -381,6 +430,14 @@ const Projects = () => {
           <EvaluationReportModal
             report={reportModal}
             onClose={() => setReportModal(null)}
+          />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {assessmentModal && (
+          <AssessmentCard
+            assessment={assessmentModal}
+            onClose={() => setAssessmentModal(null)}
           />
         )}
       </AnimatePresence>

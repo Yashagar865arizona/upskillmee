@@ -27,21 +27,26 @@ SessionLocal = sessionmaker(
     bind=engine,
 )
 
-# Create async engine for WebSocket operations
-async_engine = create_async_engine(
-    DB_URI.replace('postgresql://', 'postgresql+asyncpg://'),
-    pool_pre_ping=True,
-    pool_recycle=3600,
-    echo=False,
-)
-
-# Create an async sessionmaker - use the proper async_sessionmaker
-AsyncSessionLocal = async_sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    expire_on_commit=False,
-    bind=async_engine,
-)
+# Create async engine for WebSocket operations.
+# Only initialised for PostgreSQL; SQLite (used in unit tests) doesn't
+# support asyncpg so we leave async_engine / AsyncSessionLocal as None.
+_is_postgres = DB_URI.startswith("postgresql")
+if _is_postgres:
+    async_engine = create_async_engine(
+        DB_URI.replace('postgresql://', 'postgresql+asyncpg://'),
+        pool_pre_ping=True,
+        pool_recycle=3600,
+        echo=False,
+    )
+    AsyncSessionLocal = async_sessionmaker(
+        autocommit=False,
+        autoflush=False,
+        expire_on_commit=False,
+        bind=async_engine,
+    )
+else:
+    async_engine = None  # type: ignore[assignment]
+    AsyncSessionLocal = None  # type: ignore[assignment]
 
 def get_db() -> Generator[Session, None, None]:
     """

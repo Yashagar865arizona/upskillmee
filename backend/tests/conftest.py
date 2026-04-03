@@ -15,6 +15,7 @@ import os
 
 # Import models and services
 from app.database.base import Base
+import app.models  # noqa: F401 — ensure all ORM tables are registered on Base
 from app.models.user import User, UserProfile
 from app.models.chat import Conversation, Message
 from app.models.learning_plan import LearningPlan

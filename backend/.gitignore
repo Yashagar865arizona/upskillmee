@@ -10,3 +10,13 @@ __pycache__/
 __pycache__/
 *.pyc
 .venv/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Coverage reports
+.coverage
+htmlcov/
+coverage.xml

@@ -72,6 +72,10 @@ from .routers.user_projects_router import router as user_projects_router
 from .routers.analytics_router import router as analytics_router
 from .routers.assessment_router import router as assessment_router
 from .routers.session_router import router as session_router
+from .routers.discovery_report_router import router as discovery_report_router
+from .routers.skill_map_router import router as skill_map_router
+from .routers.portfolio_router import router as portfolio_router
+from .routers.referral_router import router as referral_router
 
 # Configure logging
 import logging
@@ -703,3 +707,7 @@ app.include_router(monitoring_router, prefix="/api/v1/monitoring", tags=["monito
 app.include_router(feedback_router,prefix="/api/v1/feedback", tags=["feedback"])
 app.include_router(production_monitoring_router, prefix="/api/v1/production", tags=["production"])
 app.include_router(assessment_router, prefix="/api/v1", tags=["assessment"])
+app.include_router(discovery_report_router, prefix="/api/v1", tags=["discovery-report"])
+app.include_router(skill_map_router, prefix="/api/v1", tags=["skill-map"])
+app.include_router(portfolio_router, prefix="/api/v1", tags=["portfolio"])
+app.include_router(referral_router, prefix="/api/v1", tags=["referral"])

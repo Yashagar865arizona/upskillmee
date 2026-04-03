@@ -570,3 +570,47 @@ body.dark {
   margin-left: 8px;
   font-weight: 500;
 }
+.assessmentActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.assessButton {
+  flex: 1;
+  min-width: 160px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #818cf8, #6366f1);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.assessButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.viewAssessButton {
+  flex: 1;
+  min-width: 160px;
+  padding: 12px 20px;
+  background: transparent;
+  color: #818cf8;
+  border: 2px solid #818cf8;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.viewAssessButton:hover {
+  background: #818cf8;
+  color: #fff;
+}
