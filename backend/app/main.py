@@ -71,6 +71,7 @@ from .routers import (
 from .routers.user_projects_router import router as user_projects_router
 from .routers.analytics_router import router as analytics_router
 from .routers.assessment_router import router as assessment_router
+from .routers.session_router import router as session_router
 
 # Configure logging
 import logging
@@ -320,6 +321,7 @@ app.include_router(metrics_router, prefix="/metrics", tags=["metrics"])
 app.include_router(admin_router, prefix="/admin", tags=["admin"])
 app.include_router(document_router,prefix="/documents", tags=["Documents"])
 app.include_router(feedback_router,prefix="/feedback", tags=["Feedback"])
+app.include_router(session_router)  # prefix already set in router (/api/sessions)
 # Note: The versioned API routes (/api/v1/...) are registered at the bottom of the file
 
 

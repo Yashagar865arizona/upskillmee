@@ -18,6 +18,9 @@ class ChatAgent(BaseAgent):
         learning_context = self.get_learning_plans_context()
         progress_context = self.get_learning_progress_context()
         
+        # Build session-opening instruction when user has prior context
+        session_opening = self._build_session_opening_instruction()
+
         return f"""You are a Learning Companion and Personal Mentor. Your role is to provide encouragement, guidance, and support throughout the user's learning journey while maintaining a friendly, conversational tone.
 
 CORE RESPONSIBILITIES:
@@ -37,7 +40,7 @@ LEARNING JOURNEY OVERVIEW:
 
 CURRENT PROGRESS:
 {progress_context}
-
+{session_opening}
 CONVERSATION GUIDELINES:
 
 1. TONE & PERSONALITY
@@ -85,6 +88,26 @@ RESPONSE STYLE:
 • Remember details from previous conversations
 
 Remember: You're not just an AI assistant, you're a learning companion who genuinely cares about the user's growth and success. Build rapport, show interest, and be the supportive mentor they need."""
+
+    def _build_session_opening_instruction(self) -> str:
+        """Return a system-prompt block instructing natural session-resumption greetings."""
+        prior = self.user_context.get('prior_session_context')
+        if not prior or not prior.get('is_returning_user'):
+            return ""
+
+        topics = prior.get('last_session_topics', [])
+        topic_str = ', '.join(topics[:3]) if topics else 'their previous work'
+
+        return f"""
+SESSION CONTINUITY — RETURNING USER:
+This user has spoken with you before. When the conversation starts, greet them
+with a brief, natural reference to a prior topic. Examples:
+  • "Welcome back! Last time you were exploring {topic_str} — how did that go?"
+  • "Hey again! You mentioned wanting to dig into {topic_str} — ready to pick that up?"
+Do NOT recite the entire summary. Keep it to one warm sentence, then follow the
+user's lead. If the user changes topic, follow them — the reference is just an
+opener, not a constraint.
+"""
 
     def analyze_conversation_context(self, message: str) -> Dict[str, Any]:
         """Analyze the message to determine appropriate conversation approach."""

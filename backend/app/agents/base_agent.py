@@ -66,8 +66,78 @@ class BaseAgent(ABC):
                 
         if self.user_context.get('career_path'):
             context_parts.append(f"Career Path: {self.user_context['career_path']}")
-            
+
+        interest_ctx = self.get_interest_context()
+        if interest_ctx:
+            context_parts.append(interest_ctx)
+
+        session_ctx = self.get_session_continuity_context()
+        if session_ctx:
+            context_parts.append(session_ctx)
+
         return "\n".join(context_parts) if context_parts else "No user context available."
+
+    def get_session_continuity_context(self) -> str:
+        """
+        Build a session-continuity block from prior_session_context stored
+        in user_context by message_service.
+
+        Returns an empty string for first-time users or when no prior context exists.
+        """
+        prior = self.user_context.get('prior_session_context')
+        if not prior or not prior.get('is_returning_user'):
+            return ""
+
+        parts = []
+        summary = prior.get('prior_summary', '')
+        if summary:
+            parts.append(summary)
+
+        topics = prior.get('last_session_topics', [])
+        if topics:
+            parts.append(f"Key topics from last session: {', '.join(topics)}")
+
+        last_at = prior.get('last_session_at')
+        if last_at:
+            parts.append(f"Last session ended: {last_at}")
+
+        return "\n".join(parts) if parts else ""
+
+    def get_interest_context(self) -> str:
+        """
+        Build a concise interest-profile string from the structured interest data
+        stored in user_context['interest_profile'].
+
+        Returns an empty string when no meaningful profile is available (confidence < 0.2).
+        """
+        profile = self.user_context.get('interest_profile')
+        if not profile:
+            return ""
+
+        confidence = profile.get('confidence_level', 0.0)
+        if confidence < 0.2:
+            return "Interest profile: still learning about this user."
+
+        parts = []
+        domains = profile.get('domains', {})
+        if domains:
+            # Sort by weight descending, show top 5
+            top_domains = sorted(domains.items(), key=lambda x: x[1], reverse=True)[:5]
+            parts.append("User interest domains: " + ", ".join(d for d, _ in top_domains))
+
+        strengths = profile.get('strengths', [])
+        if strengths:
+            parts.append("Strengths: " + ", ".join(strengths[:5]))
+
+        aversions = profile.get('aversions', [])
+        if aversions:
+            parts.append("Dislikes/aversions: " + ", ".join(aversions[:3]))
+
+        ls = profile.get('learning_style')
+        if ls:
+            parts.append(f"Learning style: {ls}")
+
+        return "\n".join(parts) if parts else ""
     
     def get_learning_plans_context(self) -> str:
         """

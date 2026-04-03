@@ -29,6 +29,8 @@ from ..models.chat import Conversation, Message
 from .ai_integration_service import AIIntegrationService
 from .embedding_service import EmbeddingService
 from .interest_extraction_service import InterestExtractionService
+from .session_continuity_service import SessionContinuityService
+from .session_service import SessionService
 # Learning plan functionality now integrated into ai_integration_service
 from ..agents import AgentManager, AgentMode
 
@@ -320,7 +322,9 @@ class MessageService:
                 }
 
             # Load conversation history from database if available
+            current_conversation_id = None
             if self.current_conversation and self.db:
+                current_conversation_id = str(self.current_conversation.id)
                 try:
                     # OPTIMIZED: Get messages from database with proper indexing to prevent N+1 queries
                     # Use the optimized index: idx_messages_conversation_created_role
@@ -342,6 +346,11 @@ class MessageService:
                 except Exception as e:
                     logger.error(f"Error retrieving conversation history: {str(e)}")
 
+            # Apply context window compression to avoid token overflows
+            continuity_service = SessionContinuityService(self.db) if self.db else None
+            if continuity_service and chat_history:
+                chat_history = continuity_service.compress_messages_for_context(chat_history)
+
             # Get user information - try to load from database
             snapshot = {
                 "user_context": {
@@ -351,6 +360,22 @@ class MessageService:
                     "skill_level": "beginner"
                 }
             }
+
+            # Load prior session context for returning users
+            if continuity_service and user_id:
+                prior_ctx = continuity_service.get_prior_session_context(
+                    user_id=user_id,
+                    current_conversation_id=current_conversation_id,
+                )
+                if prior_ctx.get("is_returning_user"):
+                    snapshot["prior_session_context"] = prior_ctx
+                    # Also inject into user_context so BaseAgent.get_base_context() can use it
+                    snapshot["user_context"]["prior_session_context"] = prior_ctx
+                    logger.info(
+                        "SESSION_CONTINUITY: Returning user %s — injecting prior session context. Topics: %s",
+                        user_id,
+                        prior_ctx.get("last_session_topics", []),
+                    )
 
             # Create chat history summary for memory enhancement - using RAG when possible
             chat_history_summary = await self._create_chat_history_summary(chat_history)
@@ -427,6 +452,10 @@ class MessageService:
                             len(extracted),
                             user_id,
                         )
+                    # Also load structured interest profile for richer agent context
+                    structured_profile = self.interest_service.get_structured_profile(user_id)
+                    if structured_profile:
+                        snapshot["user_context"]["interest_profile"] = structured_profile
                 except Exception as e:
                     logger.error("Error loading extracted interests: %s", e)
 
@@ -782,10 +811,16 @@ class MessageService:
                 try:
                     # Save user and bot messages
                     try:
+                        # Session instrumentation — get or create active session
+                        session_svc = SessionService(self.db)
+                        active_session = session_svc.get_or_create_session(user_id)
+                        session_id = active_session.id
+
                         # User message
                         user_msg_data = {
                             "user_id": user_id,
                             "conversation_id": self.current_conversation.id,
+                            "session_id": session_id,
                             "content": content,
                             "role": "user",
                             "message_metadata": {}
@@ -797,12 +832,16 @@ class MessageService:
                         bot_msg_data = {
                             "user_id": user_id,
                             "conversation_id": self.current_conversation.id,
+                            "session_id": session_id,
                             "content": response_text,
                             "role": "assistant",
                             "message_metadata": response_metadata if response_metadata else {}
                         }
                         bot_message = Message(**bot_msg_data)
                         self.db.add(bot_message)
+
+                        # Increment session message count (1 user turn = 1 exchange)
+                        session_svc.record_message(session_id)
 
                         # Commit to database so we have valid IDs
                         self.db.commit()
