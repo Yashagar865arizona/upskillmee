@@ -26,10 +26,15 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const success = await login(emailOrPhone, password);
+      await login(emailOrPhone, password);
       navigate("/dashboard");
     } catch (err) {
-      setError(err.message || "Invalid email or password");
+      const msg = err.message || "";
+      if (msg.toLowerCase().includes("not verified") || msg.toLowerCase().includes("verify your email")) {
+        navigate("/auth/resend-verification");
+        return;
+      }
+      setError(msg || "Invalid email or password");
     } finally {
       setIsLoading(false);
     }

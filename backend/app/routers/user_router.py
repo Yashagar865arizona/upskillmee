@@ -144,7 +144,15 @@ def get_current_user_dependency(
                 detail="Invalid token",
                 headers={"WWW-Authenticate": "Bearer"}
             )
+        if not user.is_email_verified:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Please verify your email before continuing",
+                headers={"X-Error-Code": "EMAIL_UNVERIFIED"},
+            )
         return user
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Authentication error: {str(e)}")
         raise HTTPException(
@@ -450,7 +458,7 @@ async def update_user_settings(
     """Update user settings and preferences."""
     try:
         user_service.update_user_profile(current_user.id, settings_data)
-        
+
         return {
             "status": "success",
             "message": "Settings updated successfully"
@@ -458,6 +466,58 @@ async def update_user_settings(
     except Exception as e:
         logger.error(f"Error updating user settings: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/me/interests")
+async def get_user_interests(
+    current_user: User = Depends(get_current_user_dependency),
+    db: Session = Depends(get_db),
+) -> Dict[str, Any]:
+    """
+    Get the current user's interest profile.
+
+    Returns both the structured interest profile (domains, strengths, aversions,
+    learning_style, confidence_level) and the flat extracted_interests list.
+    """
+    try:
+        from ..services.interest_extraction_service import InterestExtractionService
+        svc = InterestExtractionService(db=db)
+        structured = svc.get_structured_profile(current_user.id)
+        flat = svc.get_interests(current_user.id)
+        return {
+            "interest_profile": structured or {
+                "domains": {},
+                "strengths": [],
+                "aversions": [],
+                "learning_style": None,
+                "confidence_level": 0.0,
+                "signal_count": 0,
+            },
+            "extracted_interests": flat,
+        }
+    except Exception as e:
+        logger.error(f"Error getting user interests: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to retrieve interest profile")
+
+
+@router.post("/me/interests/reset")
+async def reset_user_interests(
+    current_user: User = Depends(get_current_user_dependency),
+    db: Session = Depends(get_db),
+) -> Dict[str, Any]:
+    """
+    Clear the current user's interest profile.
+
+    This gives users full control to wipe the AI's learned preferences and start fresh.
+    """
+    try:
+        from ..services.interest_extraction_service import InterestExtractionService
+        svc = InterestExtractionService(db=db)
+        svc.reset_interest_profile(current_user.id)
+        return {"status": "success", "message": "Interest profile cleared successfully"}
+    except Exception as e:
+        logger.error(f"Error resetting user interests: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to reset interest profile")
 
 # Create a class-based router for backward compatibility
 class UserRouter:

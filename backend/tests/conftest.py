@@ -38,14 +38,41 @@ def event_loop():
 
 @pytest.fixture
 def test_db_engine():
-    """Create a test database engine using SQLite in memory."""
+    """Create a test database engine using SQLite in memory.
+
+    PostgreSQL-specific column types (ARRAY, UUID) are replaced with
+    compatible equivalents before the schema is created on SQLite.
+    """
+    from sqlalchemy.dialects.postgresql import ARRAY, UUID as PG_UUID
+    from sqlalchemy import JSON, String as SAString
+
     engine = create_engine(
         "sqlite:///:memory:",
         connect_args={"check_same_thread": False},
         poolclass=StaticPool,
     )
+
+    from sqlalchemy import ARRAY as SA_ARRAY
+
+    # Patch ARRAY → JSON and UUID → String for all mapped columns so that
+    # Base.metadata.create_all succeeds against SQLite.
+    patched: list = []
+    for table in Base.metadata.tables.values():
+        for col in table.columns:
+            if isinstance(col.type, (ARRAY, SA_ARRAY)):
+                patched.append((col, col.type))
+                col.type = JSON()
+            elif isinstance(col.type, PG_UUID):
+                patched.append((col, col.type))
+                col.type = SAString(36)
+
     Base.metadata.create_all(bind=engine)
-    return engine
+
+    yield engine
+
+    # Restore PostgreSQL-specific types after the engine fixture is torn down.
+    for col, original_type in patched:
+        col.type = original_type
 
 
 @pytest.fixture
@@ -60,11 +87,24 @@ def test_db_session(test_db_engine) -> Generator[Session, None, None]:
 
 
 @pytest.fixture
+def db_session(test_db_engine) -> Generator[Session, None, None]:
+    """Alias for test_db_session used by integration tests."""
+    TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=test_db_engine)
+    session = TestingSessionLocal()
+    try:
+        yield session
+        session.rollback()
+    finally:
+        session.close()
+
+
+@pytest.fixture
 def test_user(test_db_session) -> User:
     """Create a test user."""
     user = User()
     setattr(user, 'id', 'test-user-id-123')
     setattr(user, 'email', 'test@example.com')
+    setattr(user, 'username', 'testuser')
     setattr(user, 'name', 'Test User')
     setattr(user, 'password_hash', '$2b$12$test.hash.value')
     setattr(user, 'is_verified', True)
@@ -101,8 +141,7 @@ def test_conversation(test_db_session, test_user) -> Conversation:
     conversation = Conversation()
     setattr(conversation, 'id', 'test-conversation-id-123')
     setattr(conversation, 'user_id', test_user.id)
-    setattr(conversation, 'topic', 'Test Learning Topic')
-    setattr(conversation, 'agent_mode', 'chat')
+    setattr(conversation, 'title', 'Test Learning Topic')
     
     test_db_session.add(conversation)
     test_db_session.commit()
@@ -115,6 +154,7 @@ def test_message(test_db_session, test_conversation) -> Message:
     """Create a test message."""
     message = Message()
     setattr(message, 'id', 'test-message-id-123')
+    setattr(message, 'user_id', test_conversation.user_id)
     setattr(message, 'conversation_id', test_conversation.id)
     setattr(message, 'content', 'Hello, I want to learn web development')
     setattr(message, 'role', 'user')
@@ -280,3 +320,25 @@ def mock_env_vars(monkeypatch):
     monkeypatch.setenv("DATABASE_URL", "sqlite:///:memory:")
     monkeypatch.setenv("REDIS_URL", "redis://localhost:6379")
     monkeypatch.setenv("ENVIRONMENT", "test")
+
+
+@pytest.fixture(autouse=True)
+def _clear_rate_limit_stores(monkeypatch):
+    """Reset all in-memory rate-limit stores and disable middleware rate limiting in tests."""
+    # Clear service-level per-email rate limiters
+    from app.services.auth_service import (
+        _password_reset_timestamps,
+        _resend_verification_timestamps,
+    )
+    _password_reset_timestamps.clear()
+    _resend_verification_timestamps.clear()
+
+    # Disable the RateLimitMiddleware check for tests — it uses in-memory
+    # storage without Redis, and the store persists across tests causing 429s.
+    import asyncio
+    from app.middleware.security_middleware import RateLimitMiddleware
+
+    async def _always_allow(*args, **kwargs):
+        return True
+
+    monkeypatch.setattr(RateLimitMiddleware, "_check_rate_limit", _always_allow)

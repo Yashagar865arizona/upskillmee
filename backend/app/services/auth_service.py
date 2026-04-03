@@ -25,6 +25,23 @@ logger = logging.getLogger(__name__)
 # Password hashing context
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+# In-memory rate limit stores: email → list of UTC datetimes
+_password_reset_timestamps: dict = {}
+_resend_verification_timestamps: dict = {}
+
+
+def _check_rate_limit(store: dict, key: str, max_requests: int = 3, window_minutes: int = 60) -> bool:
+    """Return True if the key is within the allowed rate, False if exceeded."""
+    now = datetime.now(timezone.utc)
+    cutoff = now - timedelta(minutes=window_minutes)
+    timestamps = [t for t in store.get(key, []) if t > cutoff]
+    if len(timestamps) >= max_requests:
+        store[key] = timestamps
+        return False
+    timestamps.append(now)
+    store[key] = timestamps
+    return True
+
 # JWT settings
 SECRET_KEY = settings.JWT_SECRET
 ALGORITHM = settings.JWT_ALGORITHM
@@ -101,7 +118,8 @@ class AuthService:
     phone_number: Optional[str] = None,
     is_email_verified: bool = False,
     is_phone_verified: bool = False,
-    background_tasks: Optional[Any] = None
+    background_tasks: Optional[Any] = None,
+    frontend_url: str = ""
 ) -> Dict[str, str]:
      """Register a new user."""
 
@@ -111,6 +129,9 @@ class AuthService:
      if phone_number and self.db.query(User).filter(User.phone_number == phone_number).first():
         raise ValueError("Phone number already registered")
 
+     verification_token = secrets.token_urlsafe(32)
+     verification_expires = datetime.now(timezone.utc) + timedelta(hours=24)
+
      user = User()
      user.email = email
      user.password_hash = self.get_password_hash(password)
@@ -119,7 +140,8 @@ class AuthService:
      user.phone_number = phone_number
      user.is_email_verified = is_email_verified
      user.is_phone_verified = is_phone_verified
-     user.verification_token = secrets.token_urlsafe(32)
+     user.verification_token = verification_token
+     user.verification_token_expires = verification_expires
 
      self.db.add(user)
      self.db.flush()
@@ -138,11 +160,29 @@ class AuthService:
      try:
         self.db.commit()
         self.db.refresh(user)
-        return {"user_id": str(user.id)}
      except Exception as e:
         self.db.rollback()
         logger.error(f"Error registering user: {str(e)}")
         raise ValueError("Could not register user")
+
+     # Send verification email if not already verified
+     if not is_email_verified and frontend_url:
+        from app.services.email_service import send_email_verification_token_email
+        verify_url = f"{frontend_url}/auth/verify-email?token={verification_token}"
+        if background_tasks:
+            background_tasks.add_task(send_email_verification_token_email, email, verify_url)
+        else:
+            import asyncio
+            try:
+                loop = asyncio.get_event_loop()
+                if loop.is_running():
+                    loop.create_task(send_email_verification_token_email(email, verify_url))
+                else:
+                    loop.run_until_complete(send_email_verification_token_email(email, verify_url))
+            except Exception as e:
+                logger.error(f"Failed to send verification email: {e}")
+
+     return {"user_id": str(user.id)}
 
     def authenticate_user(self, identifier: str, password: str) -> Dict[str, Any]:
       """Authenticate a user by email or phone number"""
@@ -151,7 +191,10 @@ class AuthService:
     ).first()
 
       if not user or not self.verify_password(password, str(user.password_hash)):
-        return {"success": False}
+        return {"success": False, "reason": "invalid_credentials"}
+
+      if not user.is_email_verified:
+        return {"success": False, "reason": "email_not_verified"}
 
       user.last_login = datetime.now(timezone.utc)
       self.db.commit()
@@ -172,48 +215,102 @@ class AuthService:
         """Verify user's email using verification token."""
         user = self.db.query(User).filter(User.verification_token == token).first()
         if not user:
-            return {
-                "success": False,
-                "message": "Invalid verification token"
-            }
-        
-        setattr(user, 'is_verified', True)
-        setattr(user, 'verification_token', None)
+            return {"success": False, "message": "Invalid verification token"}
+
+        expires = getattr(user, 'verification_token_expires', None)
+        if expires is not None:
+            if expires.tzinfo is None:
+                expires = expires.replace(tzinfo=timezone.utc)
+            if datetime.now(timezone.utc) > expires:
+                return {"success": False, "message": "Verification token has expired. Please request a new one."}
+
+        user.is_email_verified = True
+        user.is_verified = True
+        user.verification_token = None
+        user.verification_token_expires = None
         self.db.commit()
-        
+
         return {
             "success": True,
             "message": "Email verified successfully",
             "user_id": str(user.id)
         }
 
+    def resend_verification_email(
+        self, email: str, background_tasks: Optional[Any] = None, frontend_url: str = ""
+    ) -> Dict[str, Any]:
+        """Regenerate verification token and resend verification email."""
+        if not _check_rate_limit(_resend_verification_timestamps, email.lower()):
+            raise ValueError("Too many verification email requests. Please wait before trying again.")
+
+        user = self.db.query(User).filter(User.email == email).first()
+        if not user:
+            # Silent response to avoid email enumeration
+            return {"success": True, "message": "If that email is registered, a verification email has been sent"}
+
+        if user.is_email_verified:
+            return {"success": False, "message": "Email is already verified"}
+
+        verification_token = secrets.token_urlsafe(32)
+        verification_expires = datetime.now(timezone.utc) + timedelta(hours=24)
+        user.verification_token = verification_token
+        user.verification_token_expires = verification_expires
+        self.db.commit()
+
+        if frontend_url:
+            from app.services.email_service import send_email_verification_token_email
+            verify_url = f"{frontend_url}/auth/verify-email?token={verification_token}"
+            if background_tasks:
+                background_tasks.add_task(send_email_verification_token_email, email, verify_url)
+            else:
+                import asyncio
+                try:
+                    loop = asyncio.get_event_loop()
+                    if loop.is_running():
+                        loop.create_task(send_email_verification_token_email(email, verify_url))
+                    else:
+                        loop.run_until_complete(send_email_verification_token_email(email, verify_url))
+                except Exception as e:
+                    logger.error(f"Failed to resend verification email: {e}")
+
+        return {"success": True, "message": "If that email is registered, a verification email has been sent"}
+
     def request_password_reset(self, email: str) -> Optional[str]:
-        """Generate password reset token."""
+        """Generate password reset token with 15-minute TTL."""
         user = self.db.query(User).filter(User.email == email).first()
         if not user:
             return None
-            
-        setattr(user, 'reset_password_token', secrets.token_urlsafe(32))
+
+        token = secrets.token_urlsafe(32)
+        expires = datetime.now(timezone.utc) + timedelta(minutes=15)
+        setattr(user, 'reset_password_token', token)
+        setattr(user, 'reset_password_token_expires', expires)
         self.db.commit()
-        return str(user.reset_password_token)
+        return token
 
     def reset_password(self, token: str, new_password: str) -> Dict[str, Any]:
-        """Reset user's password using reset token."""
+        """Reset user's password using reset token. Token is single-use."""
         user = self.db.query(User).filter(User.reset_password_token == token).first()
         if not user:
-            return {
-                "success": False, 
-                "message": "Invalid reset token"
-            }
-            
+            return {"success": False, "message": "Invalid or expired reset token"}
+
+        expires = getattr(user, 'reset_password_token_expires', None)
+        now = datetime.now(timezone.utc)
+        if expires is not None and expires.tzinfo is None:
+            expires = expires.replace(tzinfo=timezone.utc)
+        if expires is None or now > expires:
+            setattr(user, 'reset_password_token', None)
+            setattr(user, 'reset_password_token_expires', None)
+            self.db.commit()
+            return {"success": False, "message": "Reset token has expired"}
+
         setattr(user, 'password_hash', self.get_password_hash(new_password))
+        # Single-use: clear token immediately after successful reset
         setattr(user, 'reset_password_token', None)
+        setattr(user, 'reset_password_token_expires', None)
         self.db.commit()
-        
-        return {
-            "success": True,
-            "message": "Password reset successfully"
-        }
+
+        return {"success": True, "message": "Password reset successfully"}
 
     def create_user_profile(self, user_id: str, profile_data: Dict[str, Any]) -> UserProfile:
         """Create or update user profile with detailed information"""
@@ -383,29 +480,41 @@ class AuthService:
             logger.error(f"Error refreshing token: {str(e)}")
             return {"success": False, "message": "Token refresh failed"}
 
-    def send_password_reset(self, email: str, background_tasks: Optional[Any] = None) -> Dict[str, Any]:
-        """Send password reset email."""
+    def send_password_reset(
+        self, email: str, background_tasks: Optional[Any] = None, base_url: str = ""
+    ) -> Dict[str, Any]:
+        """Send password reset email. Always returns success to avoid email enumeration."""
+        _silent = {"success": True, "message": "If that email is registered, a reset link has been sent"}
+
+        if not _check_rate_limit(_password_reset_timestamps, email.lower()):
+            raise ValueError("Too many password reset requests. Please wait before trying again.")
+
         user = self.db.query(User).filter(User.email == email).first()
         if not user:
-            return {
-                "success": False,
-                "message": "User not found"
-            }
-            
-        # Generate reset token
+            return _silent
+
+        from app.services.email_service import send_password_reset_email
+
         reset_token = self.request_password_reset(email)
         if not reset_token:
-            return {
-                "success": False,
-                "message": "Failed to generate reset token"
-            }
-            
-        # Here you would typically send the email using background_tasks
-        # For now, we'll just return success
-        return {
-            "success": True,
-            "message": "Password reset email sent"
-        }
+            return {"success": True, "message": "If that email is registered, a reset link has been sent"}
+
+        reset_url = f"{base_url}/auth/reset-password?token={reset_token}"
+
+        if background_tasks:
+            background_tasks.add_task(send_password_reset_email, email, reset_url)
+        else:
+            import asyncio
+            try:
+                loop = asyncio.get_event_loop()
+                if loop.is_running():
+                    loop.create_task(send_password_reset_email(email, reset_url))
+                else:
+                    loop.run_until_complete(send_password_reset_email(email, reset_url))
+            except Exception as e:
+                logger.error(f"Failed to send password reset email: {e}")
+
+        return {"success": True, "message": "If that email is registered, a reset link has been sent"}
 
     async def update_profile(
     self,

@@ -122,6 +122,7 @@ router = APIRouter()
 
 @router.post("/register", response_model=Dict[str, Any])
 async def register_user(
+    request: Request,
     user: UserCreate,  # <-- schema updated to include username & phone_number
     background_tasks: BackgroundTasks,
     auth_service: AuthService = Depends(get_auth_service),
@@ -131,14 +132,16 @@ async def register_user(
     pending = db.query(PendingUserEmail).filter_by(email=user.email, is_verified_by_admin=True).first()
     if not pending:
         raise HTTPException(status_code=403, detail="Email not verified by admin")
+    frontend_url = settings.WEBSITE_URL or str(request.base_url).rstrip("/")
     try:
         result = auth_service.register_user(
             username=user.username,
             full_name=user.full_name,
             email=user.email,
             password=user.password,
-            phone_number=user.phone_number, 
-            background_tasks=background_tasks
+            phone_number=user.phone_number,
+            background_tasks=background_tasks,
+            frontend_url=frontend_url
         )
         db.delete(pending)
         db.commit()
@@ -152,6 +155,39 @@ async def register_user(
     except Exception as e:
         raise HTTPException(status_code=500, detail="Could not register user")
 
+
+@router.get("/verify-email", response_model=Dict[str, Any])
+async def verify_email(
+    token: str,
+    auth_service: AuthService = Depends(get_auth_service)
+) -> Dict[str, Any]:
+    """Verify user email using the token from the verification email."""
+    result = auth_service.verify_email(token)
+    if not result["success"]:
+        raise HTTPException(status_code=400, detail=result["message"])
+    return {"status": "success", "message": result["message"]}
+
+
+@router.post("/resend-verification", response_model=Dict[str, Any])
+async def resend_verification(
+    request: Request,
+    payload: EmailSubmitSchema,
+    background_tasks: BackgroundTasks,
+    auth_service: AuthService = Depends(get_auth_service)
+) -> Dict[str, Any]:
+    """Resend verification email. Always returns 200 to avoid email enumeration."""
+    frontend_url = settings.WEBSITE_URL or str(request.base_url).rstrip("/")
+    try:
+        auth_service.resend_verification_email(
+            email=payload.email,
+            background_tasks=background_tasks,
+            frontend_url=frontend_url
+        )
+    except ValueError as e:
+        if "Too many" in str(e):
+            raise HTTPException(status_code=status.HTTP_429_TOO_MANY_REQUESTS, detail=str(e))
+    return {"status": "success", "message": "If that email is registered and unverified, a new verification email has been sent"}
+
 @router.post("/login", response_model=TokenResponse)
 async def login(
     login_data: LoginRequest,
@@ -162,6 +198,11 @@ async def login(
         password=login_data.password
     )
     if not auth_result["success"]:
+        if auth_result.get("reason") == "email_not_verified":
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Email not verified. Please check your inbox for the verification link."
+            )
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid credentials",
@@ -178,6 +219,7 @@ async def login(
 
 @router.post("/register-or-login", response_model=TokenResponse)
 async def register_or_login(
+    request: Request,
     data: RegisterOrLoginRequest,
     background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
@@ -202,6 +244,7 @@ async def register_or_login(
 
         # Use email as username if not provided
         username = data.username or data.email.split("@")[0]
+        frontend_url = settings.WEBSITE_URL or str(request.base_url).rstrip("/")
 
         try:
             # Register user
@@ -213,7 +256,8 @@ async def register_or_login(
                 password=data.password,
                 is_email_verified=data.is_email_verified,
                 is_phone_verified=data.is_phone_verified,
-                background_tasks=background_tasks
+                background_tasks=background_tasks,
+                frontend_url=frontend_url
             )
 
             # Remove from pending table
@@ -234,6 +278,11 @@ async def register_or_login(
     )
 
     if not auth_result["success"]:
+        if auth_result.get("reason") == "email_not_verified":
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Email not verified. Please check your inbox for the verification link."
+            )
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid credentials or email not approved",
@@ -290,55 +339,82 @@ def verify_otp_route(data: VerifyOtpRequest):
     }
 
 
-@router.post("/reset-password")
-async def request_password_reset(
+@router.post("/forgot-password")
+async def forgot_password(
+    request: Request,
     reset_data: PasswordResetRequest,
     background_tasks: BackgroundTasks,
     auth_service: AuthService = Depends(get_auth_service)
 ) -> Dict[str, Any]:
-    """Request a password reset."""
+    """Request a password reset email. Always returns success to avoid email enumeration."""
     try:
-        # Send password reset email
+        base_url = str(request.base_url).rstrip("/")
         auth_service.send_password_reset(
             email=reset_data.email,
-            background_tasks=background_tasks
+            background_tasks=background_tasks,
+            base_url=base_url
         )
-        
-        return {
-            "status": "success",
-            "message": "If the email exists, a password reset link has been sent"
-        }
+    except ValueError as e:
+        if "Too many" in str(e):
+            raise HTTPException(status_code=status.HTTP_429_TOO_MANY_REQUESTS, detail=str(e))
+        logger.error(f"Password reset request error: {str(e)}")
     except Exception as e:
         logger.error(f"Password reset request error: {str(e)}")
-        # Don't expose whether the email exists or not
-        return {
-            "status": "success",
-            "message": "If the email exists, a password reset link has been sent"
-        }
+
+    return {
+        "status": "success",
+        "message": "If that email is registered, a password reset link has been sent"
+    }
+
+
+@router.post("/reset-password")
+async def reset_password_endpoint(
+    confirmation_data: PasswordResetConfirmation,
+    auth_service: AuthService = Depends(get_auth_service)
+) -> Dict[str, Any]:
+    """Confirm a password reset using email token. Token is single-use with 15-min TTL."""
+    try:
+        result = auth_service.reset_password(
+            token=confirmation_data.token,
+            new_password=confirmation_data.new_password
+        )
+
+        if not result["success"]:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=result["message"]
+            )
+
+        return {"status": "success", "message": "Password reset successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Password reset confirmation error: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An error occurred during password reset"
+        )
+
 
 @router.post("/reset-password-confirm")
 async def confirm_password_reset(
     confirmation_data: PasswordResetConfirmation,
     auth_service: AuthService = Depends(get_auth_service)
 ) -> Dict[str, Any]:
-    """Confirm a password reset."""
+    """Confirm a password reset (legacy endpoint — use /reset-password instead)."""
     try:
-        # Reset the password
         result = auth_service.reset_password(
             token=confirmation_data.token,
             new_password=confirmation_data.new_password
         )
-        
+
         if not result["success"]:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=result["message"]
             )
-        
-        return {
-            "status": "success",
-            "message": "Password reset successfully"
-        }
+
+        return {"status": "success", "message": "Password reset successfully"}
     except HTTPException:
         raise
     except Exception as e:
@@ -415,6 +491,7 @@ async def get_current_user(
         "photo_url": photo_url,
         "is_active": user.is_active,
         "is_verified": user.is_verified,
+        "is_email_verified": user.is_email_verified,
         "is_onboarding": user.is_onboarding,
         "psychometric_status": test_status
     }
