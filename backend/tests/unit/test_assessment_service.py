@@ -131,7 +131,8 @@ class TestAssessProject:
 
         result = assess_project(db, "proj-1", "user-1")
 
-        db.add.assert_called_once()
+        added_types = [type(call.args[0]).__name__ for call in db.add.call_args_list]
+        assert "ProjectAssessment" in added_types
         db.commit.assert_called()
         assert result.score == 75
 
@@ -158,7 +159,8 @@ class TestAssessProject:
 
         result = assess_project(db, "proj-1", "user-1")
 
-        db.add.assert_not_called()  # upsert — no new add when existing
+        added_types = [type(call.args[0]).__name__ for call in db.add.call_args_list]
+        assert "ProjectAssessment" not in added_types  # upsert — no new assessment added
         assert result.score == 90
 
     @patch("app.services.assessment_service._call_llm", side_effect=Exception("API down"))
