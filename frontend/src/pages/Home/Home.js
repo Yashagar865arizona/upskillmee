@@ -161,14 +161,11 @@ const handleEmailSubmit = async (e) => {
           
           {!success ? (
             <div className={styles.heroEmailForm}>
-           
               <button
                 className={styles.btnPrimary}
-                
-                onClick={scrollToContact}
+                onClick={() => navigate("/pricing")}
               >
-               
-                Book Demo
+                View Pricing
               </button>
             </div>
           ) : null}
@@ -505,7 +502,7 @@ const handleEmailSubmit = async (e) => {
                 <a href="#">Features</a>
               </li>
               <li>
-                <a href="#">Pricing</a>
+                <a href="/pricing">Pricing</a>
               </li>
               <li>
                 <a href="#">Blog</a>

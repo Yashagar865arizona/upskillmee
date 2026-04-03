@@ -10,17 +10,24 @@ import Learn from './pages/Learn/Learn';
 import Projects from './pages/Projects/Projects';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
+import ForgotPassword from './pages/Auth/ForgotPassword';
+import ResetPassword from './pages/Auth/ResetPassword';
+import VerifyEmail from './pages/Auth/VerifyEmail';
+import ResendVerification from './pages/Auth/ResendVerification';
 import ClearData from './pages/Admin/ClearData';
 import Settings from './pages/Settings/Settings';
 import Onboarding from './pages/OnBoarding/Onboarding';
 import AllTasksList from './components/MainContent/AllTasksList';
 import Home from './pages/Home/Home';
+import Pricing from './pages/Pricing/Pricing';
 import styles from './App.module.css';
 import { LearningPlanProvider } from './pages/Chat/context/LearningPlanContext';
 import { useAuth } from './context/AuthContext';
 import Calendar from './components/Calendar/Calendar';
 import ProtectedRoute from './protectedRoute';
 import OAuthSuccess from './OAuthSuccess';
+import EmailVerificationGate from './components/EmailVerificationGate/EmailVerificationGate';
+import FeedbackButton from './components/Feedback/FeedbackButton';
 
 function App() {
   const location = useLocation();
@@ -35,6 +42,8 @@ const isAuthPage = location.pathname.startsWith('/auth') && location.pathname !=
   const isOnboardingPage = location.pathname.startsWith('/onboarding');
 
   
+  const isPricingPage = location.pathname === '/pricing';
+
   if (location.pathname === '/' && !isAuthenticated) {
     return (
       <Routes>
@@ -43,8 +52,17 @@ const isAuthPage = location.pathname.startsWith('/auth') && location.pathname !=
     );
   }
 
+  if (isPricingPage) {
+    return (
+      <Routes>
+        <Route path="/pricing" element={<Pricing />} />
+      </Routes>
+    );
+  }
+
   
   if (location.pathname === '/' && isAuthenticated && user) {
+    if (!user.is_email_verified) return <EmailVerificationGate />;
     if (!user.is_onboarding) return <Navigate to="/onboarding" replace />;
     return <Navigate to="/dashboard" replace />;
   }
@@ -56,7 +74,20 @@ const isAuthPage = location.pathname.startsWith('/auth') && location.pathname !=
 
   
   if (isAuthPage) {
+    // Always allow verify-email and resend-verification pages (token links from email)
+    if (
+      location.pathname === '/auth/verify-email' ||
+      location.pathname === '/auth/resend-verification'
+    ) {
+      return (
+        <Routes>
+          <Route path="/auth/verify-email" element={<VerifyEmail />} />
+          <Route path="/auth/resend-verification" element={<ResendVerification />} />
+        </Routes>
+      );
+    }
     if (isAuthenticated && user) {
+      if (!user.is_email_verified) return <EmailVerificationGate />;
       if (!user.is_onboarding) return <Navigate to="/onboarding" replace />;
       return <Navigate to="/dashboard" replace />;
     }
@@ -64,6 +95,10 @@ const isAuthPage = location.pathname.startsWith('/auth') && location.pathname !=
       <Routes>
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
+        <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+        <Route path="/auth/reset-password" element={<ResetPassword />} />
+        <Route path="/auth/verify-email" element={<VerifyEmail />} />
+        <Route path="/auth/resend-verification" element={<ResendVerification />} />
       </Routes>
     );
   }
@@ -92,6 +127,11 @@ if (location.pathname === '/auth/success') {
   );
 }
 
+  // Gate authenticated but unverified users before showing the main app
+  if (isAuthenticated && user && !user.is_email_verified) {
+    return <EmailVerificationGate />;
+  }
+
   return (
     <LearningPlanProvider>
       <div className={styles.app}>
@@ -115,6 +155,7 @@ if (location.pathname === '/auth/success') {
         </div>
 
         {showRightSidebar && <RightSidebar />}
+        <FeedbackButton position="bottom-right" />
       </div>
     </LearningPlanProvider>
   );

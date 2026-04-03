@@ -1,0 +1,488 @@
+/* ============ Pricing Page ============ */
+.pricing {
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #e0f7fa, #f0f9ff);
+  color: #111827;
+  padding-bottom: 4rem;
+}
+
+.pricing.dark {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #f9fafb;
+}
+
+/* ============ Header ============ */
+.headerSection {
+  text-align: center;
+  padding: 3rem 1.5rem 2rem;
+  position: relative;
+}
+
+.backBtn {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  background: none;
+  border: 1px solid #06b6d4;
+  color: #06b6d4;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.backBtn:hover {
+  background: #06b6d4;
+  color: #fff;
+}
+
+.dark .backBtn {
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+.dark .backBtn:hover {
+  background: #38bdf8;
+  color: #0f172a;
+}
+
+.title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+  background: linear-gradient(90deg, #06b6d4, #0ea5e9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 1.15rem;
+  color: #4b5563;
+  margin: 0 0 2rem;
+}
+
+.dark .subtitle {
+  color: #9ca3af;
+}
+
+/* ============ Controls ============ */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.regionToggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid #06b6d4;
+  color: #06b6d4;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.regionToggle:hover {
+  background: rgba(6, 182, 212, 0.2);
+}
+
+.dark .regionToggle {
+  border-color: #38bdf8;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+}
+
+.billingToggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+.dark .billingToggle {
+  color: #9ca3af;
+}
+
+.activeLabel {
+  color: #06b6d4;
+  font-weight: 600;
+}
+
+.dark .activeLabel {
+  color: #38bdf8;
+}
+
+.toggleSwitch {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.toggleOn {
+  color: #06b6d4;
+}
+
+.toggleOff {
+  color: #9ca3af;
+}
+
+.saveBadge {
+  background: linear-gradient(90deg, #14b8a6, #0ea5e9);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 1rem;
+  margin-left: 0.25rem;
+  vertical-align: middle;
+}
+
+/* ============ Cards ============ */
+.cardsContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 1.25rem;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+.dark .card {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.dark .card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.popular {
+  border-color: #06b6d4;
+  box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
+}
+
+.dark .popular {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+}
+
+.popularBadge {
+  position: absolute;
+  top: -0.75rem;
+  background: linear-gradient(90deg, #06b6d4, #0ea5e9);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 1rem;
+  border-radius: 1rem;
+  letter-spacing: 0.03em;
+}
+
+.tierName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0.75rem 0 0.5rem;
+}
+
+/* ============ Price ============ */
+.priceBlock {
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.priceAmount {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #06b6d4, #0ea5e9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.pricePeriod {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.dark .pricePeriod {
+  color: #9ca3af;
+}
+
+.annualNote {
+  font-size: 0.8rem;
+  color: #14b8a6;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+/* ============ Feature List ============ */
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  width: 100%;
+  text-align: left;
+}
+
+.featureList li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  font-size: 0.9rem;
+}
+
+.included {
+  color: #111827;
+}
+
+.dark .included {
+  color: #e5e7eb;
+}
+
+.excluded {
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
+.checkIcon {
+  color: #14b8a6;
+  flex-shrink: 0;
+}
+
+.xIcon {
+  color: #d1d5db;
+  flex-shrink: 0;
+}
+
+/* ============ CTA Button ============ */
+.ctaBtn {
+  width: 100%;
+  padding: 0.85rem 1.5rem;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid #06b6d4;
+  background: transparent;
+  color: #06b6d4;
+  transition: all 0.2s;
+  margin-top: auto;
+}
+
+.ctaBtn:hover {
+  background: rgba(6, 182, 212, 0.1);
+}
+
+.dark .ctaBtn {
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+.ctaPrimary {
+  background: linear-gradient(90deg, #06b6d4, #0ea5e9);
+  color: #fff;
+  border-color: transparent;
+}
+
+.ctaPrimary:hover {
+  opacity: 0.9;
+  background: linear-gradient(90deg, #06b6d4, #0ea5e9);
+}
+
+.dark .ctaPrimary {
+  background: linear-gradient(90deg, #0ea5e9, #06b6d4);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* ============ Comparison Table ============ */
+.comparisonSection {
+  max-width: 900px;
+  margin: 4rem auto 0;
+  padding: 0 1.5rem;
+}
+
+.comparisonTitle {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+}
+
+.dark .tableWrapper {
+  border-color: #334155;
+}
+
+.comparisonTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.dark .comparisonTable {
+  background: #1e293b;
+}
+
+.comparisonTable th,
+.comparisonTable td {
+  padding: 0.85rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 0.9rem;
+}
+
+.dark .comparisonTable th,
+.dark .comparisonTable td {
+  border-bottom-color: #334155;
+}
+
+.comparisonTable th {
+  background: #f9fafb;
+  font-weight: 700;
+  color: #374151;
+  position: sticky;
+  top: 0;
+}
+
+.dark .comparisonTable th {
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+.comparisonTable td:first-child {
+  text-align: left;
+  font-weight: 500;
+}
+
+.comparisonTable tr:last-child td {
+  border-bottom: none;
+}
+
+.tableCheck {
+  color: #14b8a6;
+}
+
+.tableX {
+  color: #d1d5db;
+}
+
+/* ============ Footer CTA ============ */
+.footerCta {
+  text-align: center;
+  margin-top: 4rem;
+  padding: 0 1.5rem;
+}
+
+.footerCta p {
+  font-size: 1.1rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.dark .footerCta p {
+  color: #9ca3af;
+}
+
+.contactBtn {
+  background: linear-gradient(90deg, #06b6d4, #0ea5e9);
+  color: #fff;
+  border: none;
+  padding: 0.85rem 2.5rem;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.contactBtn:hover {
+  opacity: 0.85;
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 900px) {
+  .cardsContainer {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .backBtn {
+    position: static;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .headerSection {
+    padding: 2rem 1rem 1.5rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .controls {
+    gap: 1rem;
+  }
+
+  .priceAmount {
+    font-size: 2rem;
+  }
+
+  .comparisonTable th,
+  .comparisonTable td {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.8rem;
+  }
+}
