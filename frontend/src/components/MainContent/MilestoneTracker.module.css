@@ -1,0 +1,514 @@
+.milestoneTracker {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid #e5e7eb;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.titleSection {
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.statCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.statIcon {
+  width: 24px;
+  height: 24px;
+  color: #3b82f6;
+  flex-shrink: 0;
+}
+
+.statContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.statNumber {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.nextMilestone {
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  border: 1px solid #3b82f6;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 32px;
+}
+
+.nextMilestoneHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.nextMilestoneIcon {
+  width: 20px;
+  height: 20px;
+  color: #1d4ed8;
+}
+
+.nextMilestoneHeader h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1d4ed8;
+  margin: 0;
+}
+
+.nextMilestoneContent h5 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.nextMilestoneContent p {
+  color: #4b5563;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+}
+
+.funFactor {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.startButton {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.startButton:hover:not(:disabled) {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.startButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.milestoneList {
+  margin-top: 32px;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 24px 0;
+}
+
+.timeline {
+  position: relative;
+}
+
+.milestoneItem {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.milestoneItem:hover {
+  background: #f9fafb;
+}
+
+.milestoneItem.completed {
+  background: #f0fdf4;
+}
+
+.milestoneItem.completed:hover {
+  background: #ecfdf5;
+}
+
+.milestoneItem.next {
+  background: #eff6ff;
+  border: 1px solid #3b82f6;
+}
+
+.milestoneItem.next:hover {
+  background: #dbeafe;
+}
+
+.milestoneMarker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.milestoneIcon {
+  width: 24px;
+  height: 24px;
+  color: #6b7280;
+  background: white;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.completed .milestoneIcon {
+  color: #10b981;
+}
+
+.next .milestoneIcon {
+  color: #3b82f6;
+}
+
+.timelineLine {
+  width: 2px;
+  height: 40px;
+  background: #e5e7eb;
+  margin-top: 8px;
+}
+
+.completedLine {
+  background: #10b981;
+}
+
+.milestoneContent {
+  flex: 1;
+}
+
+.milestoneHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.milestoneTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.completed .milestoneTitle {
+  color: #059669;
+}
+
+.milestoneTime {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.milestoneDescription {
+  color: #4b5563;
+  margin: 0 0 12px 0;
+  line-height: 1.5;
+}
+
+.milestoneSkills {
+  margin-bottom: 12px;
+}
+
+.milestoneSkills strong {
+  font-size: 0.875rem;
+  color: #374151;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.skillTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.skillTag {
+  background: #e5e7eb;
+  color: #374151;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.completed .skillTag {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.completionBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #059669;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.badgeIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.projectCompletion {
+  margin-top: 32px;
+  padding: 24px;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid #f59e0b;
+}
+
+.completionIcon {
+  width: 32px;
+  height: 32px;
+  color: #f59e0b;
+  margin-bottom: 12px;
+}
+
+.projectCompletion h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #92400e;
+  margin: 0 0 8px 0;
+}
+
+.projectCompletion p {
+  color: #92400e;
+  margin: 0 0 24px 0;
+  font-weight: 500;
+}
+
+.completionSummary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 24px;
+  text-align: left;
+}
+
+.achievementSummary h5,
+.nextJourney h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #92400e;
+  margin: 0 0 16px 0;
+}
+
+.achievementGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.achievementItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.achievementIcon {
+  width: 16px;
+  height: 16px;
+  color: #f59e0b;
+  flex-shrink: 0;
+}
+
+.achievementItem span {
+  color: #92400e;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.journeyOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.journeyButton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.journeyButton:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
+}
+
+.journeyIcon {
+  width: 20px;
+  height: 20px;
+  color: #f59e0b;
+  flex-shrink: 0;
+}
+
+.journeyButton div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.journeyButton strong {
+  color: #92400e;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.journeyButton span {
+  color: #a16207;
+  font-size: 0.8rem;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.emptyIcon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 12px;
+}
+
+.empty p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .milestoneTracker {
+    padding: 20px;
+  }
+  
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .statCard {
+    padding: 12px;
+  }
+  
+  .statNumber {
+    font-size: 1.125rem;
+  }
+  
+  .nextMilestone {
+    padding: 16px;
+  }
+  
+  .milestoneItem {
+    padding: 12px;
+  }
+  
+  .milestoneHeader {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .skillTags {
+    gap: 4px;
+  }
+  
+  .skillTag {
+    font-size: 0.7rem;
+    padding: 3px 6px;
+  }
+  
+  .completionSummary {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .journeyButton {
+    padding: 10px;
+  }
+  
+  .journeyButton strong {
+    font-size: 0.85rem;
+  }
+  
+  .journeyButton span {
+    font-size: 0.75rem;
+  }
+  
+  .achievementItem {
+    padding: 6px 10px;
+  }
+  
+  .achievementItem span {
+    font-size: 0.8rem;
+  }
+}

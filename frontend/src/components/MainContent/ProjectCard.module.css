@@ -1,0 +1,509 @@
+.projectCard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+}
+
+.projectCard:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.learningPlan {
+  border-left: 4px solid #3b82f6;
+  background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.titleSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  width: fit-content;
+}
+
+.statusPending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.statusAccepted {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.statusCompleted {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.statusRejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.statusIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.difficulty {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.difficultyIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.cardBody {
+  margin-bottom: 20px;
+}
+
+.description {
+  color: #4b5563;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+}
+
+.metadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.metadataItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.metadataIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.expandedContent {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.expandedContent h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 12px 0;
+}
+
+.projectList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.projectItem {
+  padding: 8px 0;
+  color: #4b5563;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #f3f4f6;
+  position: relative;
+  padding-left: 20px;
+}
+
+.projectItem:before {
+  content: '•';
+  color: #3b82f6;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+.projectItem:last-child {
+  border-bottom: none;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.detailsButton {
+  background: none;
+  border: 1px solid #d1d5db;
+  color: #6b7280;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.detailsButton:hover {
+  background: #f9fafb;
+  color: #374151;
+  border-color: #9ca3af;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.actionButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.acceptButton {
+  background: #10b981;
+  color: white;
+}
+
+.acceptButton:hover:not(:disabled) {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.rejectButton {
+  background: #ef4444;
+  color: white;
+}
+
+.rejectButton:hover:not(:disabled) {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+.actionIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.progressSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Enhanced responsive design - Mobile-first approach */
+@media (max-width: 768px) {
+  .projectCard {
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+    border-radius: var(--radius-lg);
+    /* Better touch interaction */
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .projectCard:hover {
+    /* Reduce hover effects on mobile */
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cardHeader {
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: flex-start;
+  }
+  
+  .title {
+    font-size: var(--text-xl);
+    line-height: 1.3;
+  }
+  
+  .status {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-sm);
+  }
+  
+  .description {
+    font-size: var(--text-base);
+    line-height: 1.7;
+    margin-bottom: var(--space-4);
+  }
+  
+  .metadata {
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+  
+  .metadataItem {
+    font-size: var(--text-base);
+    gap: var(--space-2);
+  }
+  
+  .metadataIcon {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .cardFooter {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
+  
+  .detailsButton {
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-base);
+    min-height: 48px;
+    border-radius: var(--radius-lg);
+  }
+  
+  .actions {
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+  
+  .actionButton {
+    flex: 1;
+    justify-content: center;
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--text-base);
+    min-height: 52px;
+    border-radius: var(--radius-lg);
+    /* Better touch feedback */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
+  }
+  
+  .actionIcon {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .progressSection {
+    gap: var(--space-3);
+  }
+  
+  .progressBar {
+    height: 10px;
+    border-radius: var(--radius-md);
+  }
+  
+  .progressText {
+    font-size: var(--text-base);
+  }
+  
+  .expandedContent {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+  }
+  
+  .projectItem {
+    padding: var(--space-3) 0;
+    font-size: var(--text-base);
+    padding-left: var(--space-6);
+  }
+}
+
+@media (max-width: 480px) {
+  .projectCard {
+    padding: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+  
+  .title {
+    font-size: var(--text-lg);
+  }
+  
+  .description {
+    font-size: var(--text-sm);
+  }
+  
+  .metadataItem {
+    font-size: var(--text-sm);
+  }
+  
+  .detailsButton {
+    padding: var(--space-3);
+    font-size: var(--text-sm);
+    min-height: 44px;
+  }
+  
+  .actionButton {
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-sm);
+    min-height: 48px;
+  }
+  
+  .actions {
+    gap: var(--space-2);
+  }
+  
+  .progressText {
+    font-size: var(--text-sm);
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .projectCard {
+    /* Remove hover effects on touch devices */
+    transition: box-shadow var(--transition-fast);
+  }
+  
+  .projectCard:hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .detailsButton:hover,
+  .actionButton:hover {
+    transform: none;
+  }
+  
+  .actionButton:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+  
+  /* Larger touch targets */
+  .detailsButton,
+  .actionButton {
+    min-height: 52px;
+    padding: var(--space-4) var(--space-5);
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .cardHeader {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .metadata {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+  
+  .cardFooter {
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .actions {
+    flex-direction: row;
+    width: auto;
+  }
+  
+  .actionButton {
+    flex: 0 0 auto;
+    min-width: 120px;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .projectCard {
+    border-width: 2px;
+  }
+  
+  .detailsButton,
+  .actionButton {
+    border-width: 2px;
+  }
+  
+  .learningPlan {
+    border-left-width: 6px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .projectCard,
+  .detailsButton,
+  .actionButton {
+    transition: none;
+  }
+  
+  .projectCard:hover,
+  .detailsButton:hover,
+  .actionButton:hover {
+    transform: none;
+  }
+  
+  .progressFill {
+    transition: none;
+  }
+}

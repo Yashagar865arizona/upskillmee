@@ -1,0 +1,469 @@
+.onboardingContainer {
+  display: flex;
+  /* justify-content: space-between; */
+  /* align-items: center; */
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7ff, #e3ebff);
+  /* padding: 30px; */
+  font-family: "Inter", sans-serif;
+}
+
+
+.onboardingCard {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  padding: 40px 30px;
+  width: 100%;
+  /* max-width: 550px; */
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.onboardingCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+}
+
+
+.stepTitle {
+  font-size: 30px;
+  font-weight: 700;
+  color: #161340;
+  margin-bottom: 24px;
+}
+
+
+.progressBarBackground {
+  width: 100%;
+  background-color: #e0e0e0;
+  height: 12px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background-color: #7884ff;
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+
+.onboardingForm {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  text-align: left;
+}
+
+
+.question {
+  font-size: 16px;
+  font-weight: 500;
+  color: #161340;
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+
+
+.inputField,
+.onboardingForm select {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.inputField:focus,
+.onboardingForm select:focus {
+  border-color: #7884ff;
+  box-shadow: 0 0 0 2px rgba(120, 132, 255, 0.2);
+}
+
+
+.nextButton,
+.startButton {
+  padding: 14px 36px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nextButton {
+  background-color: #7884ff;
+  color: #fff;
+}
+
+.nextButton:hover:not(:disabled) {
+  background-color: #5f6eff;
+  transform: translateY(-2px);
+}
+
+.nextButton:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.backButton {
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 12px;
+  background-color: #e0e0e0;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.backButton:hover:not(:disabled) {
+  background-color: #cfd0d4;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 20px;
+}
+
+
+.prefGrid,
+.projectCards,
+.learningGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.prefGrid {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.projectCards {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+.learningGrid {
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+.prefCard,
+.projectCard,
+.learningCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 14px;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  transition: all 0.2s ease;
+}
+
+.prefCard input,
+.projectCard input,
+.learningCard input {
+  display: none;
+}
+
+.prefCard:hover,
+.projectCard:hover,
+.learningCard:hover {
+  border-color: #7884ff;
+  background-color: #f0f4ff;
+}
+
+.selectedCard {
+  border-color: #7884ff;
+  background-color: #dfe4ff;
+  font-weight: 500;
+}
+
+.welcomeContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  
+  width: 100vw;
+  height: 100vh;
+
+  padding: 4rem;
+  overflow: hidden;
+
+  background: linear-gradient(135deg, #4a6cf7, #6c5ce7, #a29bfe);
+  color: #fff;
+}
+
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.15), transparent 70%),
+              radial-gradient(circle at bottom right, rgba(0,0,0,0.2), transparent 70%);
+  z-index: 1;
+}
+
+.welcomeContent {
+  flex: 1;
+  max-width: 600px;
+  z-index: 2;
+}
+
+.welcomeTitle {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.brandName {
+  color: #ffe082;
+}
+
+.welcomeSubtitle {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  color: #f5f5f5;
+}
+
+.startButton {
+  background: #ffe082;
+  color: #333;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+.startButton:hover {
+  background: #ffca28;
+  transform: translateY(-3px);
+}
+
+.welcomeImageWrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.welcomeImage {
+  max-width: 450px;
+  width: 100%;
+  height: auto;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+}
+.completeContainer {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  overflow: hidden;
+  text-align: center;
+  color: #fff;
+  padding: 2rem;
+  border-radius: 2rem;
+}
+
+.completeCard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px);
+  border-radius: 2rem;
+  padding: 3rem 2rem;
+  max-width: 600px;
+  box-shadow: 0px 10px 40px rgba(0,0,0,0.3);
+  animation: fadeInUp 1s ease;
+}
+
+.completeImage {
+  width: 120px;
+  margin: 0 auto 1rem;
+  animation: bounce 2s infinite;
+}
+
+.completeTitle {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.completeSubtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.completeButton {
+  background: #fff;
+  color: #2575fc;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 0.9rem 2rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.completeButton:hover {
+  background: #f2f2f2;
+  transform: scale(1.05);
+}
+
+
+.confetti::before,
+.confetti::after {
+  content: "🎊 🎉 ✨ 🎈 🎊";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  font-size: 2rem;
+  transform: translateX(-50%);
+  animation: fall 5s linear infinite;
+}
+
+.confetti::after {
+  top: -100px;
+  animation-delay: 2.5s;
+}
+
+@keyframes fall {
+  from { transform: translateX(-50%) translateY(-100vh) rotate(0deg); }
+  to { transform: translateX(-50%) translateY(100vh) rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.overlaycomplition {
+  position: fixed;
+  inset: 0; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.7); 
+  z-index: 9999;
+  pointer-events: all;
+
+}
+
+
+.gradientBg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, #4ade80, #2563eb, #0f172a);
+  opacity: 0.3;
+  animation: pulseBg 6s infinite alternate;
+   pointer-events: none; /* clicks pass through */
+  z-index: 1;
+}
+
+@keyframes pulseBg {
+  from { opacity: 0.3; }
+  to { opacity: 0.6; }
+}
+
+.card {
+  background: #1e293b;
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  text-align: center;
+  color: white;
+  position: relative;
+  box-shadow: 0 0 40px rgba(0, 255, 200, 0.3);
+  overflow: hidden;
+  pointer-events: all;
+  z-index: 10000;
+}
+
+.ring {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: calc(100% + 40px);
+  height: calc(100% + 40px);
+  border: 3px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.checkCircle {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 15px #4ade80);
+}
+
+.title {
+  font-size: 2rem;
+  margin: 0.5rem 0;
+  font-weight: bold;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: #cbd5e1;
+}
+
+.progressBar {
+  height: 8px;
+  background: linear-gradient(90deg, #4ade80, #22d3ee, #2563eb);
+  border-radius: 9999px;
+  margin: 1rem 0 2rem;
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.6);
+}
+
+.iconRow {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.button {
+  background: linear-gradient(90deg, #4ade80, #22d3ee, #2563eb);
+  border: none;
+  color: white;
+  padding: 0.8rem 1.8rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  pointer-events: all;
+}

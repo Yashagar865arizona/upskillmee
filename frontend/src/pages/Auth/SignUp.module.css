@@ -1,0 +1,223 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
+}
+
+.signupCard {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #edf2f7;
+}
+
+.progressBar {
+  height: 100%;
+  background: #4299e1;
+  transition: width 0.3s ease;
+}
+
+.stepHeader {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.stepHeader h2 {
+  font-size: 24px;
+  color: #2d3748;
+  margin: 0 0 8px;
+}
+
+.stepHeader p {
+  font-size: 16px;
+  color: #718096;
+  margin: 0;
+}
+
+.step {
+  margin-top: 20px;
+}
+
+.field {
+  margin-bottom: 24px;
+}
+
+.field label {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  color: #2d3748;
+  margin-bottom: 8px;
+}
+
+.input, .select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.2s;
+  background: white;
+}
+
+.input:focus, .select:focus {
+  border-color: #4299e1;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+.optionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+}
+
+.checkbox:hover {
+  border-color: #4299e1;
+  background: #ebf8ff;
+}
+
+.checkbox input {
+  margin-right: 12px;
+  width: 18px;
+  height: 18px;
+}
+
+.checkbox span {
+  font-size: 14px;
+  color: #2d3748;
+  line-height: 1.4;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+}
+
+.nextButton, .backButton {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.nextButton {
+  background: #4299e1;
+  color: white;
+  border: none;
+}
+
+.nextButton:hover {
+  background: #3182ce;
+}
+
+.backButton {
+  background: transparent;
+  color: #4299e1;
+  border: 2px solid #4299e1;
+}
+
+.backButton:hover {
+  background: #ebf8ff;
+}
+
+.error {
+  color: #e53e3e;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.submitError {
+  color: #e53e3e;
+  text-align: center;
+  margin-top: 16px;
+  padding: 8px;
+  background: #fff5f5;
+  border-radius: 6px;
+}
+
+.stepCount {
+  text-align: center;
+  margin-top: 24px;
+  color: #718096;
+  font-size: 14px;
+}
+
+/* Animation classes */
+.step {
+  position: relative;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 640px) {
+  .signupCard {
+    padding: 20px;
+  }
+
+  .optionsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .buttons {
+    flex-direction: column-reverse;
+    gap: 12px;
+  }
+
+  .nextButton, .backButton {
+    width: 100%;
+  }
+}

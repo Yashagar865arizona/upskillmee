@@ -1,0 +1,78 @@
+/* Responsive Container Styles */
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Padding variants */
+.padding-none {
+  padding: 0;
+}
+
+.padding-small {
+  padding: var(--space-3);
+}
+
+.padding-medium {
+  padding: var(--space-4);
+}
+
+.padding-large {
+  padding: var(--space-6);
+}
+
+.padding-responsive {
+  padding: var(--space-4);
+}
+
+/* Responsive padding adjustments */
+@media (min-width: 768px) {
+  .padding-responsive {
+    padding: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .padding-responsive {
+    padding: var(--space-8);
+  }
+}
+
+@media (max-width: 480px) {
+  .padding-responsive {
+    padding: var(--space-3);
+  }
+  
+  .padding-small {
+    padding: var(--space-2);
+  }
+  
+  .padding-medium {
+    padding: var(--space-3);
+  }
+  
+  .padding-large {
+    padding: var(--space-4);
+  }
+}
+
+/* Safe area support */
+@supports (padding: max(0px)) {
+  .container {
+    padding-left: max(var(--space-4), env(safe-area-inset-left));
+    padding-right: max(var(--space-4), env(safe-area-inset-right));
+  }
+  
+  @media (min-width: 768px) {
+    .container {
+      padding-left: max(var(--space-6), env(safe-area-inset-left));
+      padding-right: max(var(--space-6), env(safe-area-inset-right));
+    }
+  }
+}

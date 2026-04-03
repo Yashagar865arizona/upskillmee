@@ -1,0 +1,494 @@
+{
+  "timestamp": 1753272260.997097,
+  "data_mapping": {
+    "personal_data_inventory": {
+      "User": {
+        "direct_identifiers": [
+          "id",
+          "email",
+          "name"
+        ],
+        "indirect_identifiers": [
+          "created_at",
+          "updated_at"
+        ],
+        "sensitive_data": [],
+        "purpose": "User account management and authentication"
+      },
+      "UserProfile": {
+        "direct_identifiers": [
+          "user_id"
+        ],
+        "indirect_identifiers": [
+          "preferences",
+          "settings"
+        ],
+        "sensitive_data": [],
+        "purpose": "User personalization and preferences"
+      },
+      "Message": {
+        "direct_identifiers": [
+          "user_id"
+        ],
+        "indirect_identifiers": [
+          "content",
+          "created_at",
+          "conversation_id"
+        ],
+        "sensitive_data": [
+          "content"
+        ],
+        "purpose": "Chat functionality and AI interaction"
+      },
+      "Conversation": {
+        "direct_identifiers": [
+          "user_id"
+        ],
+        "indirect_identifiers": [
+          "title",
+          "created_at",
+          "updated_at"
+        ],
+        "sensitive_data": [],
+        "purpose": "Chat session management"
+      }
+    },
+    "data_retention_policies": {
+      "policy_documentation": [],
+      "automated_deletion": [
+        {
+          "file": "test_vector_fixes_verification.py",
+          "pattern": "cleanup.*old",
+          "matches": 16
+        },
+        {
+          "file": "test_vector_database_integration.py",
+          "pattern": "cleanup.*old",
+          "matches": 1
+        },
+        {
+          "file": "test_vector_integration_simple.py",
+          "pattern": "cleanup.*old",
+          "matches": 2
+        },
+        {
+          "file": "test_fixes_simple.py",
+          "pattern": "cleanup.*old",
+          "matches": 7
+        },
+        {
+          "file": "tests/test_memory.py",
+          "pattern": "cleanup.*old",
+          "matches": 1
+        },
+        {
+          "file": "scripts/simple_load_test.py",
+          "pattern": "remove.*data",
+          "matches": 1
+        },
+        {
+          "file": "scripts/gdpr_compliance_check.py",
+          "pattern": "delete.*user",
+          "matches": 2
+        },
+        {
+          "file": "scripts/gdpr_compliance_check.py",
+          "pattern": "remove.*data",
+          "matches": 1
+        },
+        {
+          "file": "scripts/gdpr_compliance_check.py",
+          "pattern": "cleanup.*old",
+          "matches": 1
+        },
+        {
+          "file": "scripts/gdpr_compliance_check.py",
+          "pattern": "expire.*after",
+          "matches": 1
+        },
+        {
+          "file": "scripts/gdpr_compliance_check.py",
+          "pattern": "retention.*period",
+          "matches": 5
+        },
+        {
+          "file": "tests/unit/test_database_models.py",
+          "pattern": "delete.*user",
+          "matches": 4
+        },
+        {
+          "file": "app/routers/user_projects_router.py",
+          "pattern": "delete.*user",
+          "matches": 4
+        },
+        {
+          "file": "app/routers/user_router.py",
+          "pattern": "delete.*user",
+          "matches": 3
+        },
+        {
+          "file": "app/tasks/background_tasks.py",
+          "pattern": "cleanup.*old",
+          "matches": 1
+        },
+        {
+          "file": "app/api/admin.py",
+          "pattern": "cleanup.*old",
+          "matches": 2
+        },
+        {
+          "file": "app/services/embedding_service.py",
+          "pattern": "remove.*data",
+          "matches": 1
+        },
+        {
+          "file": "app/services/embedding_service.py",
+          "pattern": "cleanup.*old",
+          "matches": 2
+        },
+        {
+          "file": "app/services/data_management_service.py",
+          "pattern": "delete.*user",
+          "matches": 1
+        },
+        {
+          "file": "app/services/data_management_service.py",
+          "pattern": "cleanup.*old",
+          "matches": 4
+        },
+        {
+          "file": "app/services/data_management_service.py",
+          "pattern": "retention.*period",
+          "matches": 1
+        },
+        {
+          "file": "app/services/user_service.py",
+          "pattern": "delete.*user",
+          "matches": 5
+        },
+        {
+          "file": "app/services/memory_service.py",
+          "pattern": "cleanup.*old",
+          "matches": 1
+        },
+        {
+          "file": "app/services/optimized_message_queries.py",
+          "pattern": "cleanup.*old",
+          "matches": 1
+        },
+        {
+          "file": "app/services/analytics_service.py",
+          "pattern": "cleanup.*old",
+          "matches": 1
+        }
+      ],
+      "retention_periods_defined": false,
+      "recommendation": "Define clear retention periods for each data category"
+    },
+    "processing_purposes": {
+      "authentication": {
+        "data_used": [
+          "email",
+          "password_hash",
+          "user_id"
+        ],
+        "legal_basis": "Contract performance",
+        "purpose": "User authentication and account management"
+      },
+      "chat_functionality": {
+        "data_used": [
+          "user_id",
+          "message_content",
+          "conversation_history"
+        ],
+        "legal_basis": "Contract performance / Legitimate interest",
+        "purpose": "Provide AI chat services"
+      },
+      "personalization": {
+        "data_used": [
+          "user_preferences",
+          "usage_patterns"
+        ],
+        "legal_basis": "Consent / Legitimate interest",
+        "purpose": "Personalize user experience"
+      },
+      "analytics": {
+        "data_used": [
+          "usage_statistics",
+          "performance_metrics"
+        ],
+        "legal_basis": "Legitimate interest",
+        "purpose": "Service improvement and analytics"
+      }
+    },
+    "data_categories": {
+      "identity_data": [
+        "name",
+        "email",
+        "user_id"
+      ],
+      "contact_data": [
+        "email"
+      ],
+      "technical_data": [
+        "ip_address",
+        "session_data",
+        "device_info"
+      ],
+      "usage_data": [
+        "message_content",
+        "conversation_history",
+        "preferences"
+      ],
+      "special_categories": [],
+      "criminal_data": []
+    },
+    "third_party_sharing": {
+      "ai_services": {
+        "provider": "OpenAI / AI Service Provider",
+        "data_shared": [
+          "message_content",
+          "conversation_context"
+        ],
+        "purpose": "AI response generation",
+        "safeguards": "Data processing agreement required"
+      },
+      "analytics_services": {
+        "provider": "Analytics Provider (if any)",
+        "data_shared": [
+          "usage_statistics",
+          "performance_metrics"
+        ],
+        "purpose": "Service analytics and improvement",
+        "safeguards": "Anonymization and aggregation"
+      },
+      "recommendation": "Ensure all third-party processors have DPAs in place"
+    },
+    "cross_border_transfers": {
+      "transfers_identified": true,
+      "destinations": [
+        "United States (AI services)",
+        "Cloud providers"
+      ],
+      "transfer_mechanisms": [
+        "Standard Contractual Clauses",
+        "Adequacy decisions"
+      ],
+      "safeguards": "Data processing agreements with adequate safeguards",
+      "recommendation": "Ensure all transfers comply with Chapter V GDPR"
+    }
+  },
+  "user_rights": {
+    "right_to_information": {
+      "privacy_notice_available": true,
+      "information_provided": {
+        "controller_identity": "Required",
+        "processing_purposes": "Required",
+        "legal_basis": "Required",
+        "retention_periods": "Required",
+        "user_rights": "Required",
+        "complaint_right": "Required"
+      },
+      "compliance_status": "Partial - Privacy notice needs review",
+      "recommendation": "Ensure comprehensive privacy notice covers all required elements"
+    },
+    "right_of_access": {
+      "data_access_endpoint": true,
+      "endpoints_found": [
+        "@.*\\.route.*export",
+        "@.*\\.route.*download",
+        "@.*\\.route.*data",
+        "def.*export.*data",
+        "def.*download.*data",
+        "def export_user_data",
+        "def export_data",
+        "def export_user_data"
+      ],
+      "data_provided": {
+        "personal_data_copy": "Required",
+        "processing_purposes": "Required",
+        "data_categories": "Required",
+        "recipients": "Required",
+        "retention_period": "Required",
+        "user_rights": "Required",
+        "data_source": "Required"
+      },
+      "response_timeframe": "30 days maximum",
+      "compliance_status": "Needs implementation",
+      "recommendation": "Implement user data access endpoint"
+    },
+    "right_to_rectification": {
+      "user_profile_update": "Available through user profile endpoints",
+      "data_correction_mechanism": "Partial - user can update profile",
+      "notification_to_recipients": "Needs implementation",
+      "compliance_status": "Partial",
+      "recommendation": "Ensure all personal data can be corrected by users"
+    },
+    "right_to_erasure": {
+      "account_deletion_available": true,
+      "deletion_endpoints": [
+        "@.*\\.route.*delete",
+        "@.*\\.route.*remove",
+        "def.*delete.*user",
+        "def.*remove.*account",
+        "def test_user_profile_cascade_delete(self, test_db_session, test_user, test_user",
+        "def delete_user",
+        "def delete_user",
+        "def delete_user_data(self, user"
+      ],
+      "complete_data_removal": "Needs verification",
+      "anonymization_option": "Needs implementation",
+      "notification_to_recipients": "Needs implementation",
+      "exceptions_handling": {
+        "freedom_of_expression": "Not applicable",
+        "legal_obligations": "Consider retention requirements",
+        "public_interest": "Not applicable"
+      },
+      "compliance_status": "Needs improvement",
+      "recommendation": "Implement comprehensive data deletion with proper anonymization"
+    },
+    "right_to_restrict_processing": {
+      "processing_restriction_mechanism": "Needs implementation",
+      "account_suspension_option": "Needs implementation",
+      "data_marking_system": "Needs implementation",
+      "compliance_status": "Not implemented",
+      "recommendation": "Implement processing restriction controls"
+    },
+    "right_to_data_portability": {
+      "data_export_format": "JSON format recommended",
+      "structured_data_export": "Needs implementation",
+      "machine_readable_format": "Needs implementation",
+      "direct_transmission": "Not applicable for this service",
+      "compliance_status": "Needs implementation",
+      "recommendation": "Implement structured data export in JSON/CSV format"
+    },
+    "right_to_object": {
+      "objection_mechanism": "Needs implementation",
+      "marketing_opt_out": "Not applicable - no marketing",
+      "profiling_opt_out": "Consider if AI personalization constitutes profiling",
+      "legitimate_interest_override": "Needs assessment",
+      "compliance_status": "Needs implementation",
+      "recommendation": "Implement objection mechanism for legitimate interest processing"
+    },
+    "rights_related_to_automated_decision_making": {
+      "automated_decisions_present": "AI responses may constitute automated processing",
+      "human_intervention_available": "Needs implementation",
+      "decision_explanation": "AI response generation should be explainable",
+      "decision_challenge": "Needs implementation",
+      "compliance_status": "Needs assessment",
+      "recommendation": "Assess if AI responses constitute automated decision-making under Article 22"
+    }
+  },
+  "consent_management": {
+    "consent_collection": {
+      "explicit_consent": "Needs implementation for non-essential processing",
+      "informed_consent": "Privacy notice must be clear and accessible",
+      "freely_given": "Ensure consent is not bundled with service access",
+      "specific_consent": "Separate consent for different purposes",
+      "consent_mechanism": "Checkboxes, opt-in forms needed",
+      "compliance_status": "Needs implementation",
+      "recommendation": "Implement explicit consent collection for optional processing"
+    },
+    "consent_withdrawal": {
+      "withdrawal_mechanism": "Needs implementation",
+      "easy_withdrawal": "Must be as easy as giving consent",
+      "withdrawal_effects": "Must stop processing based on consent",
+      "user_notification": "Inform users about withdrawal consequences",
+      "compliance_status": "Needs implementation",
+      "recommendation": "Implement easy consent withdrawal mechanism"
+    },
+    "consent_records": {
+      "consent_logging": "Needs implementation",
+      "consent_timestamp": "Record when consent was given",
+      "consent_version": "Track privacy policy versions",
+      "consent_method": "Record how consent was obtained",
+      "consent_scope": "Record what was consented to",
+      "compliance_status": "Needs implementation",
+      "recommendation": "Implement comprehensive consent logging system"
+    },
+    "granular_consent": {
+      "separate_purposes": "Allow consent for different processing purposes",
+      "optional_features": "Separate consent for optional features",
+      "marketing_consent": "Not applicable - no marketing",
+      "analytics_consent": "Consider separate consent for analytics",
+      "compliance_status": "Needs implementation",
+      "recommendation": "Provide granular consent options for different purposes"
+    },
+    "child_consent": {
+      "age_verification": "Needs implementation if service available to children",
+      "parental_consent": "Required for children under 16 (or national age)",
+      "child_data_protection": "Enhanced protection for children's data",
+      "age_appropriate_design": "Consider age-appropriate design principles",
+      "compliance_status": "Needs assessment",
+      "recommendation": "Assess if service is offered to children and implement appropriate safeguards"
+    }
+  },
+  "data_protection": {
+    "data_protection_by_design": {
+      "privacy_impact_assessment": "Needs documentation",
+      "privacy_considerations": "Should be integrated in development process",
+      "data_minimization": "Collect only necessary data",
+      "purpose_limitation": "Use data only for stated purposes",
+      "storage_limitation": "Implement data retention policies",
+      "compliance_status": "Partial",
+      "recommendation": "Integrate privacy considerations into development lifecycle"
+    },
+    "data_protection_by_default": {
+      "default_privacy_settings": "Most privacy-friendly settings by default",
+      "opt_in_not_opt_out": "Use opt-in for non-essential processing",
+      "minimal_data_processing": "Process minimal data by default",
+      "user_control": "Give users control over their data",
+      "compliance_status": "Needs improvement",
+      "recommendation": "Ensure privacy-friendly default settings"
+    },
+    "technical_measures": {
+      "encryption_at_rest": "Database encryption needed",
+      "encryption_in_transit": "HTTPS/TLS implemented",
+      "access_controls": "Role-based access control needed",
+      "authentication": "Strong authentication implemented",
+      "audit_logging": "Comprehensive audit logging needed",
+      "data_anonymization": "Anonymization techniques needed",
+      "compliance_status": "Partial",
+      "recommendation": "Implement comprehensive technical security measures"
+    },
+    "organizational_measures": {
+      "staff_training": "Privacy training for staff needed",
+      "access_management": "Staff access controls needed",
+      "incident_response": "Data breach response procedures needed",
+      "vendor_management": "Data processing agreements with vendors",
+      "privacy_policies": "Internal privacy policies needed",
+      "compliance_status": "Needs implementation",
+      "recommendation": "Implement organizational security measures and staff training"
+    },
+    "data_breach_procedures": {
+      "breach_detection": "Automated breach detection needed",
+      "authority_notification": "72-hour notification procedure needed",
+      "user_notification": "User notification procedure for high-risk breaches",
+      "breach_documentation": "Breach register needed",
+      "breach_assessment": "Risk assessment procedures needed",
+      "compliance_status": "Needs implementation",
+      "recommendation": "Implement comprehensive data breach response procedures"
+    }
+  },
+  "privacy_controls": {},
+  "documentation": {},
+  "technical_measures": {},
+  "compliance_score": 16,
+  "recommendations": [
+    "Implement comprehensive privacy notice covering all GDPR requirements",
+    "Create user data access and export functionality",
+    "Implement account deletion with proper data anonymization",
+    "Establish consent management system with granular controls",
+    "Implement data retention policies with automated deletion",
+    "Create data breach response procedures and notification systems",
+    "Conduct privacy impact assessment for AI processing",
+    "Establish data processing agreements with third-party providers",
+    "Implement technical security measures (encryption, access controls)",
+    "Provide staff training on GDPR compliance and data protection",
+    "Create internal privacy policies and procedures",
+    "Implement audit logging and monitoring systems",
+    "Establish user rights fulfillment procedures",
+    "Consider appointing Data Protection Officer if required",
+    "Regular compliance audits and assessments"
+  ]
+}

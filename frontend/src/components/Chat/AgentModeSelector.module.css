@@ -1,0 +1,236 @@
+.agentModeSelector {
+  position: relative;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.modeIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 10px;
+  background: linear-gradient(135deg, rgba(79, 63, 230, 0.12), rgba(22, 19, 64, 0.08));
+  border: 1px solid rgba(79, 63, 230, 0.25);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #4f3fe6;
+  outline: none;
+  width: fit-content;
+  box-shadow: 0px 1px 3px rgba(79, 63, 230, 0.15);
+}
+
+.modeIndicator:hover {
+  background: linear-gradient(135deg, rgba(79, 63, 230, 0.18), rgba(22, 19, 64, 0.12));
+  border-color: rgba(79, 63, 230, 0.4);
+  color: #3B2DD5;
+  transform: translateY(-1px);
+  box-shadow: 0px 2px 8px rgba(79, 63, 230, 0.2);
+}
+
+.modeIndicator:focus {
+  border-color: rgba(79, 63, 230, 0.9);
+  box-shadow: 0 0 0 3px rgba(59, 45, 213, 0.15);
+}
+
+.name {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.arrow {
+  font-size: 10px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+  opacity: 0.7;
+}
+
+.arrowOpen {
+  transform: rotate(180deg);
+}
+
+.modeDropdown {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 8px;
+  background: #FFFFFF;
+  border: 1px solid #E2E2E4;
+  border-radius: 16px;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.12), 0px 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  min-width: 240px;
+  animation: slideUp 0.15s ease-out;
+  z-index: 100;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+.modeOption {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  outline: none;
+  text-align: left;
+}
+
+.modeOption:hover {
+  background: rgba(22, 19, 64, 0.04);
+}
+
+.modeOption.active {
+  background: rgba(59, 45, 213, 0.08);
+}
+
+.modeOption:focus {
+  background: rgba(22, 19, 64, 0.06);
+}
+
+.optionText {
+  flex: 1;
+  min-width: 0;
+}
+
+.optionName {
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #161340;
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+
+.optionDesc {
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: #6B7280;
+  line-height: 1.3;
+}
+
+.check {
+  font-size: 12px;
+  font-weight: 600;
+  color: #3B2DD5;
+  flex-shrink: 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .agentModeSelector {
+    margin-top: 10px;
+  }
+  
+  .modeIndicator {
+    padding: 6px 12px;
+    font-size: 11px;
+    gap: 6px;
+  }
+  
+  .name {
+    font-size: 11px;
+  }
+  
+  .arrow {
+    font-size: 9px;
+  }
+  
+  .modeDropdown {
+    min-width: 220px;
+  }
+  
+  .modeOption {
+    padding: 8px 14px;
+    gap: 8px;
+  }
+  
+  .optionName {
+    font-size: 12px;
+  }
+  
+  .optionDesc {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .agentModeSelector {
+    margin-top: 8px;
+  }
+  
+  .modeIndicator {
+    padding: 5px 10px;
+    font-size: 10px;
+    gap: 5px;
+  }
+  
+  .name {
+    font-size: 10px;
+  }
+  
+  .arrow {
+    font-size: 8px;
+  }
+  
+  .modeDropdown {
+    min-width: 200px;
+  }
+  
+  .modeOption {
+    padding: 7px 12px;
+  }
+  
+  .optionName {
+    font-size: 11px;
+  }
+  
+  .optionDesc {
+    font-size: 9px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .modeDropdown {
+    background: #2D3748;
+    border-color: #4A5568;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
+  }
+  
+  .modeOption:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+  
+  .modeOption.active {
+    background: rgba(59, 45, 213, 0.2);
+  }
+  
+  .optionName {
+    color: #E2E8F0;
+  }
+  
+  .optionDesc {
+    color: #A0AEC0;
+  }
+} 

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Storybook</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #fdf6e3; }
+        nav { background-color: #ffefd5; padding: 1rem; }
+        nav ul { list-style: none; display: flex; gap: 1rem; padding: 0; margin: 0; }
+        nav a { text-decoration: none; color: #333; font-weight: bold; }
+        .chapter { display: none; padding: 2rem; }
+        .chapter.active { display: block; }
+        button { margin-top: 1rem; padding: 0.5rem 1rem; font-size: 1rem; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="#" data-chapter="1">Chapter 1</a></li>
+            <li><a href="#" data-chapter="2">Chapter 2</a></li>
+            <li><a href="#" data-chapter="3">Chapter 3</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div id="chapter1" class="chapter active">
+            <h1>Chapter 1: The Beginning</h1>
+            <p>Once upon a time, in a whimsical land...</p>
+            <button data-next="2">Next Chapter</button>
+        </div>
+        <div id="chapter2" class="chapter">
+            <h1>Chapter 2: The Adventure</h1>
+            <p>Our hero ventured into the magical forest...</p>
+            <button data-next="3">Next Chapter</button>
+        </div>
+        <div id="chapter3" class="chapter">
+            <h1>Chapter 3: The Ending</h1>
+            <p>And finally, the hero returned home, wiser and happy...</p>
+            <button data-next="1">Restart Story</button>
+        </div>
+    </main>
+
+    <script>
+        const links = document.querySelectorAll('nav a');
+        const chapters = document.querySelectorAll('.chapter');
+        const buttons = document.querySelectorAll('button[data-next]');
+
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = link.dataset.chapter;
+                showChapter(target);
+            });
+        });
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const next = btn.dataset.next;
+                showChapter(next);
+            });
+        });
+
+        function showChapter(chapterNum) {
+            chapters.forEach(c => c.classList.remove('active'));
+            document.getElementById('chapter' + chapterNum).classList.add('active');
+        }
+    </script>
+
+</body>
+</html>

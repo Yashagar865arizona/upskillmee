@@ -1,0 +1,196 @@
+{
+  "audit_timestamp": "2025-07-24T05:57:21.641165+00:00",
+  "overall_score": 70.625,
+  "security_score": 91.25,
+  "performance_score": 50.0,
+  "summary": {
+    "total_tests": 14,
+    "passed_tests": 8,
+    "failed_tests": 6,
+    "success_rate": 57.14285714285714
+  },
+  "security_issues": [
+    "Admin API key is weak or missing",
+    "Input validation schemas not found"
+  ],
+  "performance_issues": [
+    "Pydantic validation schemas not found",
+    "Database performance test failed: Not an executable object: 'SELECT 1'",
+    "No API performance data available",
+    "Connection pooling audit failed: 'QueuePool' object has no attribute 'invalid'"
+  ],
+  "detailed_results": {
+    "Configuration Security": {
+      "passed": false,
+      "issues": [
+        "Admin API key is weak or missing"
+      ],
+      "checks": {
+        "jwt_secret": true,
+        "admin_api_key": false,
+        "environment": true,
+        "database_url": true,
+        "cors_security": true
+      },
+      "score": 80.0
+    },
+    "Authentication Security": {
+      "passed": true,
+      "issues": [],
+      "checks": {
+        "jwt_algorithm": true,
+        "token_blacklist": true,
+        "password_hashing": true,
+        "auth_service": true
+      },
+      "score": 100.0
+    },
+    "API Security": {
+      "passed": false,
+      "issues": [
+        "Input validation schemas not found"
+      ],
+      "checks": {
+        "security_middleware": true,
+        "rate_limiting": true,
+        "input_validation": false,
+        "api_versioning": true
+      },
+      "score": 75.0
+    },
+    "Data Encryption": {
+      "passed": true,
+      "issues": [],
+      "checks": {
+        "database_ssl": true,
+        "sensitive_data_handling": true,
+        "api_key_format": true,
+        "redis_auth": true
+      },
+      "score": 100.0
+    },
+    "Rate Limiting": {
+      "passed": true,
+      "issues": [],
+      "checks": {
+        "rate_limit_config": true,
+        "redis_available": true,
+        "rate_limiting_library": true
+      },
+      "score": 100.0
+    },
+    "CORS Configuration": {
+      "passed": true,
+      "issues": [],
+      "checks": {
+        "cors_origins": true,
+        "production_cors": true,
+        "cors_methods": true,
+        "cors_headers": true
+      },
+      "score": 100.0
+    },
+    "Input Validation": {
+      "passed": false,
+      "issues": [
+        "Pydantic validation schemas not found"
+      ],
+      "checks": {
+        "pydantic_validation": false,
+        "sqlalchemy_protection": true,
+        "xss_protection": true,
+        "file_upload_validation": true
+      },
+      "score": 75.0
+    },
+    "SQL Injection Protection": {
+      "passed": true,
+      "issues": [],
+      "checks": {
+        "sqlalchemy_engine": true,
+        "parameterized_queries": true,
+        "raw_sql_protection": true
+      },
+      "score": 100.0
+    },
+    "Database Performance": {
+      "passed": false,
+      "issues": [
+        "Database performance test failed: Not an executable object: 'SELECT 1'"
+      ],
+      "checks": {
+        "database_available": false
+      },
+      "metrics": {},
+      "score": 0.0
+    },
+    "API Response Times": {
+      "passed": false,
+      "issues": [
+        "No API performance data available"
+      ],
+      "checks": {
+        "monitoring_active": false
+      },
+      "metrics": {},
+      "score": 0.0
+    },
+    "Memory Usage": {
+      "passed": true,
+      "issues": [],
+      "checks": {
+        "memory_usage": true,
+        "memory_percent": true,
+        "memory_stability": true
+      },
+      "metrics": {
+        "memory_usage_mb": 158.875,
+        "memory_percent": 0.8619520399305556
+      },
+      "score": 100.0
+    },
+    "Connection Pooling": {
+      "passed": false,
+      "issues": [
+        "Connection pooling audit failed: 'QueuePool' object has no attribute 'invalid'"
+      ],
+      "checks": {
+        "pooling_available": false
+      },
+      "metrics": {},
+      "score": 0.0
+    },
+    "Caching Efficiency": {
+      "passed": true,
+      "issues": [],
+      "checks": {
+        "redis_available": true,
+        "app_caching": true
+      },
+      "metrics": {
+        "redis_memory_mb": 1.2721405029296875,
+        "redis_keys": 0
+      },
+      "score": 100.0
+    },
+    "Load Testing": {
+      "passed": true,
+      "issues": [],
+      "checks": {
+        "locust_available": true,
+        "load_test_config": true,
+        "basic_performance": true
+      },
+      "metrics": {
+        "simple_test_ms": 1.2929439544677734
+      },
+      "score": 100.0
+    }
+  },
+  "recommendations": [
+    "Address critical security issues identified in the audit",
+    "Optimize performance bottlenecks identified in the audit",
+    "Optimize database queries and connection pooling"
+  ],
+  "risk_assessment": "LOW"
+}

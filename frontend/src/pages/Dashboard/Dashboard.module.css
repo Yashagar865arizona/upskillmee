@@ -1,0 +1,33 @@
+/* src/pages/Dashboard/Dashboard.module.css */
+
+.dashboard {
+  /* background-color: #ffffff; */
+  padding: 10px;
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding-top: 10px;
+  scrollbar-width: thin;            
+  scrollbar-color: var(--fg);
+}
+
+.dashboard h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 32px;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.tasksSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

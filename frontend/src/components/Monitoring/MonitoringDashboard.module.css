@@ -1,0 +1,515 @@
+.dashboard {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header h2 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.refreshSelect {
+  padding: 8px 12px;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  background: white;
+  font-size: 14px;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.refreshSelect:hover {
+  border-color: #3498db;
+}
+
+.refreshButton {
+  padding: 8px 16px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.refreshButton:hover {
+  background: #2980b9;
+}
+
+.healthCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card h3 {
+  margin: 0 0 15px 0;
+  color: #7f8c8d;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.healthStatus {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: capitalize;
+}
+
+.metric {
+  font-size: 14px;
+  color: #7f8c8d;
+  margin: 0;
+}
+
+.alertsSection {
+  margin-bottom: 30px;
+}
+
+.alertsSection h3 {
+  color: #2c3e50;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.alerts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.alert {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.alertHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.alertType {
+  font-weight: 600;
+  color: #2c3e50;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.alertSeverity {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.alertMessage {
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+.metricsSection {
+  margin-bottom: 30px;
+}
+
+.metricsSection h3 {
+  color: #2c3e50;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.metricCard {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.metricCard h4 {
+  margin: 0 0 10px 0;
+  color: #7f8c8d;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metricValue {
+  font-size: 32px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.performanceSection {
+  margin-bottom: 30px;
+}
+
+.performanceSection h3 {
+  color: #2c3e50;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.performanceTable {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.performanceTable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.performanceTable th {
+  background: #f8f9fa;
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+  color: #2c3e50;
+  border-bottom: 1px solid #e1e8ed;
+}
+
+.performanceTable td {
+  padding: 15px;
+  border-bottom: 1px solid #f1f3f4;
+  color: #2c3e50;
+}
+
+.performanceTable tr:last-child td {
+  border-bottom: none;
+}
+
+.endpoint {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 13px;
+  color: #8e44ad;
+}
+
+.errorSection {
+  margin-bottom: 30px;
+}
+
+.errorSection h3 {
+  color: #2c3e50;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.errorStats {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.errorStat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f3f4;
+}
+
+.errorStat:last-child {
+  border-bottom: none;
+}
+
+.errorStat span:first-child {
+  color: #7f8c8d;
+  font-weight: 500;
+}
+
+.errorStat span:last-child {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.errorTypes {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.errorTypes h4 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.errorType {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f3f4;
+}
+
+.errorType:last-child {
+  border-bottom: none;
+}
+
+.errorType span:first-child {
+  color: #e74c3c;
+  font-weight: 500;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 13px;
+}
+
+.errorType span:last-child {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.resourcesSection {
+  margin-bottom: 30px;
+}
+
+.resourcesSection h3 {
+  color: #2c3e50;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.resourcesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.resourceCard {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.resourceCard h4 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background: #ecf0f1;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.progressFill {
+  height: 100%;
+  transition: width 0.3s ease;
+  border-radius: 4px;
+}
+
+.resourceValue {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.adminNote {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: #7f8c8d;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ecf0f1;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #e74c3c;
+}
+
+.error h3 {
+  margin: 0 0 15px 0;
+  font-size: 24px;
+}
+
+.error p {
+  margin: 0 0 20px 0;
+  color: #7f8c8d;
+}
+
+.retryButton {
+  padding: 10px 20px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.retryButton:hover {
+  background: #c0392b;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 15px;
+  }
+  
+  .header {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+  
+  .controls {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .refreshSelect,
+  .refreshButton {
+    width: 100%;
+  }
+  
+  .healthCards {
+    grid-template-columns: 1fr;
+  }
+  
+  .metricsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .resourcesGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .performanceTable {
+    overflow-x: auto;
+  }
+  
+  .performanceTable table {
+    min-width: 600px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard {
+    padding: 10px;
+  }
+  
+  .header {
+    padding: 15px;
+  }
+  
+  .header h2 {
+    font-size: 24px;
+  }
+  
+  .card {
+    padding: 15px;
+  }
+  
+  .healthStatus {
+    font-size: 20px;
+  }
+  
+  .metricValue {
+    font-size: 24px;
+  }
+}

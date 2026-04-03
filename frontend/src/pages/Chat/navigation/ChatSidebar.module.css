@@ -1,0 +1,131 @@
+.chatSidebar {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: rgb(240, 240, 240)
+}
+
+.sidebarWrapper {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+  scroll-behavior: smooth;
+  mask-image: linear-gradient(to bottom, 
+    transparent, 
+    black 10%, 
+    black 90%, 
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(to bottom, 
+    transparent, 
+    black 10%, 
+    black 90%, 
+    transparent
+  );
+}
+
+.sidebarContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: rgb(240, 240, 240)
+}
+
+.sectionContainer {
+  border-radius: 16px;
+  background: var(--surface-surface_1, #f9f9fa);
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3),
+    0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+  width: 100%;
+  flex-shrink: 0;
+  opacity: 0.4;
+  transform: translateY(10px) scale(0.98);
+  transition: all 0.3s ease;
+}
+
+.sectionContainer.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.headerIcon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.sectionTitle {
+  color: var(--text-high_em, #1d1b26);
+  font: 600 20px/1.6 Inter, sans-serif;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+.actionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: white;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background-color 0.2s;
+}
+
+.actionButton:hover {
+  background: #f5f5f5;
+}
+
+.actionIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.actionTitle {
+  color: var(--text-high_em, #1d1b26);
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.chatInput {
+  flex: 1;
+  min-height: 40px;
+  padding: 8px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: none;
+  outline: none;
+  background: white;
+  font-family: inherit;
+}
+
+.chatInput:focus {
+  border-color: #7884ff;
+  box-shadow: 0 0 0 2px rgba(120, 132, 255, 0.2);
+}

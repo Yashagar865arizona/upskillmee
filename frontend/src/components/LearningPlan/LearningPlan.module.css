@@ -1,0 +1,106 @@
+.learningPlan {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.overview {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.prerequisites {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.prerequisites h2 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.prerequisitesList {
+  list-style: none;
+  padding: 0;
+}
+
+.prerequisitesList li {
+  padding: 0.5rem 0;
+  color: #555;
+  display: flex;
+  align-items: center;
+}
+
+.prerequisitesList li:before {
+  content: "•";
+  color: #007bff;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.tasksSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Scrollable container for tasks */
+.tasksContainer {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* Match TaskCard styles */
+.taskCard {
+  background: #f9f9fa;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.empty h2 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+
+.empty p {
+  color: #666;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 400px;
+  margin: 0 auto;
+}

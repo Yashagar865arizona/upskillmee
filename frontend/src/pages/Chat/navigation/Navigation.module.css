@@ -1,0 +1,93 @@
+.navigationContainer {
+  perspective: 2000px;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  background: #FFFFFF;
+}
+
+.scrollContainer {
+  height: 100%;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding: 16px;
+  mask-image: linear-gradient(to bottom, 
+    transparent, 
+    black 10%, 
+    black 90%, 
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(to bottom, 
+    transparent, 
+    black 10%, 
+    black 90%, 
+    transparent
+  );
+  transform-style: preserve-3d;
+  perspective-origin: center top;
+}
+
+/* Custom scrollbar */
+.scrollContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+  background: rgba(120, 132, 255, 0.3);
+  border-radius: 4px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 132, 255, 0.5);
+}
+
+/* Navigation item animations */
+.navigationItem {
+  transform-origin: center;
+  transition: all 0.3s ease-out;
+  position: relative;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+  margin: 8px 0;
+  transform-style: preserve-3d;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: 50% 0%;
+  opacity: 1;
+  margin: 16px 0;
+}
+
+.navigationItem:not(:first-child) {
+  margin-top: -4px;
+}
+
+.navigationItem:hover {
+  transform: translateZ(10px) scale(1.02);
+  z-index: 1;
+}
+
+.navigationItem:hover ~ .navigationItem {
+  transform: translateY(8px) scale(0.98);
+  opacity: 0.8;
+}
+
+/* Intersection Observer classes */
+.navigationItem.visible {
+  transform: translateZ(0) rotateX(0);
+  opacity: 1;
+}
+
+.navigationItem.hidden-top {
+  transform: translateZ(-300px) rotateX(35deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.navigationItem.hidden-bottom {
+  transform: translateZ(-300px) rotateX(-35deg);
+  opacity: 0;
+  pointer-events: none;
+}

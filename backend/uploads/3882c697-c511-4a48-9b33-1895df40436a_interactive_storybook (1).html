@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Storybook</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #fdf6e3;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chapter {
+            display: none;
+            padding: 50px;
+            text-align: center;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .chapter.active {
+            display: block;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .navigation button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            margin: 0 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff6f61;
+            color: white;
+            transition: transform 0.2s;
+        }
+
+        .navigation button:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Chapter 1 -->
+    <div id="chapter1" class="chapter active" style="background-image: url('chapter1-bg.jpg');">
+        <h1>Chapter 1: The Enchanted Forest</h1>
+        <p>Once upon a time, in a mystical forest, magical creatures roamed freely...</p>
+        <div class="interactive-element">
+            <button onclick="alert('You found a hidden fairy!')">Click Me!</button>
+        </div>
+    </div>
+
+    <!-- Chapter 2 -->
+    <div id="chapter2" class="chapter" style="background-image: url('chapter2-bg.jpg');">
+        <h1>Chapter 2: The Hidden Castle</h1>
+        <p>Deep inside the forest, a hidden castle appeared under the moonlight...</p>
+        <div class="interactive-element">
+            <button onclick="alert('A secret passage is revealed!')">Click Me!</button>
+        </div>
+    </div>
+
+    <!-- Chapter 3 -->
+    <div id="chapter3" class="chapter" style="background-image: url('chapter3-bg.jpg');">
+        <h1>Chapter 3: The Magical Quest</h1>
+        <p>Our hero embarks on a magical quest to find the lost treasure...</p>
+        <div class="interactive-element">
+            <button onclick="alert('You found the treasure!')">Click Me!</button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <button id="prevBtn">Previous</button>
+        <button id="nextBtn">Next</button>
+    </div>
+
+    <script>
+        const chapters = document.querySelectorAll('.chapter');
+        let currentChapter = 0;
+
+        const showChapter = (index) => {
+            chapters.forEach((chapter, i) => {
+                chapter.classList.toggle('active', i === index);
+            });
+        };
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentChapter > 0) currentChapter--;
+            showChapter(currentChapter);
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (currentChapter < chapters.length - 1) currentChapter++;
+            showChapter(currentChapter);
+        });
+    </script>
+</body>
+</html>

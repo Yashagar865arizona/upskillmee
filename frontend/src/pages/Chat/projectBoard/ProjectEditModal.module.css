@@ -1,0 +1,181 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eaeaf4;
+}
+
+.modalHeader h2 {
+  font-family: 'Inter', 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: #1A1D4A;
+  margin: 0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  color: #6D6D6D;
+  cursor: pointer;
+  padding: 0;
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formGroup label {
+  font-family: 'Inter', 'Nunito', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #1A1D4A;
+}
+
+.input {
+  padding: 10px 12px;
+  border: 1px solid #EAEAF4;
+  border-radius: 8px;
+  font-family: 'Inter', 'Nunito', sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #333;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.textarea {
+  padding: 10px 12px;
+  border: 1px solid #EAEAF4;
+  border-radius: 8px;
+  font-family: 'Inter', 'Nunito', sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #333;
+  width: 100%;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.arrayItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.removeButton {
+  background: #F8F8FA;
+  border: 1px solid #EAEAF4;
+  border-radius: 4px;
+  color: #f44336;
+  font-size: 18px;
+  line-height: 1;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.addButton {
+  background: #F8F8FA;
+  border: 1px solid #EAEAF4;
+  border-radius: 8px;
+  color: #4640DE;
+  font-family: 'Inter', 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  margin-top: 8px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.cancelButton {
+  background: #F8F8FA;
+  border: 1px solid #EAEAF4;
+  border-radius: 8px;
+  color: #6D6D6D;
+  font-family: 'Inter', 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.saveButton {
+  background: #F5770A;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-family: 'Inter', 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .modalContent {
+    width: 95%;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modalContent {
+    width: 98%;
+    padding: 16px;
+  }
+  
+  .formActions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .saveButton, .cancelButton {
+    width: 100%;
+  }
+} 

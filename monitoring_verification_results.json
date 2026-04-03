@@ -1,0 +1,131 @@
+{
+  "verification_timestamp": "2025-07-24T05:53:56.453214+00:00",
+  "overall_success": false,
+  "summary": {
+    "total_tests": 10,
+    "successful_tests": 2,
+    "failed_tests": 8,
+    "success_rate": 20.0
+  },
+  "failed_checks": [
+    "Basic Monitoring",
+    "Production Dashboard",
+    "Alerting System",
+    "Health Checks",
+    "Backup Monitoring",
+    "Database Monitoring",
+    "Performance Monitoring",
+    "Incident Management"
+  ],
+  "warnings": [
+    "Missing dashboard sections: ['system_status', 'service_health', 'performance_metrics', 'log_analysis', 'active_incidents', 'active_alerts']",
+    "High memory usage: 80.2%",
+    "Endpoint verification skipped - requires running server"
+  ],
+  "detailed_results": {
+    "Basic Monitoring": {
+      "success": false,
+      "error": "'MonitoringService' object has no attribute 'get_health_status'"
+    },
+    "Production Dashboard": {
+      "success": false,
+      "details": {
+        "sections_present": [],
+        "missing_sections": [
+          "system_status",
+          "service_health",
+          "performance_metrics",
+          "log_analysis",
+          "active_incidents",
+          "active_alerts"
+        ],
+        "total_sections": 0,
+        "dashboard_age_seconds": null
+      },
+      "warnings": [
+        "Missing dashboard sections: ['system_status', 'service_health', 'performance_metrics', 'log_analysis', 'active_incidents', 'active_alerts']"
+      ]
+    },
+    "Alerting System": {
+      "success": false,
+      "error": "AlertingService.resolve_alert() takes 2 positional arguments but 3 were given"
+    },
+    "Health Checks": {
+      "success": false,
+      "details": {
+        "health_results": {
+          "database": "unhealthy: Not an executable object: 'SELECT 1'",
+          "redis": "healthy",
+          "system_resources": {
+            "cpu_percent": 21.2,
+            "memory_percent": 80.2,
+            "disk_percent": 2.276083977309815
+          }
+        },
+        "unhealthy_services": [
+          "database"
+        ]
+      },
+      "warnings": [
+        "High memory usage: 80.2%"
+      ]
+    },
+    "Backup Monitoring": {
+      "success": false,
+      "error": "'BackupMonitoringService' object has no attribute 'check_backup_status'"
+    },
+    "Database Monitoring": {
+      "success": false,
+      "error": "'DatabaseHealthMonitor' object has no attribute 'get_database_metrics'"
+    },
+    "Performance Monitoring": {
+      "success": false,
+      "details": {
+        "total_endpoints_monitored": 0,
+        "test_endpoint_recorded": false,
+        "sample_endpoints": []
+      }
+    },
+    "Log Aggregation": {
+      "success": true,
+      "details": {
+        "log_analysis_keys": [
+          "total_logs",
+          "error_count",
+          "warning_count",
+          "recent_errors",
+          "log_sources",
+          "patterns"
+        ],
+        "missing_fields": [],
+        "total_logs": 0,
+        "error_count": 0
+      }
+    },
+    "Incident Management": {
+      "success": false,
+      "error": "'IncidentManager' object has no attribute 'IncidentStatus'"
+    },
+    "API Endpoints": {
+      "success": true,
+      "details": {
+        "endpoints_to_verify": [
+          "/api/v1/monitoring/status",
+          "/api/v1/monitoring/health",
+          "/api/v1/monitoring/metrics",
+          "/api/v1/production/dashboard",
+          "/api/v1/production/alerts"
+        ],
+        "note": "Endpoint verification requires running server"
+      },
+      "warnings": [
+        "Endpoint verification skipped - requires running server"
+      ]
+    }
+  },
+  "recommendations": [
+    "Fix production dashboard data collection",
+    "Verify alerting service configuration",
+    "Address unhealthy services identified in health checks"
+  ]
+}

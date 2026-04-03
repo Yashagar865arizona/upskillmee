@@ -1,0 +1,57 @@
+[
+  {
+    "id": "313efad7-648f-4609-bb37-e3ab4bc2a912",
+    "text": "User: hi\nAssistant: Hello! It's great to see you again. How can I assist you in your learning journe...",
+    "metadata": {
+      "user_id": "8f719226-524c-4b75-adfa-84f76828562a",
+      "conversation_id": "887cf7c5-5329-477a-922d-6a3e3b077901",
+      "timestamp": "2025-04-06T03:39:04.430267",
+      "type": "conversation"
+    },
+    "created_at": "2025-04-06T03:39:05.357770"
+  },
+  {
+    "id": "44a513b7-760a-4203-a801-e4852265aff8",
+    "text": "User: i want to learn something new\nAssistant: Of course! I'd be happy to help. Could you please tel...",
+    "metadata": {
+      "user_id": "8f719226-524c-4b75-adfa-84f76828562a",
+      "conversation_id": "6f671175-b83e-474f-aa7e-9f311d24f80a",
+      "timestamp": "2025-04-06T03:39:27.573048",
+      "type": "conversation"
+    },
+    "created_at": "2025-04-06T03:39:28.081944"
+  },
+  {
+    "id": "9b11b3bd-1e83-47a9-9fd2-8d4b11a07dd6",
+    "text": "User: history\nAssistant: Great! It sounds like you want to delve deeper into the subject of history....",
+    "metadata": {
+      "user_id": "8f719226-524c-4b75-adfa-84f76828562a",
+      "conversation_id": "a0e8212e-6e0e-4c64-8131-d0a2e499b6bb",
+      "timestamp": "2025-04-06T03:39:54.604832",
+      "type": "conversation"
+    },
+    "created_at": "2025-04-06T03:39:55.218388"
+  },
+  {
+    "id": "9a98c9a1-2d5b-4ba2-8e63-a1eecdfea875",
+    "text": "User: what time available wdym?\nAssistant: \"Available time\" refers to the amount of time you can set...",
+    "metadata": {
+      "user_id": "8f719226-524c-4b75-adfa-84f76828562a",
+      "conversation_id": "eecfc7a7-fa5f-4419-acaf-1dab1bd66bef",
+      "timestamp": "2025-04-06T03:40:17.136272",
+      "type": "conversation"
+    },
+    "created_at": "2025-04-06T03:40:18.063106"
+  },
+  {
+    "id": "9569c6df-6b60-45f3-adb3-414546c63638",
+    "text": "User: hi\nAssistant: Hello! How can I assist you with your learning today?",
+    "metadata": {
+      "user_id": "8f719226-524c-4b75-adfa-84f76828562a",
+      "conversation_id": "87202cbf-9f3b-4ed4-9583-fd1c056ecb34",
+      "timestamp": "2025-04-06T03:45:10.244293",
+      "type": "conversation"
+    },
+    "created_at": "2025-04-06T03:45:10.901072"
+  }
+]

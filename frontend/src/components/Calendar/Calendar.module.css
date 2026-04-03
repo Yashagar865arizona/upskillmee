@@ -1,0 +1,176 @@
+:root {
+  --bg: #ffffff;
+  --fg: #0f172a;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --shadow: 0 1px 2px rgba(16,24,40,0.06), 0 1px 3px rgba(16,24,40,0.1);
+
+  --green: #22c55e;
+  --yellow: #eab308;
+  --blue: #2563eb;
+
+  --progress-fill-start: #14b8a6;
+  --progress-fill-end: #0ea5e9;
+
+  --card-bg: #ffffff;
+  --stat-card-bg: #ffffff;
+}
+
+body.dark {
+  --bg: #1f2937;
+  --fg: #f9fafb;
+  --muted: #9ca3af;
+  --border: #374151;
+  --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 1px 3px rgba(0,0,0,0.5);
+
+  --green: #22c55e;
+  --yellow: #eab308;
+  --blue: #3b82f6;
+
+  --progress-fill-start: #14b8a6;
+  --progress-fill-end: #0ea5e9;
+
+  --card-bg: #111827;
+  --stat-card-bg: #1f2937;
+}
+.container{
+  /* background-color: var(--bg); */
+  color: var(--fg);
+  padding: 20px;
+}
+.iconContainer{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.title{
+  text-decoration: none;
+  border: none;
+  margin-top: 14px;
+  color: var(--fg);
+}
+.calendar{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.innerCalendar{
+  display: flex;
+  align-items: center;
+}
+.line{
+/* border: 2px solid red; */
+max-width: 70%;
+width: 60%;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.monthTitle {
+  font-size: 18px;
+  font-weight: 600;
+}
+.navBtn {
+  background: none;
+  border: none;
+  color: var(--fg);
+  cursor: pointer;
+  font-size: 18px;
+}
+.calendarWrapper {
+  display: flex;
+  gap: 20px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+  flex: 1;
+}
+.dayHeader {
+  font-weight: 600;
+  text-align: center;
+  font-size: 16px;
+  color: var(--muted);
+}
+.day {
+  height: 60px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.day:hover {
+  background: var(--border);
+}
+.selected {
+  background: var(--blue);
+  color: #fff;
+}
+.dot {
+  width: 6px;
+  height: 6px;
+  background: var(--blue);
+  border-radius: 50%;
+  margin-top: 4px;
+}
+.tasks {
+  flex: 1;
+}
+.taskItem {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow);
+}
+.taskItem span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.completed {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+.checkIcon {
+  color: var(--green);
+}
+.noTask {
+  color: var(--muted);
+}
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin: 0 1px;
+}
+
+.dotsWrapper {
+  margin-top: 3px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.high {
+  background-color: red;
+  
+}
+
+.medium {
+  background-color: orange;
+}
+
+.low {
+  background-color: green;
+}

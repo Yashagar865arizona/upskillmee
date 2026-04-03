@@ -1,0 +1,120 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
+}
+
+.signInCard {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #718096;
+  margin: 8px 0 32px;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.field input {
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.2s;
+}
+
+.field input:focus {
+  border-color: #4299e1;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+.signInButton {
+  background: #4299e1;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+
+.signInButton:hover {
+  background: #3182ce;
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.forgotPassword, .createAccount {
+  color: #4299e1;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.forgotPassword:hover, .createAccount:hover {
+  color: #3182ce;
+  text-decoration: underline;
+}
+
+.error {
+  color: #e53e3e;
+  text-align: center;
+  padding: 8px;
+  background: #fff5f5;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Animation classes */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

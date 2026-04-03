@@ -1,0 +1,83 @@
+{
+    "beginner": {
+        "digital_marketing": {
+            "projects": [
+                {
+                    "title": "Social Media Campaign",
+                    "description": "Create a basic social media marketing campaign",
+                    "steps": [
+                        {
+                            "name": "Market Research",
+                            "description": "Research target audience and competitors",
+                            "resources": [
+                                "Google Analytics",
+                                "Social Media Insights"
+                            ],
+                            "estimated_hours": 4
+                        },
+                        {
+                            "name": "Content Planning",
+                            "description": "Plan content calendar and messaging",
+                            "resources": [
+                                "Content Calendar Template",
+                                "Messaging Framework"
+                            ],
+                            "estimated_hours": 6
+                        }
+                    ],
+                    "estimated_time": "10 hours",
+                    "prerequisites": [
+                        "Basic understanding of social media platforms",
+                        "Basic marketing concepts"
+                    ],
+                    "learning_outcomes": [
+                        "Understanding of social media marketing",
+                        "Basic campaign planning skills"
+                    ],
+                    "difficulty": "beginner",
+                    "domain": "digital_marketing"
+                }
+            ]
+        },
+        "software_development": {
+            "projects": [
+                {
+                    "title": "Personal Portfolio Website",
+                    "description": "Create a simple portfolio website using HTML and CSS",
+                    "steps": [
+                        {
+                            "name": "Setup Development Environment",
+                            "description": "Install necessary tools and create project structure",
+                            "resources": [
+                                "VS Code",
+                                "Git basics tutorial"
+                            ],
+                            "estimated_hours": 2
+                        },
+                        {
+                            "name": "Design and Implementation",
+                            "description": "Create basic HTML structure and CSS styling",
+                            "resources": [
+                                "HTML5 documentation",
+                                "CSS basics guide"
+                            ],
+                            "estimated_hours": 8
+                        }
+                    ],
+                    "estimated_time": "10 hours",
+                    "prerequisites": [
+                        "Basic HTML knowledge",
+                        "Basic CSS knowledge"
+                    ],
+                    "learning_outcomes": [
+                        "HTML structure and semantics",
+                        "CSS styling and layout",
+                        "Responsive design basics"
+                    ],
+                    "difficulty": "beginner",
+                    "domain": "software_development"
+                }
+            ]
+        }
+    }
+}

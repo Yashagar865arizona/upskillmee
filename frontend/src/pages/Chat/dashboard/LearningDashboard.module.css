@@ -1,0 +1,110 @@
+.dashboard {
+  padding: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.section {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3),
+    0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+
+.sectionTitle {
+  font-size: 20px;
+  color: #1a1a1a;
+  margin: 0 0 16px;
+  font-weight: 600;
+}
+
+.date {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f5f7ff;
+  border-radius: 8px;
+  color: #6366f1;
+  font-size: 14px;
+}
+
+.task input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid #6366f1;
+}
+
+.sprintTitle {
+  font-size: 18px;
+  color: #FF8A00;
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+.sprintDescription {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.skillTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skillTag {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #6B7AFF;
+  background: rgba(107, 122, 255, 0.1);
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.timelineItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #f5f7ff;
+}
+
+.timelineItem.current {
+  background: #FFF3E0;
+}
+
+.timelineWeek {
+  font-size: 14px;
+  color: #FF8A00;
+  font-weight: 500;
+}
+
+.timelineTitle {
+  font-size: 14px;
+  color: #1a1a1a;
+  font-weight: 500;
+}

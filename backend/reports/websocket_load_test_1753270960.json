@@ -1,0 +1,74 @@
+{
+  "summary": {
+    "test_duration": 5.190818786621094,
+    "total_clients": 5,
+    "successful_clients": 0,
+    "failed_clients": 5,
+    "success_rate": 0.0,
+    "total_messages_sent": 0,
+    "total_messages_received": 0,
+    "message_success_rate": 0,
+    "total_errors": 5,
+    "throughput_messages_per_second": 0.0,
+    "response_time_stats": {}
+  },
+  "successful_clients": [],
+  "failed_clients": [
+    {
+      "client_id": 0,
+      "connection_time": 0,
+      "messages_sent": 0,
+      "messages_received": 0,
+      "response_times": [],
+      "errors": [
+        "Registration failed: {\"error\":\"Invalid or malicious input detected\"}"
+      ],
+      "status": "failed"
+    },
+    {
+      "client_id": 1,
+      "connection_time": 0,
+      "messages_sent": 0,
+      "messages_received": 0,
+      "response_times": [],
+      "errors": [
+        "Registration failed: {\"error\":\"Invalid or malicious input detected\"}"
+      ],
+      "status": "failed"
+    },
+    {
+      "client_id": 2,
+      "connection_time": 0,
+      "messages_sent": 0,
+      "messages_received": 0,
+      "response_times": [],
+      "errors": [
+        "Registration failed: {\"error\":\"Invalid or malicious input detected\"}"
+      ],
+      "status": "failed"
+    },
+    {
+      "client_id": 3,
+      "connection_time": 0,
+      "messages_sent": 0,
+      "messages_received": 0,
+      "response_times": [],
+      "errors": [
+        "Registration failed: {\"error\":\"Invalid or malicious input detected\"}"
+      ],
+      "status": "failed"
+    },
+    {
+      "client_id": 4,
+      "connection_time": 0,
+      "messages_sent": 0,
+      "messages_received": 0,
+      "response_times": [],
+      "errors": [
+        "Registration failed: {\"error\":\"Invalid or malicious input detected\"}"
+      ],
+      "status": "failed"
+    }
+  ],
+  "timestamp": 1753270960.63954
+}

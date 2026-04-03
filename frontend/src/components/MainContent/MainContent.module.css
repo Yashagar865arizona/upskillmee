@@ -1,0 +1,6 @@
+.mainContent {
+  flex: 1;
+  background-color: #f8fafc;
+  overflow-y: auto;
+  min-height: 100vh;
+}

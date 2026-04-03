@@ -1,0 +1,45 @@
+/* src/components/Sidebar/MenuItem.module.css */
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.menuItem:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.active {
+  background: white;
+}
+
+.active .iconBorder {
+  border-color: #161340;
+}
+
+.menuIcon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconBorder {
+  width: 19px;
+  height: 20px;
+  border: 1.5px solid white;
+  transition: border-color 0.3s;
+}
+
+.menuText {
+  font-size: 14px;
+  font-weight: 600;
+}

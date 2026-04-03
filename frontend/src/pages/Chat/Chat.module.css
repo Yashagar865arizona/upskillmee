@@ -1,0 +1,58 @@
+/* Light mode */
+:root {
+  --bg-chat-layout: #f9fafb;
+  --bg-board-container: #f8fafc;
+  --border-board: #e5e7eb;
+  --shadow-board: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                  0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --bg-messages-container: #ffffff;
+}
+
+/* Dark mode */
+body.dark {
+  --bg-chat-layout: #111827;
+  --bg-board-container: #1f2937;
+  --border-board: #374151;
+  --shadow-board: 0 4px 6px -1px rgba(0, 0, 0, 0.5),
+                  0 2px 4px -1px rgba(0, 0, 0, 0.4);
+  --bg-messages-container: #1e293b;
+}
+
+.chatLayout {
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  background-color: var(--bg-chat-layout);
+  transition: background 0.3s;
+}
+
+.boardContainer {
+  flex: 0 0 400px;
+  min-width: 300px;
+  max-width: 680px;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--bg-board-container);
+  border-right: 1px solid var(--border-board);
+  box-shadow: var(--shadow-board);
+  z-index: 10;
+  transition: background 0.3s, border 0.3s, box-shadow 0.3s;
+}
+
+.messagesContainer {
+  flex: 1;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg-messages-container);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s;
+}
+
+.fullWidth {
+  flex: 1;
+  width: 100%;
+}

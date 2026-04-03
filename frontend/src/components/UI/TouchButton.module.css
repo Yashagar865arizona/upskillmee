@@ -1,0 +1,272 @@
+/* Touch-friendly Button Styles */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  
+  /* Touch-friendly minimum sizes */
+  min-height: 44px;
+  min-width: 44px;
+  
+  /* Better touch feedback */
+  touch-action: manipulation;
+}
+
+.button:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+/* Size variants */
+.small {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  min-height: 36px;
+  border-radius: var(--radius-md);
+}
+
+.medium {
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-base);
+  min-height: 44px;
+}
+
+.large {
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--text-lg);
+  min-height: 52px;
+  border-radius: var(--radius-xl);
+}
+
+/* Color variants */
+.primary {
+  background: var(--color-primary);
+  color: var(--text-inverse);
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.secondary {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--color-gray-300);
+}
+
+.secondary:hover:not(:disabled) {
+  background: var(--color-gray-50);
+  border-color: var(--color-gray-400);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.success {
+  background: var(--color-success);
+  color: var(--text-inverse);
+}
+
+.success:hover:not(:disabled) {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.warning {
+  background: var(--color-warning);
+  color: var(--text-inverse);
+}
+
+.warning:hover:not(:disabled) {
+  background: #d97706;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.error {
+  background: var(--color-error);
+  color: var(--text-inverse);
+}
+
+.error:hover:not(:disabled) {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid transparent;
+}
+
+.ghost:hover:not(:disabled) {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: var(--color-primary);
+}
+
+/* States */
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.loading {
+  cursor: wait;
+  pointer-events: none;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+/* Loading spinner */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  position: absolute;
+}
+
+.hiddenText {
+  opacity: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .button {
+    /* Larger touch targets on mobile */
+    min-height: 48px;
+    min-width: 48px;
+  }
+  
+  .small {
+    min-height: 40px;
+    padding: var(--space-3) var(--space-4);
+  }
+  
+  .medium {
+    min-height: 48px;
+    padding: var(--space-4) var(--space-5);
+  }
+  
+  .large {
+    min-height: 56px;
+    padding: var(--space-5) var(--space-6);
+  }
+}
+
+@media (max-width: 480px) {
+  .button {
+    font-size: var(--text-base);
+  }
+  
+  .small {
+    font-size: var(--text-sm);
+  }
+  
+  .large {
+    font-size: var(--text-lg);
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .button {
+    /* Remove hover effects on touch devices */
+    transform: none;
+  }
+  
+  .button:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .button:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+  
+  /* Larger touch targets */
+  .button {
+    min-height: 48px;
+    min-width: 48px;
+    padding: var(--space-4) var(--space-5);
+  }
+  
+  .small {
+    min-height: 44px;
+    padding: var(--space-3) var(--space-4);
+  }
+  
+  .large {
+    min-height: 56px;
+    padding: var(--space-5) var(--space-7);
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .button {
+    border: 2px solid currentColor;
+  }
+  
+  .primary {
+    background: var(--color-primary);
+    border-color: var(--color-primary-dark);
+  }
+  
+  .secondary {
+    border-color: var(--color-gray-600);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+  
+  .button:hover,
+  .button:active {
+    transform: none;
+  }
+  
+  .spinner {
+    animation: none;
+  }
+}

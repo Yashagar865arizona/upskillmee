@@ -1,0 +1,42 @@
+{
+  "summary": {
+    "total_requests": 50,
+    "successful_requests": 0,
+    "failed_requests": 50,
+    "success_rate": 0.0
+  },
+  "response_time_stats": {},
+  "status_code_distribution": {
+    "400": 38,
+    "404": 12
+  },
+  "endpoint_performance": {
+    "/": {
+      "total_requests": 13,
+      "successful_requests": 0,
+      "avg_response_time": 0,
+      "success_rate": 0
+    },
+    "/test": {
+      "total_requests": 13,
+      "successful_requests": 0,
+      "avg_response_time": 0,
+      "success_rate": 0
+    },
+    "/api/v1/health": {
+      "total_requests": 12,
+      "successful_requests": 0,
+      "avg_response_time": 0,
+      "success_rate": 0
+    },
+    "/health": {
+      "total_requests": 12,
+      "successful_requests": 0,
+      "avg_response_time": 0,
+      "success_rate": 0
+    }
+  },
+  "errors": {},
+  "test_duration": 50.66025900840759,
+  "throughput": 0.9869669239492436
+}

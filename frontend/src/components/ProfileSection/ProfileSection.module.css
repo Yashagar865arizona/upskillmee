@@ -1,0 +1,77 @@
+.profileSection {
+  position: relative;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  margin: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profileInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+}
+
+.userEmail {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.manageButton {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.manageButton:hover {
+  background: #0056b3;
+}
+
+.profileContainer {
+  width: 100%;
+}
+
+.backButton {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 20px;
+  transition: background-color 0.2s;
+}
+
+.backButton:hover {
+  background: #545b62;
+}

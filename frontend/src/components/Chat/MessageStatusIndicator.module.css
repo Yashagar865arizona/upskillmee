@@ -1,0 +1,223 @@
+.statusIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-top: 0.25rem;
+}
+
+.statusIcon {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.statusText {
+  display: none; /* Hidden by default, shown on hover */
+  white-space: nowrap;
+}
+
+.statusIndicator:hover .statusText {
+  display: inline;
+}
+
+.timestamp {
+  color: var(--text-tertiary);
+  font-size: 0.7rem;
+}
+
+/* Status-specific styles */
+.sending {
+  color: var(--color-gray-500);
+}
+
+.sending .sendingIcon {
+  animation: sendingPulse 1.2s ease-in-out infinite;
+}
+
+.sending .sendingIcon svg {
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes sendingPulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.sent {
+  color: var(--color-gray-600);
+  animation: statusAppear 0.3s ease-out;
+}
+
+@keyframes statusAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.delivered {
+  color: var(--color-blue-600);
+  animation: statusAppear 0.3s ease-out;
+}
+
+.delivered .deliveredIcon {
+  position: relative;
+  animation: deliveredBounce 0.5s ease-out;
+}
+
+.delivered .deliveredIcon svg:first-child {
+  position: absolute;
+  left: -3px;
+  opacity: 0.7;
+}
+
+.delivered .deliveredIcon svg:last-child {
+  position: relative;
+  left: 3px;
+}
+
+@keyframes deliveredBounce {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.read {
+  color: var(--color-green-600);
+  animation: statusAppear 0.3s ease-out;
+}
+
+.read .readIcon {
+  position: relative;
+  animation: readGlow 0.6s ease-out;
+}
+
+.read .readIcon svg:first-child {
+  position: absolute;
+  left: -3px;
+  opacity: 0.8;
+}
+
+.read .readIcon svg:last-child {
+  position: relative;
+  left: 3px;
+}
+
+@keyframes readGlow {
+  0% {
+    transform: scale(0.8);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.3) drop-shadow(0 0 4px var(--color-green-400));
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+.failed {
+  color: var(--color-red-600);
+}
+
+.failed .statusIcon {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .statusIndicator {
+    font-size: 0.7rem;
+    gap: 0.2rem;
+  }
+  
+  .timestamp {
+    font-size: 0.65rem;
+  }
+  
+  .statusText {
+    display: none; /* Always hidden on mobile to save space */
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .sending {
+    color: var(--text-secondary);
+  }
+  
+  .sent {
+    color: var(--text-secondary);
+  }
+  
+  .delivered {
+    color: var(--color-blue-700);
+  }
+  
+  .read {
+    color: var(--color-green-700);
+  }
+  
+  .failed {
+    color: var(--color-red-700);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .sending .sendingIcon,
+  .sending .sendingIcon svg,
+  .failed .statusIcon,
+  .sent,
+  .delivered,
+  .delivered .deliveredIcon,
+  .read,
+  .read .readIcon {
+    animation: none;
+  }
+  
+  .read .readIcon {
+    filter: none;
+  }
+}

@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ponder-backend
+  namespace: ponder
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ponder-backend
+  template:
+    metadata:
+      labels:
+        app: ponder-backend
+    spec:
+      containers:
+      - name: backend
+        image: ${ECR_REGISTRY}/ponder-backend:${IMAGE_TAG}
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+        readinessProbe:
+          httpGet:
+            path: /api/v1/health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /api/v1/health
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: ponder-secrets
+              key: postgres-user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ponder-secrets
+              key: postgres-password
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: ponder-secrets
+              key: postgres-db
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: ponder-secrets
+              key: database-url
+        - name: REDIS_HOST
+          value: ponder-redis
+        - name: REDIS_PORT
+          value: "6379"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ponder-backend
+  namespace: ponder
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8000
+  selector:
+    app: ponder-backend

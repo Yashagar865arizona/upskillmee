@@ -1,0 +1,690 @@
+{
+  "timestamp": 1753272040.158973,
+  "api_security": {
+    "endpoint_tests": [
+      {
+        "endpoint": "/",
+        "method": "GET",
+        "expected_auth": false,
+        "tests": {
+          "no_auth": {
+            "status_code": 403,
+            "requires_auth": false,
+            "expected": false
+          },
+          "invalid_auth": {
+            "status_code": 403,
+            "properly_rejects": false
+          }
+        }
+      },
+      {
+        "endpoint": "/test",
+        "method": "GET",
+        "expected_auth": false,
+        "tests": {
+          "no_auth": {
+            "status_code": 403,
+            "requires_auth": false,
+            "expected": false
+          },
+          "invalid_auth": {
+            "status_code": 403,
+            "properly_rejects": false
+          }
+        }
+      },
+      {
+        "endpoint": "/api/v1/health",
+        "method": "GET",
+        "expected_auth": false,
+        "tests": {
+          "no_auth": {
+            "status_code": 403,
+            "requires_auth": false,
+            "expected": false
+          },
+          "invalid_auth": {
+            "status_code": 403,
+            "properly_rejects": false
+          }
+        }
+      },
+      {
+        "endpoint": "/api/v1/auth/register",
+        "method": "POST",
+        "expected_auth": false,
+        "tests": {
+          "no_auth": {
+            "status_code": 403,
+            "requires_auth": false,
+            "expected": false
+          },
+          "invalid_auth": {
+            "status_code": 403,
+            "properly_rejects": false
+          },
+          "sql_injection": {
+            "status_code": 403,
+            "properly_handled": false
+          },
+          "xss_protection": {
+            "status_code": 403,
+            "response_contains_script": false
+          }
+        }
+      },
+      {
+        "endpoint": "/api/v1/auth/login",
+        "method": "POST",
+        "expected_auth": false,
+        "tests": {
+          "no_auth": {
+            "status_code": 403,
+            "requires_auth": false,
+            "expected": false
+          },
+          "invalid_auth": {
+            "status_code": 403,
+            "properly_rejects": false
+          },
+          "sql_injection": {
+            "status_code": 403,
+            "properly_handled": false
+          },
+          "xss_protection": {
+            "status_code": 403,
+            "response_contains_script": false
+          }
+        }
+      },
+      {
+        "endpoint": "/api/v1/auth/logout",
+        "method": "POST",
+        "expected_auth": true,
+        "tests": {
+          "no_auth": {
+            "status_code": 403,
+            "requires_auth": false,
+            "expected": true
+          },
+          "invalid_auth": {
+            "status_code": 403,
+            "properly_rejects": false
+          },
+          "sql_injection": {
+            "status_code": 403,
+            "properly_handled": false
+          },
+          "xss_protection": {
+            "status_code": 403,
+            "response_contains_script": false
+          }
+        }
+      },
+      {
+        "endpoint": "/api/v1/auth/refresh",
+        "method": "POST",
+        "expected_auth": true,
+        "tests": {
+          "no_auth": {
+            "status_code": 403,
+            "requires_auth": false,
+            "expected": true
+          },
+          "invalid_auth": {
+            "status_code": 403,
+            "properly_rejects": false
+          },
+          "sql_injection": {
+            "status_code": 429,
+            "properly_handled": false
+          },
+          "xss_protection": {
+            "status_code": 429,
+            "response_contains_script": false
+          }
+        }
+      },
+      {
+        "endpoint": "/api/v1/users/profile",
+        "method": "GET",
+        "expected_auth": true,
+        "tests": {
+          "no_auth": {
+            "status_code": 403,
+            "requires_auth": false,
+            "expected": true
+          },
+          "invalid_auth": {
+            "status_code": 403,
+            "properly_rejects": false
+          }
+        }
+      },
+      {
+        "endpoint": "/api/v1/chat/message",
+        "method": "POST",
+        "expected_auth": true,
+        "tests": {
+          "no_auth": {
+            "status_code": 403,
+            "requires_auth": false,
+            "expected": true
+          },
+          "invalid_auth": {
+            "status_code": 403,
+            "properly_rejects": false
+          },
+          "sql_injection": {
+            "status_code": 403,
+            "properly_handled": false
+          },
+          "xss_protection": {
+            "status_code": 403,
+            "response_contains_script": false
+          }
+        }
+      },
+      {
+        "endpoint": "/api/v1/learning/plans",
+        "method": "GET",
+        "expected_auth": true,
+        "tests": {
+          "no_auth": {
+            "status_code": 403,
+            "requires_auth": false,
+            "expected": true
+          },
+          "invalid_auth": {
+            "status_code": 403,
+            "properly_rejects": false
+          }
+        }
+      },
+      {
+        "endpoint": "/api/v1/admin/users",
+        "method": "GET",
+        "expected_auth": true,
+        "tests": {
+          "no_auth": {
+            "status_code": 403,
+            "requires_auth": false,
+            "expected": true
+          },
+          "invalid_auth": {
+            "status_code": 403,
+            "properly_rejects": false
+          }
+        }
+      }
+    ],
+    "security_headers": {
+      "headers_present": {
+        "X-Content-Type-Options": null,
+        "X-Frame-Options": null,
+        "X-XSS-Protection": null,
+        "Strict-Transport-Security": null,
+        "Content-Security-Policy": null,
+        "Referrer-Policy": null,
+        "Permissions-Policy": null
+      },
+      "missing_headers": [
+        "X-Content-Type-Options",
+        "X-Frame-Options",
+        "X-XSS-Protection",
+        "Strict-Transport-Security",
+        "Content-Security-Policy",
+        "Referrer-Policy",
+        "Permissions-Policy"
+      ],
+      "recommendations": [
+        "Add X-Content-Type-Options: nosniff header",
+        "Add X-Frame-Options: DENY or SAMEORIGIN header",
+        "Implement Content Security Policy (CSP)",
+        "Add HSTS header for HTTPS enforcement"
+      ]
+    },
+    "cors_configuration": {
+      "cors_headers": {
+        "Access-Control-Allow-Origin": null,
+        "Access-Control-Allow-Methods": null,
+        "Access-Control-Allow-Headers": null,
+        "Access-Control-Allow-Credentials": null
+      },
+      "allows_any_origin": false,
+      "allows_credentials": false,
+      "security_risk": false
+    },
+    "rate_limiting": {
+      "responses": [
+        {
+          "request_number": 1,
+          "status_code": 403,
+          "rate_limit_headers": {
+            "X-RateLimit-Limit": "100",
+            "X-RateLimit-Remaining": "92",
+            "X-RateLimit-Reset": "1753272075",
+            "Retry-After": null
+          }
+        },
+        {
+          "request_number": 2,
+          "status_code": 403,
+          "rate_limit_headers": {
+            "X-RateLimit-Limit": "100",
+            "X-RateLimit-Remaining": "91",
+            "X-RateLimit-Reset": "1753272076",
+            "Retry-After": null
+          }
+        },
+        {
+          "request_number": 3,
+          "status_code": 403,
+          "rate_limit_headers": {
+            "X-RateLimit-Limit": "100",
+            "X-RateLimit-Remaining": "90",
+            "X-RateLimit-Reset": "1753272077",
+            "Retry-After": null
+          }
+        },
+        {
+          "request_number": 4,
+          "status_code": 403,
+          "rate_limit_headers": {
+            "X-RateLimit-Limit": "100",
+            "X-RateLimit-Remaining": "89",
+            "X-RateLimit-Reset": "1753272078",
+            "Retry-After": null
+          }
+        },
+        {
+          "request_number": 5,
+          "status_code": 403,
+          "rate_limit_headers": {
+            "X-RateLimit-Limit": "100",
+            "X-RateLimit-Remaining": "88",
+            "X-RateLimit-Reset": "1753272079",
+            "Retry-After": null
+          }
+        },
+        {
+          "request_number": 6,
+          "status_code": 403,
+          "rate_limit_headers": {
+            "X-RateLimit-Limit": "100",
+            "X-RateLimit-Remaining": "87",
+            "X-RateLimit-Reset": "1753272080",
+            "Retry-After": null
+          }
+        },
+        {
+          "request_number": 7,
+          "status_code": 403,
+          "rate_limit_headers": {
+            "X-RateLimit-Limit": "100",
+            "X-RateLimit-Remaining": "86",
+            "X-RateLimit-Reset": "1753272081",
+            "Retry-After": null
+          }
+        },
+        {
+          "request_number": 8,
+          "status_code": 403,
+          "rate_limit_headers": {
+            "X-RateLimit-Limit": "100",
+            "X-RateLimit-Remaining": "85",
+            "X-RateLimit-Reset": "1753272082",
+            "Retry-After": null
+          }
+        },
+        {
+          "request_number": 9,
+          "status_code": 403,
+          "rate_limit_headers": {
+            "X-RateLimit-Limit": "100",
+            "X-RateLimit-Remaining": "84",
+            "X-RateLimit-Reset": "1753272083",
+            "Retry-After": null
+          }
+        },
+        {
+          "request_number": 10,
+          "status_code": 403,
+          "rate_limit_headers": {
+            "X-RateLimit-Limit": "100",
+            "X-RateLimit-Remaining": "83",
+            "X-RateLimit-Reset": "1753272084",
+            "Retry-After": null
+          }
+        }
+      ],
+      "rate_limiting_active": false,
+      "rate_limit_headers_present": true
+    },
+    "ssl_configuration": {}
+  },
+  "authentication": {
+    "password_policy": {
+      "weak_password_tests": [
+        {
+          "password": "123456",
+          "status_code": 429,
+          "rejected": false
+        },
+        {
+          "password": "password",
+          "status_code": 429,
+          "rejected": false
+        },
+        {
+          "password": "123",
+          "status_code": 429,
+          "rejected": false
+        },
+        {
+          "password": "abc",
+          "status_code": 429,
+          "rejected": false
+        },
+        {
+          "password": "test",
+          "status_code": 429,
+          "rejected": false
+        }
+      ],
+      "properly_rejects_weak_passwords": false
+    },
+    "token_security": {
+      "jwt_algorithm": "Check if using secure algorithm (RS256/ES256)",
+      "token_expiration": "Check if tokens have reasonable expiration",
+      "refresh_token_rotation": "Check if refresh tokens are rotated",
+      "token_blacklisting": "Check if token blacklisting is implemented"
+    },
+    "session_management": {
+      "session_timeout": "Check if sessions timeout appropriately",
+      "concurrent_sessions": "Check concurrent session handling",
+      "session_invalidation": "Check if sessions are invalidated on logout"
+    },
+    "brute_force_protection": {
+      "failed_login_attempts": [
+        {
+          "attempt": 1,
+          "status_code": 429,
+          "response_time": 1.01408
+        },
+        {
+          "attempt": 2,
+          "status_code": 429,
+          "response_time": 1.018687
+        },
+        {
+          "attempt": 3,
+          "status_code": 429,
+          "response_time": 1.013418
+        },
+        {
+          "attempt": 4,
+          "status_code": 429,
+          "response_time": 1.013533
+        },
+        {
+          "attempt": 5,
+          "status_code": 429,
+          "response_time": 1.015641
+        }
+      ],
+      "account_lockout_detected": true,
+      "response_time_increases": true
+    }
+  },
+  "authorization": {},
+  "input_validation": {
+    "sql_injection_protection": {
+      "sql_injection_tests": [
+        {
+          "payload": "'; DROP TABLE users; --",
+          "status_code": 429,
+          "properly_handled": false
+        },
+        {
+          "payload": "' OR '1'='1",
+          "status_code": 429,
+          "properly_handled": false
+        },
+        {
+          "payload": "'; SELECT * FROM users; --",
+          "status_code": 429,
+          "properly_handled": false
+        },
+        {
+          "payload": "' UNION SELECT * FROM users --",
+          "status_code": 429,
+          "properly_handled": false
+        }
+      ],
+      "protection_effective": false
+    },
+    "xss_protection": {
+      "xss_tests": [
+        {
+          "payload": "<script>alert('XSS')</script>",
+          "status_code": 403,
+          "response_contains_payload": false,
+          "properly_sanitized": true
+        },
+        {
+          "payload": "<img src=x onerror=alert('XSS')>",
+          "status_code": 403,
+          "response_contains_payload": false,
+          "properly_sanitized": true
+        },
+        {
+          "payload": "javascript:alert('XSS')",
+          "status_code": 403,
+          "response_contains_payload": false,
+          "properly_sanitized": true
+        },
+        {
+          "payload": "<svg onload=alert('XSS')>",
+          "status_code": 403,
+          "response_contains_payload": false,
+          "properly_sanitized": true
+        }
+      ],
+      "protection_effective": true
+    },
+    "command_injection_protection": {
+      "command_injection_tests": [
+        {
+          "payload": "; ls -la",
+          "status_code": 403,
+          "properly_handled": false
+        },
+        {
+          "payload": "| cat /etc/passwd",
+          "status_code": 403,
+          "properly_handled": false
+        },
+        {
+          "payload": "&& whoami",
+          "status_code": 403,
+          "properly_handled": false
+        },
+        {
+          "payload": "`id`",
+          "status_code": 403,
+          "properly_handled": false
+        }
+      ],
+      "protection_effective": false
+    },
+    "file_upload_security": {
+      "file_type_validation": "Check if file types are validated",
+      "file_size_limits": "Check if file size limits are enforced",
+      "malicious_file_detection": "Check if malicious files are detected",
+      "file_storage_security": "Check if uploaded files are stored securely"
+    },
+    "data_validation": {
+      "validation_tests": [
+        {
+          "endpoint": "/api/v1/auth/register",
+          "data": {
+            "email": "invalid-email",
+            "password": "123"
+          },
+          "status_code": 429,
+          "properly_validated": false
+        },
+        {
+          "endpoint": "/api/v1/auth/login",
+          "data": {
+            "email": "",
+            "password": ""
+          },
+          "status_code": 429,
+          "properly_validated": false
+        }
+      ],
+      "validation_effective": false
+    }
+  },
+  "gdpr_compliance": {
+    "data_collection": {
+      "minimal_data_collection": "Check if only necessary data is collected",
+      "purpose_limitation": "Check if data is collected for specific purposes",
+      "data_retention_policy": "Check if data retention policies are defined",
+      "lawful_basis": "Check if lawful basis for processing is established"
+    },
+    "consent_management": {
+      "explicit_consent": "Check if explicit consent is obtained",
+      "consent_withdrawal": "Check if users can withdraw consent",
+      "consent_records": "Check if consent records are maintained",
+      "granular_consent": "Check if granular consent options are provided"
+    },
+    "data_access_rights": {
+      "data_export_endpoint": "Check if users can export their data",
+      "data_visibility": "Check if users can view their stored data",
+      "response_timeframe": "Check if requests are handled within 30 days"
+    },
+    "data_deletion_rights": {
+      "account_deletion": "Check if users can delete their accounts",
+      "data_anonymization": "Check if data is properly anonymized",
+      "deletion_confirmation": "Check if deletion is confirmed to users",
+      "retention_exceptions": "Check if legal retention requirements are handled"
+    },
+    "data_portability": {
+      "data_export_format": "Check if data is exportable in standard formats",
+      "complete_data_export": "Check if all user data is included in exports",
+      "automated_export": "Check if export process is automated"
+    },
+    "privacy_policy": {
+      "policy_accessibility": "Check if privacy policy is easily accessible",
+      "policy_completeness": "Check if policy covers all required elements",
+      "policy_updates": "Check if policy update procedures are defined",
+      "plain_language": "Check if policy is written in plain language"
+    },
+    "data_breach_procedures": {
+      "breach_detection": "Check if breach detection mechanisms exist",
+      "notification_procedures": "Check if notification procedures are defined",
+      "authority_reporting": "Check if authority reporting is implemented",
+      "user_notification": "Check if user notification procedures exist"
+    }
+  },
+  "code_security": {
+    "dependency_vulnerabilities": {
+      "requirements_files_found": [
+        "/Users/yash/Library/Mobile Documents/com~apple~CloudDocs/Work/ponder/backend/requirements.txt",
+        "/Users/yash/Library/Mobile Documents/com~apple~CloudDocs/Work/ponder/backend/pyproject.toml"
+      ],
+      "recommendation": "Run 'pip audit' or 'safety check' to scan for vulnerabilities",
+      "automated_scanning": "Consider integrating dependency scanning in CI/CD"
+    },
+    "secret_management": {
+      "potential_hardcoded_secrets": [
+        {
+          "file": "test_ai_enhancements_simple.py",
+          "pattern": "api_key\\s*=\\s*[\"\\'][^\"\\']+[\"\\']",
+          "matches": 2
+        },
+        {
+          "file": "test_auth_api.py",
+          "pattern": "password\\s*=\\s*[\"\\'][^\"\\']+[\"\\']",
+          "matches": 1
+        },
+        {
+          "file": "load_testing/locustfile.py",
+          "pattern": "password\\s*=\\s*[\"\\'][^\"\\']+[\"\\']",
+          "matches": 2
+        },
+        {
+          "file": "scripts/websocket_load_test.py",
+          "pattern": "password\\s*=\\s*[\"\\'][^\"\\']+[\"\\']",
+          "matches": 1
+        },
+        {
+          "file": "tests/unit/test_auth_service.py",
+          "pattern": "password\\s*=\\s*[\"\\'][^\"\\']+[\"\\']",
+          "matches": 10
+        },
+        {
+          "file": "tests/unit/test_auth_service.py",
+          "pattern": "token\\s*=\\s*[\"\\'][^\"\\']+[\"\\']",
+          "matches": 3
+        }
+      ],
+      "env_file_usage": false,
+      "recommendation": "Use environment variables or secret management systems"
+    },
+    "logging_security": {
+      "sensitive_data_logging": "Check if sensitive data is logged",
+      "log_injection_protection": "Check if log injection is prevented",
+      "log_access_control": "Check if log access is controlled",
+      "log_retention_policy": "Check if log retention policies exist"
+    },
+    "error_handling": {
+      "information_disclosure": "Check if errors disclose sensitive information",
+      "generic_error_messages": "Check if generic error messages are used",
+      "error_logging": "Check if errors are properly logged",
+      "exception_handling": "Check if exceptions are properly handled"
+    }
+  },
+  "configuration_security": {
+    "database_security": {
+      "connection_encryption": "Check if database connections are encrypted",
+      "access_controls": "Check if proper database access controls exist",
+      "backup_security": "Check if database backups are secured",
+      "audit_logging": "Check if database audit logging is enabled"
+    },
+    "server_configuration": {
+      "debug_mode": "Check if debug mode is disabled in production",
+      "server_tokens": "Check if server version information is hidden",
+      "unnecessary_services": "Check if unnecessary services are disabled",
+      "firewall_configuration": "Check if firewall is properly configured"
+    },
+    "environment_variables": {
+      "sensitive_env_vars": "Check if sensitive data is in environment variables",
+      "env_file_permissions": "Check if .env files have proper permissions",
+      "env_var_validation": "Check if environment variables are validated"
+    },
+    "deployment_security": {
+      "https_enforcement": "Check if HTTPS is enforced",
+      "security_updates": "Check if security updates are applied",
+      "monitoring_alerting": "Check if security monitoring is in place",
+      "backup_procedures": "Check if secure backup procedures exist"
+    }
+  },
+  "recommendations": [
+    "Implement missing security headers",
+    "Implement rate limiting",
+    "Strengthen password policy enforcement",
+    "Improve SQL injection protection",
+    "Remove hardcoded secrets from code",
+    "Implement comprehensive logging and monitoring",
+    "Regular security testing and code reviews",
+    "Keep dependencies updated",
+    "Implement security headers",
+    "Use HTTPS everywhere",
+    "Regular security training for developers"
+  ]
+}

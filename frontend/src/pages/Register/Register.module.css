@@ -1,0 +1,47 @@
+/* src/pages/Register/Register.module.css */
+
+.register {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 300px;
+    margin-bottom: 16px;
+  }
+  
+  .input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  
+  .button {
+    padding: 12px;
+    background: #161340;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .button:hover {
+    background: #7884ff;
+  }
+  
+  .link {
+    color: #7884ff;
+    text-decoration: none;
+  }
+  
+  .link:hover {
+    text-decoration: underline;
+  }

@@ -1,0 +1,391 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Ponder Production Monitoring",
+    "tags": ["ponder", "production", "monitoring"],
+    "timezone": "browser",
+    "refresh": "30s",
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "System Overview",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0},
+        "targets": [
+          {
+            "expr": "up{job=\"ponder-backend\"}",
+            "legendFormat": "Backend Status"
+          },
+          {
+            "expr": "up{job=\"postgres\"}",
+            "legendFormat": "Database Status"
+          },
+          {
+            "expr": "up{job=\"redis\"}",
+            "legendFormat": "Redis Status"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "thresholds"},
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "green", "value": 1}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 2,
+        "title": "CPU Usage",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "targets": [
+          {
+            "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
+            "legendFormat": "CPU Usage %"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "min": 0,
+            "max": 100,
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": 0},
+                {"color": "yellow", "value": 70},
+                {"color": "red", "value": 90}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 3,
+        "title": "Memory Usage",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "targets": [
+          {
+            "expr": "(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100",
+            "legendFormat": "Memory Usage %"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "min": 0,
+            "max": 100,
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": 0},
+                {"color": "yellow", "value": 80},
+                {"color": "red", "value": 95}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 4,
+        "title": "API Response Times",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))",
+            "legendFormat": "95th Percentile"
+          },
+          {
+            "expr": "histogram_quantile(0.50, rate(http_request_duration_seconds_bucket[5m]))",
+            "legendFormat": "50th Percentile"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "s",
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": 0},
+                {"color": "yellow", "value": 1},
+                {"color": "red", "value": 3}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 5,
+        "title": "Error Rate",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+        "targets": [
+          {
+            "expr": "rate(http_requests_total{status=~\"5..\"}[5m]) / rate(http_requests_total[5m]) * 100",
+            "legendFormat": "5xx Error Rate %"
+          },
+          {
+            "expr": "rate(http_requests_total{status=~\"4..\"}[5m]) / rate(http_requests_total[5m]) * 100",
+            "legendFormat": "4xx Error Rate %"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": 0},
+                {"color": "yellow", "value": 1},
+                {"color": "red", "value": 5}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 6,
+        "title": "Database Connections",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24},
+        "targets": [
+          {
+            "expr": "pg_stat_database_numbackends",
+            "legendFormat": "Active Connections"
+          },
+          {
+            "expr": "pg_settings_max_connections",
+            "legendFormat": "Max Connections"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": 0},
+                {"color": "yellow", "value": 80},
+                {"color": "red", "value": 95}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 7,
+        "title": "Database Query Performance",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 24},
+        "targets": [
+          {
+            "expr": "rate(pg_stat_database_tup_fetched[5m])",
+            "legendFormat": "Rows Fetched/sec"
+          },
+          {
+            "expr": "rate(pg_stat_database_tup_inserted[5m])",
+            "legendFormat": "Rows Inserted/sec"
+          },
+          {
+            "expr": "rate(pg_stat_database_tup_updated[5m])",
+            "legendFormat": "Rows Updated/sec"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "ops"
+          }
+        }
+      },
+      {
+        "id": 8,
+        "title": "Disk Usage",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 32},
+        "targets": [
+          {
+            "expr": "(1 - (node_filesystem_avail_bytes{mountpoint=\"/\"} / node_filesystem_size_bytes{mountpoint=\"/\"})) * 100",
+            "legendFormat": "Root Disk Usage %"
+          },
+          {
+            "expr": "(1 - (node_filesystem_avail_bytes{mountpoint=\"/var\"} / node_filesystem_size_bytes{mountpoint=\"/var\"})) * 100",
+            "legendFormat": "Var Disk Usage %"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "min": 0,
+            "max": 100,
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": 0},
+                {"color": "yellow", "value": 80},
+                {"color": "red", "value": 95}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 9,
+        "title": "Network I/O",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 32},
+        "targets": [
+          {
+            "expr": "rate(node_network_receive_bytes_total[5m])",
+            "legendFormat": "Received"
+          },
+          {
+            "expr": "rate(node_network_transmit_bytes_total[5m])",
+            "legendFormat": "Transmitted"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "Bps"
+          }
+        }
+      },
+      {
+        "id": 10,
+        "title": "Active Alerts",
+        "type": "table",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 40},
+        "targets": [
+          {
+            "expr": "ALERTS{alertstate=\"firing\"}",
+            "format": "table",
+            "instant": true
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "displayMode": "table"
+            }
+          }
+        },
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "__name__": true,
+                "job": true,
+                "instance": true
+              },
+              "renameByName": {
+                "alertname": "Alert",
+                "severity": "Severity",
+                "summary": "Summary"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "Log Error Rate",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 48},
+        "targets": [
+          {
+            "expr": "rate(log_entries_total{level=\"ERROR\"}[5m])",
+            "legendFormat": "Error Logs/sec"
+          },
+          {
+            "expr": "rate(log_entries_total{level=\"CRITICAL\"}[5m])",
+            "legendFormat": "Critical Logs/sec"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "ops",
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": 0},
+                {"color": "yellow", "value": 0.1},
+                {"color": "red", "value": 1}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 12,
+        "title": "Backup Status",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 48},
+        "targets": [
+          {
+            "expr": "backup_last_success_timestamp",
+            "legendFormat": "Last Successful Backup"
+          },
+          {
+            "expr": "backup_status",
+            "legendFormat": "Backup Status"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "dateTimeAsIso",
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "yellow", "value": 86400},
+                {"color": "green", "value": 3600}
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "templating": {
+      "list": [
+        {
+          "name": "environment",
+          "type": "query",
+          "query": "label_values(environment)",
+          "current": {
+            "value": "production",
+            "text": "production"
+          }
+        },
+        {
+          "name": "instance",
+          "type": "query",
+          "query": "label_values(instance)",
+          "current": {
+            "value": "all",
+            "text": "All"
+          }
+        }
+      ]
+    },
+    "annotations": {
+      "list": [
+        {
+          "name": "Deployments",
+          "datasource": "prometheus",
+          "expr": "deployment_timestamp",
+          "titleFormat": "Deployment",
+          "textFormat": "Version: {{version}}"
+        },
+        {
+          "name": "Incidents",
+          "datasource": "prometheus",
+          "expr": "incident_created_timestamp",
+          "titleFormat": "Incident: {{title}}",
+          "textFormat": "Severity: {{severity}}"
+        }
+      ]
+    }
+  }
+}

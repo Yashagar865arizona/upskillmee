@@ -1,0 +1,165 @@
+/* Main profile container
+ * Flexbox layout with space-between for optimal content distribution
+ * Fixed height for consistent layout across different screen sizes
+ */
+.profileContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  height: 48px;
+  box-sizing: border-box;
+  background-color: #F8F9FB;
+  border-radius: 12px;
+  margin: -0.75rem;
+  width: calc(100% + 1.5rem);
+}
+
+/* Notifications section
+ * Flexbox with gap for consistent spacing
+ * Fixed height to match container proportions
+ */
+.notifications {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  height: 32px;
+}
+
+/* Base notification styles
+ * Consistent padding and border radius for visual harmony
+ * Smooth transition for hover effects
+ * Inter font for modern, clean typography
+ */
+.notification {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  height: 32px;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+  border: 1px solid;
+}
+
+/* Hover interaction
+ * Subtle upward movement for engaging feedback
+ * Smooth transition from base state
+ */
+.notification:hover {
+  transform: translateY(-1px);
+}
+
+/* Gems notification theme
+ * Semi-transparent purple background for depth
+ * Matching text color for visual consistency
+ */
+.notification.purple {
+  background: rgba(194, 143, 239, 0.1);
+  color: #9450E0;
+  border-color: #9450E0;
+}
+
+/* Points notification theme
+ * Semi-transparent blue background for depth
+ * Matching text color for visual consistency
+ */
+.notification.blue {
+  background: rgba(120, 132, 255, 0.1);
+  color: #7884FF;
+  border-color: #7884FF;
+}
+
+/* Icon container
+ * Consistent sizing for icons
+ * Flexbox for center alignment
+ */
+.iconWrapper {
+  position: relative;
+  width: 16px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SVG icon styling
+ * Consistent sizing for icons
+ */
+.notificationIcon {
+  width: 16px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+/* Profile box container
+ * Flexbox layout for consistent spacing
+ * Fixed height for consistent layout
+ * Semi-transparent background for depth
+ * Border for visual definition
+ * Pointer cursor for interactive feedback
+ */
+.profileBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  height: 36px;
+  width: fit-content;
+}
+
+/* Hover effect for profile box
+ * Subtle background change for interactive feedback
+ */
+.profileBox:hover {
+  background: #F3F4F6;
+}
+
+/* Container for profile information
+ * Flexbox layout for consistent spacing
+ */
+.profileInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* User avatar image
+ * Consistent sizing for avatars
+ * Border radius for rounded corners
+ */
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Username text styling
+ * Consistent font size and weight for readability
+ * Inter font for modern, clean typography
+ */
+.userName {
+  font-size: 13px;
+  font-weight: 700;
+  color: #161340;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Dropdown arrow container
+ * Consistent spacing for arrow alignment
+ * Color matching for visual consistency
+ */
+.dropdownArrow {
+  display: flex;
+  align-items: center;
+  color: #161340;
+  opacity: 0.7;
+  margin-left: -2px;
+}

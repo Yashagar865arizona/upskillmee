@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"> <!-- Specifies UTF-8 character encoding -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures proper scaling on mobile -->
+  <title>OAuth Success</title>
+</head>
+<body>
+  <script>
+    // Get tokens from URL query params
+    const params = new URLSearchParams(window.location.search);
+    const access_token = params.get("access_token");
+    const refresh_token = params.get("refresh_token");
+
+    // Send tokens to opener window (React app)
+    if (window.opener && access_token) {
+      window.opener.postMessage(
+        { access_token, refresh_token },
+        "http://localhost:3000" // React app origin
+      );
+    }
+  </script>
+  <h3>You can close this window now.</h3>
+</body>
+</html>

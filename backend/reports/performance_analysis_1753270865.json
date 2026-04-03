@@ -1,0 +1,67 @@
+{
+  "timestamp": 1753270864.8493178,
+  "database": {
+    "connection_pool": {
+      "pool_size": 10,
+      "checked_in": 1,
+      "checked_out": 0,
+      "overflow": -9,
+      "status": "healthy"
+    },
+    "slow_queries": [],
+    "missing_indexes": [],
+    "table_stats": {},
+    "query_patterns": {
+      "most_frequent_queries": [],
+      "n_plus_one_queries": [],
+      "full_table_scans": [],
+      "average_response_time": 0,
+      "total_queries": 0
+    }
+  },
+  "api": {
+    "error": "API metrics not available"
+  },
+  "system": {
+    "cpu": {
+      "usage_percent": 27.2,
+      "count": 11,
+      "load_average": [
+        4.0556640625,
+        3.822265625,
+        3.76708984375
+      ]
+    },
+    "memory": {
+      "total": 19327352832,
+      "available": 4102078464,
+      "percent": 78.8,
+      "used": 7133315072
+    },
+    "disk": {
+      "total": 494384795648,
+      "used": 11252613120,
+      "free": 61401321472,
+      "percent": 15.5
+    },
+    "network": {
+      "bytes_sent": 2078602240,
+      "bytes_recv": 4213347328,
+      "packets_sent": 130164508,
+      "packets_recv": 146642254,
+      "errin": 0,
+      "errout": 0,
+      "dropin": 0,
+      "dropout": 0
+    }
+  },
+  "websocket": {
+    "concurrent_connections": 0,
+    "message_throughput": 0,
+    "average_latency": 0,
+    "connection_errors": 0,
+    "status": "not_tested",
+    "note": "WebSocket performance testing requires separate test setup"
+  },
+  "recommendations": []
+}

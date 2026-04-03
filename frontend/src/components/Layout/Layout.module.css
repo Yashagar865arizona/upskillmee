@@ -1,0 +1,175 @@
+/* src/components/Layout/Layout.module.css */
+
+.layoutContainer {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background: var(--bg-secondary);
+  gap: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.mainContent {
+  flex: 1;
+  padding: var(--space-6);
+  overflow-y: auto;
+  background: var(--bg-secondary);
+  margin: 0;
+  position: relative;
+  /* Better scroll performance */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.menuButton {
+  display: none;
+  position: fixed;
+  top: var(--space-4);
+  left: var(--space-4);
+  z-index: 1001;
+  background: var(--bg-primary);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+  min-width: 48px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menuButton:hover {
+  background: var(--color-gray-50);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-xl);
+}
+
+.menuButton:active {
+  transform: translateY(0);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Tablet responsive design */
+@media (max-width: 1024px) {
+  .mainContent {
+    padding: var(--space-5);
+  }
+}
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+  .layoutContainer {
+    flex-direction: column;
+  }
+  
+  .mainContent {
+    padding: var(--space-4);
+    padding-top: calc(var(--space-16) + var(--space-4)); /* Account for menu button */
+    padding-bottom: calc(var(--space-20) + var(--space-4)); /* Account for mobile nav */
+    /* Safe area support */
+    padding-left: max(var(--space-4), env(safe-area-inset-left));
+    padding-right: max(var(--space-4), env(safe-area-inset-right));
+    padding-bottom: max(calc(var(--space-20) + var(--space-4)), env(safe-area-inset-bottom));
+  }
+  
+  .menuButton {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainContent {
+    padding: var(--space-3);
+    padding-top: calc(var(--space-16) + var(--space-3));
+    padding-bottom: calc(var(--space-20) + var(--space-3));
+    /* Safe area support for small screens */
+    padding-left: max(var(--space-3), env(safe-area-inset-left));
+    padding-right: max(var(--space-3), env(safe-area-inset-right));
+  }
+  
+  .menuButton {
+    top: var(--space-3);
+    left: var(--space-3);
+    padding: var(--space-2);
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .mainContent {
+    padding-top: calc(var(--space-12) + var(--space-3));
+    padding-bottom: calc(var(--space-16) + var(--space-3));
+  }
+  
+  .menuButton {
+    top: var(--space-2);
+    left: var(--space-3);
+    padding: var(--space-2);
+    min-width: 40px;
+    min-height: 40px;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .menuButton {
+    border-width: 2px;
+    border-color: var(--color-gray-600);
+  }
+  
+  .overlay {
+    background: rgba(0, 0, 0, 0.8);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .menuButton {
+    transition: none;
+  }
+  
+  .menuButton:hover {
+    transform: none;
+  }
+  
+  .overlay {
+    animation: none;
+  }
+}
+
+/* Focus styles for accessibility */
+.menuButton:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.menuButton:focus:not(:focus-visible) {
+  outline: none;
+}

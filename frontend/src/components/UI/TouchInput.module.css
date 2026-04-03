@@ -1,0 +1,282 @@
+/* Touch-friendly Input Styles */
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.required {
+  color: var(--color-error);
+  margin-left: var(--space-1);
+}
+
+.input {
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-lg);
+  font-family: inherit;
+  font-size: var(--text-base);
+  transition: all var(--transition-fast);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  
+  /* Touch-friendly sizing */
+  min-height: 48px;
+  padding: var(--space-4);
+  
+  /* Better touch interaction */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.input:disabled {
+  background: var(--color-gray-50);
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.input::placeholder {
+  color: var(--text-tertiary);
+  opacity: 1;
+}
+
+/* Size variants */
+.small {
+  min-height: 40px;
+  padding: var(--space-3);
+  font-size: var(--text-sm);
+}
+
+.medium {
+  min-height: 48px;
+  padding: var(--space-4);
+  font-size: var(--text-base);
+}
+
+.large {
+  min-height: 56px;
+  padding: var(--space-5);
+  font-size: var(--text-lg);
+}
+
+/* Style variants */
+.outlined {
+  border: 1px solid var(--color-gray-300);
+  background: var(--bg-primary);
+}
+
+.outlined:focus {
+  border-color: var(--color-primary);
+  background: var(--bg-primary);
+}
+
+.filled {
+  border: 1px solid transparent;
+  background: var(--color-gray-50);
+}
+
+.filled:focus {
+  border-color: var(--color-primary);
+  background: var(--bg-primary);
+}
+
+.underlined {
+  border: none;
+  border-bottom: 2px solid var(--color-gray-300);
+  border-radius: 0;
+  background: transparent;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.underlined:focus {
+  border-bottom-color: var(--color-primary);
+}
+
+/* States */
+.error {
+  border-color: var(--color-error) !important;
+}
+
+.error:focus {
+  border-color: var(--color-error) !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+/* Textarea specific styles */
+textarea.input {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.5;
+  padding-top: var(--space-4);
+  padding-bottom: var(--space-4);
+}
+
+textarea.small {
+  min-height: 80px;
+}
+
+textarea.large {
+  min-height: 160px;
+}
+
+/* Helper and error text */
+.helperText,
+.errorText {
+  font-size: var(--text-xs);
+  margin-top: var(--space-1);
+  line-height: 1.4;
+}
+
+.helperText {
+  color: var(--text-secondary);
+}
+
+.errorText {
+  color: var(--color-error);
+  font-weight: 500;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .input {
+    /* Prevent zoom on iOS */
+    font-size: 16px !important;
+    min-height: 52px;
+    padding: var(--space-4) var(--space-5);
+  }
+  
+  .small {
+    min-height: 44px;
+    font-size: 16px !important;
+  }
+  
+  .medium {
+    min-height: 52px;
+    font-size: 16px !important;
+  }
+  
+  .large {
+    min-height: 60px;
+    font-size: 16px !important;
+  }
+  
+  textarea.input {
+    min-height: 140px;
+    padding: var(--space-4);
+  }
+  
+  .label {
+    font-size: var(--text-base);
+  }
+  
+  .helperText,
+  .errorText {
+    font-size: var(--text-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .input {
+    padding: var(--space-3) var(--space-4);
+  }
+  
+  .large {
+    padding: var(--space-4) var(--space-5);
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .input {
+    /* Better touch targets */
+    min-height: 52px;
+    padding: var(--space-4) var(--space-5);
+    
+    /* Improved touch feedback */
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  .small {
+    min-height: 48px;
+  }
+  
+  .large {
+    min-height: 60px;
+  }
+  
+  /* Better textarea handling on touch */
+  textarea.input {
+    -webkit-appearance: none;
+    appearance: none;
+    resize: none; /* Disable resize on touch devices */
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .input {
+    border-width: 2px;
+  }
+  
+  .input:focus {
+    border-width: 3px;
+  }
+  
+  .outlined {
+    border-color: var(--color-gray-600);
+  }
+  
+  .filled {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-600);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .input {
+    transition: none;
+  }
+}
+
+/* Dark mode support (if implemented) */
+@media (prefers-color-scheme: dark) {
+  .input {
+    background: var(--color-gray-800);
+    border-color: var(--color-gray-600);
+    color: var(--color-gray-100);
+  }
+  
+  .input:focus {
+    border-color: var(--color-primary-light);
+  }
+  
+  .filled {
+    background: var(--color-gray-700);
+  }
+  
+  .input::placeholder {
+    color: var(--color-gray-400);
+  }
+}

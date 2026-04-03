@@ -1,0 +1,12 @@
+.vercel
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Add these lines to backend/.gitignore if they're not already there
+__pycache__/
+*.pyc
+.venv/

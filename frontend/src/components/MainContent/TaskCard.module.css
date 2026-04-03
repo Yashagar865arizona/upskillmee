@@ -1,0 +1,126 @@
+/* src/components/MainContent/TaskCard.module.css */
+
+.taskCard {
+  background: #f9f9fa;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.taskHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.taskHeader h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1d1b26;
+}
+
+.taskDate {
+  padding: 8px 12px;
+  background: #e4f2fe;
+  border-radius: 8px;
+  color: #3673d5;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.taskItem {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #f3f3f4;
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.taskItem:hover {
+  background: #f5f5f5;
+}
+
+.taskItem.completed {
+  background: #f8fff8;
+  border-color: #4CAF50;
+}
+
+.taskItem.completed .taskTitle {
+  text-decoration: line-through;
+  color: #8c8a94;
+}
+
+.taskIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.blue {
+  background: #c3cfff;
+  border: 1px solid #7884ff;
+}
+
+.yellow {
+  background: #fff8e1;
+  border: 1px solid #fdc82c;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #8c8a94;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.taskDetails {
+  flex: 1;
+}
+
+.taskTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1d1b26;
+  margin-bottom: 4px;
+}
+
+.taskDescription {
+  font-size: 12px;
+  color: #8c8a94;
+}
+
+.taskAction {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.taskIconWrapper {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  color: #8c8a94;
+  transition: all 0.2s ease;
+}
+
+.completed .icon {
+  color: #4CAF50;
+}

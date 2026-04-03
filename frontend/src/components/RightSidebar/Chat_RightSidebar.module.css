@@ -1,0 +1,130 @@
+.rightSidebar {
+  width: 380px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: white;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.progressSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.progressBar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progressInfo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #494656;
+}
+
+.progressTrack {
+  height: 8px;
+  background: #F3F3F4;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.blue {
+  background: #7884FF;
+}
+
+.yellow {
+  background: #FFB800;
+}
+
+.red {
+  background: #FF4D4D;
+}
+
+.chatWrapper {
+  flex: 1;
+  overflow: hidden;
+  padding: 0 16px 16px;
+}
+
+.brainstormingSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.brainstormingSection h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.section h3 {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.brainstormItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.itemIcon {
+  font-size: 20px;
+}
+
+.itemContent {
+  flex: 1;
+}
+
+.itemContent h4 {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.itemContent p {
+  font-size: 14px;
+  color: #666;
+}
+
+.feedbackButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.feedbackButtons button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.feedbackButtons button:hover {
+  background: #f0f0f0;
+}
+
+.feedbackButtons button.selected {
+  background: #e6e6e6;
+}
