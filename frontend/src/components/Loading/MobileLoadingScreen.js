@@ -38,7 +38,7 @@ const MobileLoadingScreen = ({
 // Specialized loading screens for different contexts
 export const AppLoadingScreen = () => (
   <MobileLoadingScreen 
-    message="Starting Ponder AI..."
+    message="Starting upskillmee..."
     variant="fullscreen"
   />
 );

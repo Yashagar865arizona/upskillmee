@@ -8,7 +8,7 @@ export const clearChatData = () => {
   
   // Filter for chat-related keys
   const chatKeys = keys.filter(key => 
-    key.startsWith('ponder_chat_messages') || 
+    key.startsWith('upskillmee_chat_messages') ||
     key.includes('chat') ||
     key.includes('message')
   );

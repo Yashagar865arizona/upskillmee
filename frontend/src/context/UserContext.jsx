@@ -13,20 +13,20 @@ export const useUser = () => {
 export const UserProvider = ({ children }) => {
   const { token, refreshUser } = useAuth();
   const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem("ponder_user");
+    const savedUser = localStorage.getItem("upskillmee_user");
     return savedUser ? JSON.parse(savedUser) : null;
   });
 
   useEffect(() => {
-    if (user) localStorage.setItem("ponder_user", JSON.stringify(user));
-    else localStorage.removeItem("ponder_user");
+    if (user) localStorage.setItem("upskillmee_user", JSON.stringify(user));
+    else localStorage.removeItem("upskillmee_user");
   }, [user]);
 
   const updateUser = (userData) => setUser(userData);
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("ponder_user");
+    localStorage.removeItem("upskillmee_user");
     localStorage.removeItem("token");
   };
 

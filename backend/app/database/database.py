@@ -37,7 +37,7 @@ if "postgresql" in SQLALCHEMY_DATABASE_URL:
     engine_config.update({
         "connect_args": {
             "connect_timeout": 10,
-            "application_name": "ponder_backend",
+            "application_name": "upskillmee_backend",
         }
     })
 

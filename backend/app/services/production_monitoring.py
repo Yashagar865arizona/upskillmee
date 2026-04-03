@@ -160,7 +160,7 @@ class LogAggregator:
             containers = client.containers.list()
             
             for container in containers:
-                if 'ponder' in container.name.lower():
+                if 'upskillmee' in container.name.lower():
                     try:
                         # Get last 100 log lines
                         container_logs = container.logs(tail=100, timestamps=True).decode('utf-8')
@@ -324,7 +324,7 @@ class IncidentManager:
                     "Verify application connectivity",
                     "Monitor for recovery"
                 ],
-                "contacts": ["database-admin@ponder.school"],
+                "contacts": ["database-admin@upskillmee.com"],
                 "escalation_time": 15  # minutes
             },
             "high_error_rate": {
@@ -337,7 +337,7 @@ class IncidentManager:
                     "Implement fix or rollback",
                     "Monitor error rate recovery"
                 ],
-                "contacts": ["dev-team@ponder.school"],
+                "contacts": ["dev-team@upskillmee.com"],
                 "escalation_time": 30
             },
             "system_overload": {
@@ -350,7 +350,7 @@ class IncidentManager:
                     "Monitor system recovery",
                     "Plan capacity improvements"
                 ],
-                "contacts": ["ops-team@ponder.school"],
+                "contacts": ["ops-team@upskillmee.com"],
                 "escalation_time": 20
             }
         }
@@ -439,7 +439,7 @@ class ProductionMonitoringService:
                 containers = client.containers.list()
                 
                 for container in containers:
-                    if 'ponder' in container.name.lower():
+                    if 'upskillmee' in container.name.lower():
                         if container.status != 'running':
                             if 'db' in container.name or 'postgres' in container.name:
                                 services["database"] = "unhealthy"

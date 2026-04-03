@@ -33,7 +33,7 @@ class DataManagementService:
         """Create a backup of the current database."""
         try:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            backup_path = self.backup_dir / f"ponder_backup_{timestamp}.sql"
+            backup_path = self.backup_dir / f"upskillmee_backup_{timestamp}.sql"
             
             if "postgresql" in settings.DATABASE_URL:
                 # Extract database connection details from URL
@@ -69,7 +69,7 @@ class DataManagementService:
     def _cleanup_old_backups(self):
         """Remove old backups based on retention policy."""
         try:
-            backups = sorted(self.backup_dir.glob("ponder_backup_*.sql"))
+            backups = sorted(self.backup_dir.glob("upskillmee_backup_*.sql"))
             
             # Remove old backups beyond max count
             while len(backups) > settings.MAX_BACKUP_COUNT:
@@ -159,7 +159,7 @@ class DataManagementService:
         """Get list of available backups."""
         try:
             backups = []
-            for backup in sorted(self.backup_dir.glob("ponder_backup_*.sql")):
+            for backup in sorted(self.backup_dir.glob("upskillmee_backup_*.sql")):
                 stats = backup.stat()
                 backups.append({
                     "filename": backup.name,
@@ -241,7 +241,7 @@ class DataManagementService:
                 )).scalar(),
                 "total_messages": (await db.execute(text("SELECT COUNT(*) FROM messages"))).scalar(),
                 "database_size": await self._get_db_size(db),
-                "backup_count": len(list(self.backup_dir.glob("ponder_backup_*.sql"))),
+                "backup_count": len(list(self.backup_dir.glob("upskillmee_backup_*.sql"))),
                 "latest_backup": None
             }
             

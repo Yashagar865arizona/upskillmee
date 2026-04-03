@@ -3,7 +3,7 @@ import styles from "./Chat.module.css";
 
 export const ChatMessage = ({ content, isUser, userName, plan, isLoading }) => {
   const messageClass = isUser ? styles.userMessage : styles.aiMessage;
-  const name = isUser ? (userName || 'You') : 'Ponder';
+  const name = isUser ? (userName || 'You') : 'AI Mentor';
 
   // If this message has a plan, show a special indicator
   const hasPlan = !!plan;

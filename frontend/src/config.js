@@ -23,7 +23,7 @@ const config = {
                 'ws://localhost:8000/api/v1')),
 
     APP_URL: process.env.REACT_APP_URL ||
-        (isTest ? 'https://test.ponder.school' : 'http://localhost:3000'),
+        (isTest ? 'https://test.upskillmee.com' : 'http://localhost:3000'),
     BASE_PATH: process.env.REACT_APP_BASE_PATH || '',
     PUBLIC_URL: process.env.PUBLIC_URL || ''
 };

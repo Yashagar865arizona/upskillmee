@@ -1,5 +1,5 @@
 """
-Location: ponder/backend/app/routers/chat_router.py
+Location: upskillmee/backend/app/routers/chat_router.py
 
 This module implements the chat routing functionality for the FastAPI backend.
 Key features:

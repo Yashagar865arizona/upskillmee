@@ -1,5 +1,5 @@
 """
-Location: ponder/backend/app/services/embedding_service.py
+Location: upskillmee/backend/app/services/embedding_service.py
 
 This service handles vector embeddings for chat messages using OpenAI's embedding API
 and vector similarity search (Qdrant locally, Pinecone in production).
@@ -77,7 +77,7 @@ class PineconeStore(VectorStore):
             self.pc = Pinecone(api_key=settings.PINECONE_API_KEY)
 
             # Check if index exists
-            index_name = "ponder-embeddings"
+            index_name = "upskillmee-embeddings"
             logger.info(f"Checking for existing Pinecone index: {index_name}")
             existing_indexes = self.pc.list_indexes().names()
             logger.info(f"Found existing indexes: {existing_indexes}")
@@ -252,18 +252,18 @@ class QdrantStore(VectorStore):
             collections = self.client.get_collections()
             collection_names = [c.name for c in collections.collections]
 
-            if "ponder-embeddings" not in collection_names:
-                logger.info("Creating 'ponder-embeddings' collection in Qdrant")
+            if "upskillmee-embeddings" not in collection_names:
+                logger.info("Creating 'upskillmee-embeddings' collection in Qdrant")
                 self.client.create_collection(
-                    collection_name="ponder-embeddings",
+                    collection_name="upskillmee-embeddings",
                     vectors_config=self.models.VectorParams(
                         size=self.dimension,
                         distance=self.models.Distance.COSINE
                     )
                 )
-                logger.info("Successfully created 'ponder-embeddings' collection")
+                logger.info("Successfully created 'upskillmee-embeddings' collection")
             else:
-                logger.info("Collection 'ponder-embeddings' already exists")
+                logger.info("Collection 'upskillmee-embeddings' already exists")
 
         except Exception as e:
             logger.error(f"Failed to initialize Qdrant collection: {e}")
@@ -283,7 +283,7 @@ class QdrantStore(VectorStore):
                     }
                 ))
             self.client.upsert(
-                collection_name="ponder-embeddings",
+                collection_name="upskillmee-embeddings",
                 points=points
             )
         except Exception as e:
@@ -293,7 +293,7 @@ class QdrantStore(VectorStore):
     async def query(self, vector: List[float], top_k: int, namespace: Optional[str] = None) -> SearchResult:
         try:
             search_params = {
-                "collection_name": "ponder-embeddings",
+                "collection_name": "upskillmee-embeddings",
                 "query_vector": vector,
                 "limit": top_k,
             }

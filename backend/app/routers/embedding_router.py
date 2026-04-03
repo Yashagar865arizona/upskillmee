@@ -1,5 +1,5 @@
 """
-Location: ponder/backend/app/routers/embedding_router.py
+Location: upskillmee/backend/app/routers/embedding_router.py
 
 This module implements the embedding functionality for the FastAPI backend.
 - Handles storage and retrieval of text embeddings

@@ -1,5 +1,5 @@
 """
-Location: ponder/backend/app/models/chat.py
+Location: upskillmee/backend/app/models/chat.py
 
 This module defines the database models for the chat functionality using SQLAlchemy ORM.
 It includes:

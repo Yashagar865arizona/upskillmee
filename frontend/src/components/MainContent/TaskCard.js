@@ -6,14 +6,14 @@ import styles from './TaskCard.module.css';
 const TaskCard = ({ title, date, tasks, type }) => {
   // Initialize from localStorage if available
   const [completedTasks, setCompletedTasks] = useState(() => {
-    const saved = localStorage.getItem(`ponder_completed_tasks_${type}`);
+    const saved = localStorage.getItem(`upskillmee_completed_tasks_${type}`);
     return saved ? new Set(JSON.parse(saved)) : new Set();
   });
 
   // Save to localStorage whenever completedTasks changes
   useEffect(() => {
     localStorage.setItem(
-      `ponder_completed_tasks_${type}`, 
+      `upskillmee_completed_tasks_${type}`, 
       JSON.stringify(Array.from(completedTasks))
     );
   }, [completedTasks, type]);

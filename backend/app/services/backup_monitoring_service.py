@@ -70,8 +70,8 @@ class BackupMonitoringService:
         self.backup_jobs: Dict[str, BackupJob] = {}
         self.backup_history: List[Dict[str, Any]] = []
         self.max_history = 1000
-        self.backup_script_path = Path("/opt/ponder/infrastructure/scripts/backup-system.sh")
-        self.backup_base_dir = Path("/var/backups/ponder")
+        self.backup_script_path = Path("/opt/upskillmee/infrastructure/scripts/backup-system.sh")
+        self.backup_base_dir = Path("/var/backups/upskillmee")
         self.monitoring_enabled = True
         
         # Initialize default backup jobs

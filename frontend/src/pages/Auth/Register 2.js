@@ -42,7 +42,7 @@ const Register = () => {
     <div className={styles.authContainer}>
       <div className={styles.authCard}>
         <h1>Create Account</h1>
-        <p>Join Ponder to start your learning journey</p>
+        <p>Join upskillmee to start your learning journey</p>
         
         {error && <div className={styles.error}>{error}</div>}
         

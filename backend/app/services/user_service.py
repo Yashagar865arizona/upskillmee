@@ -1,5 +1,5 @@
 """
-Location: ponder/backend/app/services/user_service.py
+Location: upskillmee/backend/app/services/user_service.py
 
 This module implements the user service functionality for the FastAPI backend.
 
@@ -152,7 +152,7 @@ class UserService:
     async def _process_onboarding_step(self, step: int, profile: UserProfile, data: Optional[Dict]) -> str:
         """Process each onboarding step and return AI response."""
         if step == OnboardingStep.WELCOME:
-            return "Welcome to Ponder! I'll help you get started on your learning journey. First, what's your name?"
+            return "Welcome to upskillmee! I'll help you get started on your learning journey. First, what's your name?"
             
         elif step == OnboardingStep.BASIC_INFO:
             name = data.get('name') if data else None

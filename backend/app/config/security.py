@@ -1,5 +1,5 @@
 """
-Security configuration and utilities for the Ponder application.
+Security configuration and utilities for the upskillmee application.
 """
 
 import os
@@ -99,10 +99,10 @@ def get_cors_origins() -> List[str]:
     """Get CORS origins based on environment"""
     if settings.is_production:
         return [
-            "https://app.ponder.school",
-            "https://ponder.school",
-            "wss://app.ponder.school",
-            "wss://ponder.school"
+            "https://app.upskillmee.com",
+            "https://upskillmee.com",
+            "wss://app.upskillmee.com",
+            "wss://upskillmee.com"
         ]
     else:
         return [
@@ -160,7 +160,7 @@ def get_security_headers() -> Dict[str, str]:
         'Referrer-Policy': 'strict-origin-when-cross-origin',
         
         # Server identification
-        'Server': 'Ponder-API',
+        'Server': 'upskillmee-API',
         
         # Cache control for sensitive endpoints
         'Cache-Control': 'no-store, no-cache, must-revalidate, private',

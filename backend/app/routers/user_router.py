@@ -1,5 +1,5 @@
 """
-Location: ponder/backend/app/routers/user_router.py
+Location: upskillmee/backend/app/routers/user_router.py
 
 This module implements user functionality for the FastAPI backend:
 - Managing user profiles and data

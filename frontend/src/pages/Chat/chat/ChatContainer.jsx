@@ -58,8 +58,8 @@ const SendIcon = () => (
   </svg>
 );
 
-const BASE_STORAGE_KEY = "ponder_chat_messages";
-const SESSIONS_STORAGE_KEY = "ponder_chat_sessions";
+const BASE_STORAGE_KEY = "upskillmee_chat_messages";
+const SESSIONS_STORAGE_KEY = "upskillmee_chat_sessions";
 const CONNECTION_STATUS = {
   CONNECTING: "connecting",
   CONNECTED: "connected",
@@ -172,7 +172,7 @@ const { darkMode} = useTheme();
     return [
       {
         id: 1,
-        text: "Hey! I'm Steve. How can I help you today? 😊",
+        text: "Hey! I'm your upskillmee AI Mentor. How can I help you today? 😊",
         sender: "bot",
         avatar: Avatar,
       },   
@@ -202,7 +202,7 @@ const { darkMode} = useTheme();
     const newMessages = [
       {
         id: 1,
-        text: "Hey! I'm Steve. How can I help you today? 😊",
+        text: "Hey! I'm your upskillmee AI Mentor. How can I help you today? 😊",
         sender: "bot",
         avatar: getAvatarIcon({}, 0),
       },
@@ -542,7 +542,7 @@ const { darkMode} = useTheme();
           <div className={styles.welcomeAnimation}>
             <img src={robot} alt="Welcome" className={styles.botImage} />
             <p className={styles.welcomeText}>
-              Hey! I'm Steve. How can I help you today? 😊
+              Hey! I'm your upskillmee AI Mentor. How can I help you today? 😊
             </p>
           </div>
         )}

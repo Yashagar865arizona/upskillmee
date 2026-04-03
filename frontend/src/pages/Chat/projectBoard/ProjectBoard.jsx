@@ -29,7 +29,7 @@ export const ProjectBoard = () => {
   const loadFromLocalStorage = () => {
     try {
       const userId = localStorage.getItem("userId") || "anonymous";
-      const savedPlan = localStorage.getItem(`ponder_learning_plan_${userId}`);
+      const savedPlan = localStorage.getItem(`upskillmee_learning_plan_${userId}`);
       if (savedPlan) {
         const parsedPlan = JSON.parse(savedPlan);
         if (

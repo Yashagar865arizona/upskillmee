@@ -4,7 +4,7 @@ import styles from './ChatSidebar.module.css';
 const editingActions = [
   { title: "Change the Schedule", icon: "https://cdn.builder.io/api/v1/image/assets/6d52bc9029684ea6804919348d39f130/c72d19eee2c9ba6ec13c3e460e03366a5ab4d2fa06a5e796a09e8cbe98a75b56?apiKey=6d52bc9029684ea6804919348d39f130&" },
   { title: "Restart Personalization", icon: "https://cdn.builder.io/api/v1/image/assets/6d52bc9029684ea6804919348d39f130/c72d19eee2c9ba6ec13c3e460e03366a5ab4d2fa06a5e796a09e8cbe98a75b56?apiKey=6d52bc9029684ea6804919348d39f130&" },
-  { title: "Ask Steve Anything", icon: "https://cdn.builder.io/api/v1/image/assets/6d52bc9029684ea6804919348d39f130/c72d19eee2c9ba6ec13c3e460e03366a5ab4d2fa06a5e796a09e8cbe98a75b56?apiKey=6d52bc9029684ea6804919348d39f130&" }
+  { title: "Ask AI Mentor Anything", icon: "https://cdn.builder.io/api/v1/image/assets/6d52bc9029684ea6804919348d39f130/c72d19eee2c9ba6ec13c3e460e03366a5ab4d2fa06a5e796a09e8cbe98a75b56?apiKey=6d52bc9029684ea6804919348d39f130&" }
 ];
 
 const learningActions = [

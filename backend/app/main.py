@@ -70,6 +70,7 @@ from .routers import (
 )
 from .routers.user_projects_router import router as user_projects_router
 from .routers.analytics_router import router as analytics_router
+from .routers.assessment_router import router as assessment_router
 
 # Configure logging
 import logging
@@ -292,15 +293,15 @@ async def cleanup_production_monitoring():
 
 # Create FastAPI app
 app = FastAPI(
-    title="Ponder API",
-    description="Backend API for Ponder learning platform",
+    title="upskillmee API",
+    description="Backend API for upskillmee learning platform",
     version="1.0.0",
     lifespan=lifespan
 )
 app.add_middleware(
     SessionMiddleware,
     secret_key="super-secret-key",
-    session_cookie="ponder_session",
+    session_cookie="upskillmee_session",
     same_site="lax",  # change from "none"
     https_only=False,  # ok for localhost
 )
@@ -332,7 +333,7 @@ def test_endpoint():
 # Add a basic root endpoint for quick testing
 @app.get("/", tags=["root"])
 async def root():
-    return {"message": "Ponder API is up and running!"}
+    return {"message": "upskillmee API is up and running!"}
 
 # Import security configuration
 from .config.security import (
@@ -699,3 +700,4 @@ app.include_router(analytics_router, prefix="/api/v1/analytics", tags=["analytic
 app.include_router(monitoring_router, prefix="/api/v1/monitoring", tags=["monitoring"])
 app.include_router(feedback_router,prefix="/api/v1/feedback", tags=["feedback"])
 app.include_router(production_monitoring_router, prefix="/api/v1/production", tags=["production"])
+app.include_router(assessment_router, prefix="/api/v1", tags=["assessment"])

@@ -1,5 +1,5 @@
 """
-Location: ponder/backend/app/routers/learning_router.py
+Location: upskillmee/backend/app/routers/learning_router.py
 
 This module implements the learning functionality for the FastAPI backend.
 Key features:

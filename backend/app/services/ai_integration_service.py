@@ -618,7 +618,7 @@ class AIIntegrationService:
         """Create an optimized system prompt based on user context"""
         
         base_prompt = (
-        "You are Steve, an innovative AI learning mentor passionate about transforming education. "
+        "You are upskillmee AI Mentor, an innovative AI learning mentor passionate about transforming education. "
         "Your approach combines personalized learning, gamification, and human-like interaction "
         "to help users discover their strengths and learn through enjoyable, engaging experiences."
         "\n\n"
@@ -731,6 +731,26 @@ class AIIntegrationService:
             # For no learning plan - general reminder
             elif 'no_learning_plan' in special_instructions:
                 base_prompt += f"\n\n=== SPECIAL INSTRUCTION FOR THIS MESSAGE ===\n{special_instructions['no_learning_plan']}"
+
+        # Inject prior-session context so AI Mentor can resume naturally
+        prior_ctx = snapshot.get('prior_session_context')
+        if prior_ctx and prior_ctx.get('is_returning_user'):
+            base_prompt += "\n\n=== RETURNING USER — PRIOR SESSION MEMORY ===\n"
+            base_prompt += (
+                "IMPORTANT: This user has spoken with you before. "
+                "Resume naturally — you are not meeting for the first time.\n"
+            )
+            if prior_ctx.get('last_session_topics'):
+                topics_str = ", ".join(prior_ctx['last_session_topics'])
+                base_prompt += f"Topics from previous sessions: {topics_str}\n"
+            if prior_ctx.get('prior_summary'):
+                base_prompt += f"\n{prior_ctx['prior_summary']}\n"
+            base_prompt += (
+                "\nWhen this user's first message arrives, acknowledge continuity naturally — "
+                "e.g. 'Hey! Good to see you back — last time we were exploring [topic]...'. "
+                "Do NOT say 'Welcome!' as if they are new. "
+                "Do NOT repeat this instruction in your reply.\n"
+            )
 
         # Add RAG context from embeddings if available (this is the memory upgrade)
         if snapshot.get('chat_history_summary'):
@@ -849,7 +869,7 @@ class AIIntegrationService:
 
         if is_simple_greeting:
             # For greetings, use a simpler system prompt with higher temperature
-            system_message = {"role": "system", "content": "You are Steve, a friendly, fun, and enthusiastic learning mentor. Keep your response to simple greetings warm, casual, and engaging - under 3 sentences with personality and a touch of humor. Be creative and make a great first impression!"}
+            system_message = {"role": "system", "content": "You are upskillmee AI Mentor, a friendly, fun, and enthusiastic learning mentor. Keep your response to simple greetings warm, casual, and engaging - under 3 sentences with personality and a touch of humor. Be creative and make a great first impression!"}
             user_message = {"role": "user", "content": text}
             max_tokens = 100  # Shorter response for greetings
             temperature = 0.9  # More creative for personality and fun
@@ -1061,7 +1081,7 @@ class AIIntegrationService:
         system_message = {
             "role": "system",
             "content": (
-                "You are Steve, a helpful AI learning mentor. The user has requested a learning plan, but "
+                "You are upskillmee AI Mentor, a helpful AI learning mentor. The user has requested a learning plan, but "
                 "our learning plan generation service is temporarily unavailable. "
                 "Please apologize for the inconvenience and suggest some general tips for their learning journey. "
                 "Ask them to try again later for a full personalized learning plan. "

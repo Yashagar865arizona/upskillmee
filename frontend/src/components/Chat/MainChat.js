@@ -422,7 +422,7 @@ const MainChat = () => {
         </div>
       <div className={styles.chatMessages}>
         <div className={styles.welcomeMessage}>
-          <h2>Welcome to Ponder AI</h2>
+          <h2>Welcome to upskillmee</h2>
           <p>I'm your intelligent learning companion with specialized modes:</p>
           <ul>
             <li><strong>💬 Chat Mode:</strong> General conversation, motivation, and learning guidance</li>

@@ -302,9 +302,9 @@ class AlertingService:
             
             # Create email message
             msg = MIMEMultipart()
-            msg['From'] = smtp_username or 'alerts@ponder.school'
+            msg['From'] = smtp_username or 'alerts@upskillmee.com'
             msg['To'] = ', '.join(self.admin_emails)
-            msg['Subject'] = f"[PONDER ALERT] {alert.title}"
+            msg['Subject'] = f"[upskillmee ALERT] {alert.title}"
             
             # Email body
             body = f"""
@@ -320,7 +320,7 @@ Additional Details:
 
 Alert ID: {alert.id}
 
-This is an automated alert from the Ponder monitoring system.
+This is an automated alert from the upskillmee monitoring system.
 """
             
             msg.attach(MIMEText(body, 'plain'))
@@ -346,7 +346,7 @@ This is an automated alert from the Ponder monitoring system.
         try:
             payload = {
                 "alert": alert.to_dict(),
-                "service": "ponder-backend",
+                "service": "upskillmee-backend",
                 "environment": getattr(settings, 'ENVIRONMENT', 'unknown')
             }
             

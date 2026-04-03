@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, useEffect, useCallback } fr
 import { useAuth } from "../../../context/AuthContext";
 
 const LearningPlanContext = createContext();
-const BASE_STORAGE_KEY = "ponder_learning_plan";
+const BASE_STORAGE_KEY = "upskillmee_learning_plan";
 
 export const LearningPlanProvider = ({ children }) => {
   const { user, isAuthenticated } = useAuth();

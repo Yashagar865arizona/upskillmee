@@ -170,10 +170,10 @@ export const useABTesting = () => {
 
 // Helper function to get or create session ID
 const getSessionId = () => {
-  let sessionId = sessionStorage.getItem('ponder_session_id');
+  let sessionId = sessionStorage.getItem('upskillmee_session_id');
   if (!sessionId) {
     sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-    sessionStorage.setItem('ponder_session_id', sessionId);
+    sessionStorage.setItem('upskillmee_session_id', sessionId);
   }
   return sessionId;
 };
