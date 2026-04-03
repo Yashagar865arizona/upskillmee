@@ -11,6 +11,9 @@ from .learning_models import LearningProgress, LearningSession
 from .learning_plan import LearningPlan
 from .token_blacklist import TokenBlacklist
 from .analytics import UserEvent, UserSession, LearningMetric, ConversionFunnelStep, EngagementScore, SystemMetric
+from .feedback import UserFeedback
+from .document import Document
+from .user import Psychometric
 
 __all__ = [
     'BaseModel',
@@ -34,5 +37,6 @@ __all__ = [
     'LearningMetric',
     'ConversionFunnelStep',
     'EngagementScore',
-    'SystemMetric'
+    'SystemMetric',
+    'UserFeedback',
 ]

@@ -28,6 +28,7 @@ from ..models.user import User
 from ..models.chat import Conversation, Message
 from .ai_integration_service import AIIntegrationService
 from .embedding_service import EmbeddingService
+from .interest_extraction_service import InterestExtractionService
 # Learning plan functionality now integrated into ai_integration_service
 from ..agents import AgentManager, AgentMode
 
@@ -41,6 +42,7 @@ class MessageService:
         self.ai_service = AIIntegrationService()
         # Learning plan functionality now integrated into ai_integration_service
         self.embedding_service = self._initialize_embedding_service()
+        self.interest_service = InterestExtractionService(db)
         self.current_conversation = None
         self.current_user = None
         self.agent_manager = None  # Will be initialized when user context is available
@@ -412,6 +414,21 @@ class MessageService:
                 except Exception as e:
                     logger.error(f"Error loading learning plans: {str(e)}")
                     logger.error(f"Error details:", exc_info=True)
+
+                # Load extracted interests from UserProfile and merge into context
+                try:
+                    extracted = self.interest_service.get_interests_as_strings(user_id)
+                    if extracted:
+                        existing = snapshot["user_context"].get("interests", [])
+                        merged = list(dict.fromkeys(existing + extracted))
+                        snapshot["user_context"]["interests"] = merged
+                        logger.info(
+                            "INTERESTS: Loaded %d extracted interests for user %s",
+                            len(extracted),
+                            user_id,
+                        )
+                except Exception as e:
+                    logger.error("Error loading extracted interests: %s", e)
 
             # Format context with conversation history
             formatted_content = self._prepare_context_with_history(content, chat_history)
@@ -790,6 +807,12 @@ class MessageService:
                         # Commit to database so we have valid IDs
                         self.db.commit()
                         logger.info("Saved conversation messages to database")
+
+                        # Extract and persist interest signals from the user message
+                        if user_id and content:
+                            asyncio.create_task(
+                                self.interest_service.extract_and_store(user_id, content)
+                            )
 
                         # Store embeddings for vector search
                         try:

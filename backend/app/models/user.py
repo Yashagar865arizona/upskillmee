@@ -95,6 +95,10 @@ class UserProfile(BaseModel, Base):
     # Additional Settings
     preferences = Column(JSON, default=dict)
 
+    # Extracted interests from chat (auto-populated by InterestExtractionService)
+    # List of {name, category, confidence, count, last_seen_at}
+    extracted_interests = Column(JSON, default=list)
+
     # Relationships
     user = relationship("User", back_populates="profile")
 
